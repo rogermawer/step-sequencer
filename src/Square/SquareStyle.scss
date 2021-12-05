@@ -1,0 +1,17 @@
+@import "../Common/StyleVariables.scss" ;
+
+.square {
+  padding: $square-padding;
+  border-radius: 5px;
+  box-shadow: 0 0 2px $grid-border-color inset;
+
+  &.active {
+    background-color: $active-color;
+  }
+  
+  &.playing {
+    border-bottom-color: $current-beat-color;
+  }
+}
+
+

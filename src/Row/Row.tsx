@@ -1,0 +1,33 @@
+import Square from "../Square/Square";
+import "../Row/RowStyle.css";
+import { GridController, GridRow } from "../Grid/Grid";
+import { Synth } from "tone";
+
+interface RowProps {
+  controller: GridController;
+  row: GridRow;
+  beat: number;
+}
+
+export interface Step {
+  isActive: boolean;
+  synth: Synth;
+}
+
+export type StepPosition = [string, number];
+
+const Row = ({ controller, row, beat }: RowProps) => (
+  <div className="row">
+    {row.steps.map((step, i) => (
+      <Square
+        controller={controller}
+        isPlaying={beat === i}
+        key={i}
+        isActive={step.isActive}
+        stepPosition={[row.note, i]}
+      />
+    ))}
+  </div>
+);
+
+export default Row;

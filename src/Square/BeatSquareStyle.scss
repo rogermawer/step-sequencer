@@ -1,0 +1,9 @@
+@import "../Common/StyleVariables.scss";
+
+.beat-square {
+    padding: 10px;
+}
+
+.active {
+    background-color: $current-beat-color;
+}
