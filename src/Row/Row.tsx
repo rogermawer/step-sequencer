@@ -1,7 +1,7 @@
 import Square from "../Square/Square";
 import "../Row/RowStyle.css";
 import { GridController, GridRow } from "../Grid/Grid";
-import { Synth } from "tone";
+import { MembraneSynth, Synth } from "tone";
 
 interface RowProps {
   controller: GridController;
@@ -11,7 +11,7 @@ interface RowProps {
 
 export interface Step {
   isActive: boolean;
-  synth: Synth;
+  synth: Synth | MembraneSynth;
 }
 
 export type StepPosition = [string, number];

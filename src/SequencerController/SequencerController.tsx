@@ -1,6 +1,6 @@
 import React from "react";
 import * as Tone from "tone";
-import { Synth, Transport } from "tone";
+import { MembraneSynth, Synth, Transport } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import { GridRow } from "../Grid/Grid";
 import { Step, StepPosition } from "../Row/Row";
@@ -98,6 +98,21 @@ export class SequencerController extends React.Component<
           }
     );
     this.setState({ rows: newRows });
+  };
+
+  public onChangeInstrument = (rowIndex: number) => {
+    const updatedRows = this.state.rows.map((row, i) =>
+      i === rowIndex
+        ? {
+            ...row,
+            steps: row.steps.map(
+              (step) =>
+                (step = { ...step, synth: new MembraneSynth().toDestination() })
+            ),
+          }
+        : row
+    );
+    this.setState({ rows: updatedRows });
   };
 
   render() {

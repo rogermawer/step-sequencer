@@ -1,2 +1,12 @@
 @import "../Common/StyleVariables.scss";
 
+.grid-container {
+    display: flex;
+    flex-direction: row;
+
+    .side-controls {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+}
