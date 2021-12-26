@@ -1,0 +1,23 @@
+@import "../../Common/StyleVariables.scss";
+
+.selector-container {
+    display: flex;
+    flex-direction: row-reverse;
+
+    .instrument-list {
+        visibility: hidden;
+        list-style: none;
+
+        button {
+            background: transparent;
+            border: none;
+            box-shadow: 0 0 2px $grid-border-color inset;
+            cursor: pointer;
+        }
+    }
+
+    .is-open {
+        visibility: visible;
+    }
+
+}

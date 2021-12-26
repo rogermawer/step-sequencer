@@ -1,7 +1,8 @@
 import React from "react";
 import * as Tone from "tone";
-import { MembraneSynth, Synth, Transport } from "tone";
+import { Synth, Transport } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
+import { ToneInstrument } from "../Controls/InstrumentSelector/InstrumentSelectorContainer";
 import { GridRow } from "../Grid/Grid";
 import { Step, StepPosition } from "../Row/Row";
 import { Sequencer } from "./Sequencer";
@@ -100,14 +101,16 @@ export class SequencerController extends React.Component<
     this.setState({ rows: newRows });
   };
 
-  public onChangeInstrument = (rowIndex: number) => {
+  public onChangeInstrument = (
+    rowIndex: number,
+    instrument: ToneInstrument
+  ) => {
     const updatedRows = this.state.rows.map((row, i) =>
       i === rowIndex
         ? {
             ...row,
             steps: row.steps.map(
-              (step) =>
-                (step = { ...step, synth: new MembraneSynth().toDestination() })
+              (step) => (step = { ...step, synth: instrument.toDestination() })
             ),
           }
         : row
