@@ -7,13 +7,8 @@
     .instrument-list {
         visibility: hidden;
         list-style: none;
+        padding: $standard-padding
 
-        button {
-            background: transparent;
-            border: none;
-            box-shadow: 0 0 2px $grid-border-color inset;
-            cursor: pointer;
-        }
     }
 
     .is-open {

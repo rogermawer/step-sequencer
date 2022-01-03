@@ -1,10 +1,13 @@
 import React from "react";
 import { MembraneSynth, Synth } from "tone";
-import { SequencerController } from "../../SequencerController/Sequencer";
 import { InstrumentSelector } from "./InstrumentSelector";
 
+export interface SideControlsController {
+  onChangeInstrument: (index: number, instrument: Instrument) => void;
+}
+
 interface InstrumentSelectorContainerProps {
-  sequencerController: SequencerController;
+  controller: SideControlsController;
   rowIndex: number;
 }
 
@@ -12,13 +15,19 @@ export type ToneInstrument = Synth | MembraneSynth;
 
 export interface Instrument {
   name: string;
-  instrument: ToneInstrument;
+  nickName: string;
+  type: ToneInstrument;
 }
 
 interface InstrumentSelectorContainerState {
-  instruments: Instrument[];
   isOpen: boolean;
+  selectedInstrument: Instrument;
 }
+
+const instruments: Instrument[] = [
+  { name: "Basic Synth", nickName: "syn", type: new Synth() },
+  { name: "Membrane Synth", nickName: "memb", type: new MembraneSynth() },
+];
 
 export class InstrumentSelectorContainer extends React.Component<
   InstrumentSelectorContainerProps,
@@ -27,19 +36,15 @@ export class InstrumentSelectorContainer extends React.Component<
   constructor(props: InstrumentSelectorContainerProps) {
     super(props);
     this.state = {
-      instruments: [
-        { name: "Basic Synth", instrument: new Synth() },
-        { name: "Membrane Synth", instrument: new MembraneSynth() },
-      ],
+      selectedInstrument: instruments[0],
       isOpen: false,
     };
   }
 
-  public onToggleInstrument = (instrument: ToneInstrument) =>
-    this.props.sequencerController.onChangeInstrument(
-      this.props.rowIndex,
-      instrument
-    );
+  public onToggleInstrument = (instrument: Instrument) => {
+    this.props.controller.onChangeInstrument(this.props.rowIndex, instrument);
+    this.setState({ selectedInstrument: instrument, isOpen: false });
+  };
 
   public toggleInstrumentSelector = () =>
     this.setState({
@@ -47,6 +52,12 @@ export class InstrumentSelectorContainer extends React.Component<
     });
 
   render() {
-    return <InstrumentSelector controller={this} {...this.state} />;
+    return (
+      <InstrumentSelector
+        controller={this}
+        instruments={instruments}
+        {...this.state}
+      />
+    );
   }
 }

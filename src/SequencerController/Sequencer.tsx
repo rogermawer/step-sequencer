@@ -1,17 +1,14 @@
-import { BottomControlContainer } from "../Controls/BottomControlContainer";
+import { BottomControlContainer } from "../Controls/BottomControls/BottomControlContainer";
 import { Grid, GridRow } from "../Grid/Grid";
 import { StepPosition } from "../Row/Row";
 import "../SequencerController/SequencerStyle.scss";
-import {
-  InstrumentSelectorContainer,
-  ToneInstrument,
-} from "../Controls/InstrumentSelector/InstrumentSelectorContainer";
+import { SideControlsContainer } from "../Controls/SideControls/SideControlsContainer";
 
 export interface SequencerController {
   toggleIsActiveNote: (p: StepPosition) => void;
   startAudio: () => void;
   toggleSequencer: () => void;
-  onChangeInstrument: (index: number, instrument: ToneInstrument) => void;
+  updateRows: (index: number, row: GridRow) => void;
 }
 
 interface SequencerProps {
@@ -29,16 +26,7 @@ export const Sequencer = ({
 }: SequencerProps) => (
   <div className="sequencer-container">
     <div className="grid-container">
-      <div className="side-controls">
-        {rows.map((row, i) => (
-          <div>
-            <InstrumentSelectorContainer
-              sequencerController={controller}
-              rowIndex={i}
-            />
-          </div>
-        ))}
-      </div>
+      <SideControlsContainer rows={rows} seqencerController={controller} />
       <Grid controller={controller} beat={beat} rows={rows} steps={steps} />
     </div>
     <BottomControlContainer controller={controller} />
