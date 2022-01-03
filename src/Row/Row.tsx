@@ -1,5 +1,5 @@
 import Square from "../Square/Square";
-import "../Row/RowStyle.css";
+import "../Row/RowStyle.scss";
 import { GridController, GridRow } from "../Grid/Grid";
 import { MembraneSynth, Synth } from "tone";
 
