@@ -100,6 +100,12 @@ export class SequencerController extends React.Component<
     this.setState({ rows: newRows });
   };
 
+  public updateRows = (rowIndex: number, row: GridRow) => {
+    const rows: GridRow[] = [...this.state.rows];
+    rows[rowIndex] = row;
+    this.setState({ rows: rows });
+  };
+
   render() {
     return <Sequencer controller={this} {...this.state} />;
   }

@@ -2,26 +2,27 @@ import React from "react";
 import {
   ControlButton,
   SequencerControlButton,
-} from "./ControlButtons/ControlButton";
+} from "../ControlButtons/ControlButton";
+import "../BottomControls/BottomControlsStyle.scss";
 
 export interface ControlButtonController {
   startAudio: () => void;
   toggleSequencer: () => void;
 }
 
-interface ControlContainerProps {
+interface BottomControlContainerProps {
   controller: ControlButtonController;
 }
 
-interface ControlContainerState {
+interface BottomControlContainerState {
   controlButtons: SequencerControlButton[];
 }
 
-export class ControlContainer extends React.Component<
-  ControlContainerProps,
-  ControlContainerState
+export class BottomControlContainer extends React.Component<
+  BottomControlContainerProps,
+  BottomControlContainerState
 > {
-  constructor(props: ControlContainerProps) {
+  constructor(props: BottomControlContainerProps) {
     super(props);
     this.state = {
       controlButtons: [
@@ -36,7 +37,7 @@ export class ControlContainer extends React.Component<
 
   render() {
     return (
-      <div>
+      <div className="bottom-controls">
         {this.state.controlButtons.map((button, i) => (
           <ControlButton
             key={i}

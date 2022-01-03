@@ -1,0 +1,12 @@
+@import "./Common/StyleVariables.scss";
+
+.App {
+  min-height: 100vh;
+}
+
+button {
+  background: transparent;
+  border: none;
+  box-shadow: 0 0 2px $grid-border-color inset;
+  cursor: pointer;
+}

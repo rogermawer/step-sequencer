@@ -1,7 +1,7 @@
 @import "../Common/StyleVariables.scss";
 
 .beat-square {
-    padding: 10px;
+    padding: $bottom-beat-tracker-padding;
 }
 
 .active {

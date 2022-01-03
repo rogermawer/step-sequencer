@@ -1,12 +1,14 @@
-import { ControlContainer } from "../Controls/ControlContainer";
-import Grid, { GridRow } from "../Grid/Grid";
+import { BottomControlContainer } from "../Controls/BottomControls/BottomControlContainer";
+import { Grid, GridRow } from "../Grid/Grid";
 import { StepPosition } from "../Row/Row";
 import "../SequencerController/SequencerStyle.scss";
+import { SideControlsContainer } from "../Controls/SideControls/SideControlsContainer";
 
-interface SequencerController {
+export interface SequencerController {
   toggleIsActiveNote: (p: StepPosition) => void;
   startAudio: () => void;
   toggleSequencer: () => void;
+  updateRows: (index: number, row: GridRow) => void;
 }
 
 interface SequencerProps {
@@ -19,11 +21,14 @@ interface SequencerProps {
 export const Sequencer = ({
   beat,
   rows,
-  controller,
   steps,
+  controller,
 }: SequencerProps) => (
   <div className="sequencer-container">
-    <Grid controller={controller} beat={beat} rows={rows} steps={steps} />
-    <ControlContainer controller={controller} />
+    <div className="grid-container">
+      <SideControlsContainer rows={rows} seqencerController={controller} />
+      <Grid controller={controller} beat={beat} rows={rows} steps={steps} />
+    </div>
+    <BottomControlContainer controller={controller} />
   </div>
 );
