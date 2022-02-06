@@ -1,6 +1,6 @@
 import { ControlButton } from "../ControlButtons/ControlButton";
 import { Instrument } from "./InstrumentSelectorContainer";
-import "../InstrumentSelector/InstrumentSelectorStyle.scss";
+import "./InstrumentSelectorStyle.scss";
 
 interface InstrumentSelectorController {
   onToggleInstrument: (i: Instrument) => void;

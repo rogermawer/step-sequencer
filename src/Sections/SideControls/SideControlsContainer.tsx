@@ -1,11 +1,11 @@
 import React from "react";
-import { GridRow } from "../../Grid/Grid";
+import { GridRow } from "../Grid/Grid";
 import { SequencerController } from "../../SequencerController/Sequencer";
 import {
   Instrument,
   InstrumentSelectorContainer,
-} from "../InstrumentSelector/InstrumentSelectorContainer";
-import "../SideControls/SideControlsStyle.scss";
+} from "../../Components/InstrumentSelector/InstrumentSelectorContainer";
+import "./SideControlsStyle.scss";
 
 interface SideControlsProps {
   rows: GridRow[];

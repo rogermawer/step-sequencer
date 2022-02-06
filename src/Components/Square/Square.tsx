@@ -1,6 +1,6 @@
-import { GridController } from "../Grid/Grid";
+import { GridController } from "../../Sections/Grid/Grid";
 import { StepPosition } from "../Row/Row";
-import "../Square/SquareStyle.scss";
+import "./SquareStyle.scss";
 
 interface SquareProps {
   controller: GridController;

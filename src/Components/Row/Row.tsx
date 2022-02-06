@@ -1,6 +1,6 @@
 import Square from "../Square/Square";
-import "../Row/RowStyle.scss";
-import { GridController, GridRow } from "../Grid/Grid";
+import "./RowStyle.scss";
+import { GridController, GridRow } from "../../Sections/Grid/Grid";
 import { MembraneSynth, Synth } from "tone";
 
 interface RowProps {
