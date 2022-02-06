@@ -1,12 +1,10 @@
-import "../Square/BeatSquareStyle.scss";
+import "./BeatSquareStyle.scss";
 
 interface SquareProps {
   beat: number;
   isActive: boolean;
 }
 
-const BeatSquare = ({ beat, isActive }: SquareProps) => {
+export const BeatSquare = ({ beat, isActive }: SquareProps) => {
   return <div className={`beat-square${isActive ? " active" : ""}`}></div>;
 };
-
-export default BeatSquare;

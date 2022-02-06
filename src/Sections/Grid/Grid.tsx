@@ -1,6 +1,6 @@
-import Row, { Step, StepPosition } from "../Row/Row";
-import BeatTrackerRow from "../Row/BeatTrackerRow";
-import "../Grid/GridStyle.scss";
+import Row, { Step, StepPosition } from "../../Components/Row/Row";
+import { BeatTrackerRow } from "../../Components/BeatTrackerRow/BeatTrackerRow";
+import "./GridStyle.scss";
 
 export interface GridController {
   toggleIsActiveNote: (p: StepPosition) => void;

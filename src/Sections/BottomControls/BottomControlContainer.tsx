@@ -2,8 +2,8 @@ import React from "react";
 import {
   ControlButton,
   SequencerControlButton,
-} from "../ControlButtons/ControlButton";
-import "../BottomControls/BottomControlsStyle.scss";
+} from "../../Components/ControlButtons/ControlButton";
+import "./BottomControlsStyle.scss";
 
 export interface ControlButtonController {
   startAudio: () => void;

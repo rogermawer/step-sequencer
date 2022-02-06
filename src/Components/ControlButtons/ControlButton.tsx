@@ -1,4 +1,4 @@
-import "../ControlButtons/ControlButtonStyle.scss";
+import "./ControlButtonStyle.scss";
 
 interface ControlButtonProps {
   title: string;

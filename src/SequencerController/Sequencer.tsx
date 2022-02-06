@@ -1,8 +1,8 @@
-import { BottomControlContainer } from "../Controls/BottomControls/BottomControlContainer";
-import { Grid, GridRow } from "../Grid/Grid";
-import { StepPosition } from "../Row/Row";
+import { BottomControlContainer } from "../Sections/BottomControls/BottomControlContainer";
+import { Grid, GridRow } from "../Sections/Grid/Grid";
+import { StepPosition } from "../Components/Row/Row";
 import "../SequencerController/SequencerStyle.scss";
-import { SideControlsContainer } from "../Controls/SideControls/SideControlsContainer";
+import { SideControlsContainer } from "../Sections/SideControls/SideControlsContainer";
 
 export interface SequencerController {
   toggleIsActiveNote: (p: StepPosition) => void;

@@ -2,8 +2,8 @@ import React from "react";
 import * as Tone from "tone";
 import { Synth, Transport } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import { GridRow } from "../Grid/Grid";
-import { Step, StepPosition } from "../Row/Row";
+import { GridRow } from "../Sections/Grid/Grid";
+import { Step, StepPosition } from "../Components/Row/Row";
 import { Sequencer } from "./Sequencer";
 
 interface SequencerProps {}
