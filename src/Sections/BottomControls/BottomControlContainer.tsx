@@ -6,7 +6,6 @@ import {
 import "./BottomControlsStyle.scss";
 
 export interface ControlButtonController {
-  startAudio: () => void;
   toggleSequencer: () => void;
 }
 
@@ -26,7 +25,6 @@ export class BottomControlContainer extends React.Component<
     super(props);
     this.state = {
       controlButtons: [
-        { title: "start audio", onClick: this.props.controller.startAudio },
         {
           title: "start/stop sequencer",
           onClick: this.props.controller.toggleSequencer,

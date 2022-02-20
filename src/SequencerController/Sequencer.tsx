@@ -6,7 +6,6 @@ import { SideControlsContainer } from "../Sections/SideControls/SideControlsCont
 
 export interface SequencerController {
   toggleIsActiveNote: (p: StepPosition) => void;
-  startAudio: () => void;
   toggleSequencer: () => void;
   updateRows: (index: number, row: GridRow) => void;
 }

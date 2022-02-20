@@ -6,7 +6,9 @@ import { GridRow } from "../Sections/Grid/Grid";
 import { Step, StepPosition } from "../Components/Row/Row";
 import { Sequencer } from "./Sequencer";
 
-interface SequencerProps {}
+interface SequencerProps {
+  isAudioStarted: boolean;
+}
 
 interface SequencerState {
   beat: number;
@@ -36,12 +38,10 @@ export class SequencerController extends React.Component<
     this.setSequencerData();
   }
 
-  public startAudio = (): void => {
-    Tone.start();
-  };
-
   public toggleSequencer = () => {
-    Tone.Transport.toggle();
+    if (this.props.isAudioStarted) {
+      Tone.Transport.toggle();
+    }
   };
 
   private setSequencerData = () => {
