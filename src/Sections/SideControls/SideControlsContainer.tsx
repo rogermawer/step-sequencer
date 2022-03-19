@@ -8,8 +8,8 @@ import {
 import "./SideControlsStyle.scss";
 
 interface SideControlsProps {
+  controller: SequencerController;
   rows: GridRow[];
-  seqencerController: SequencerController;
 }
 
 interface SideControlsState {}
@@ -38,14 +38,14 @@ export class SideControlsContainer extends React.Component<
           })
       ),
     };
-    this.props.seqencerController.updateRows(rowIndex, updatedRow);
+    this.props.controller.updateRows(rowIndex, updatedRow);
   };
 
   render() {
     return (
       <div className="side-controls">
         {this.props.rows.map((row, i) => (
-          <InstrumentSelectorContainer controller={this} rowIndex={i} />
+          <InstrumentSelectorContainer key={i} controller={this} rowIndex={i} />
         ))}
       </div>
     );

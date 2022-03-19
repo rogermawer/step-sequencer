@@ -14,19 +14,19 @@ export class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
-      isAudioStarted: true,
+      isAudioStarted: false,
     };
   }
 
   public onStartAudio = () => {
     start();
-    this.setState({ isAudioStarted: false });
+    this.setState({ isAudioStarted: true });
   };
 
   render() {
     return (
       <div className="App">
-        {this.state.isAudioStarted ? (
+        {!this.state.isAudioStarted ? (
           <StartAudioOverlay controller={this} />
         ) : null}
         <SequencerController {...this.state} />
