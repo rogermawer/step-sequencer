@@ -11,10 +11,10 @@ export interface SequencerController {
 }
 
 interface SequencerProps {
+  controller: SequencerController;
   beat: number;
   rows: GridRow[];
   steps: number;
-  controller: SequencerController;
 }
 
 export const Sequencer = ({
@@ -25,7 +25,7 @@ export const Sequencer = ({
 }: SequencerProps) => (
   <div className="sequencer-container">
     <div className="grid-container">
-      <SideControlsContainer rows={rows} seqencerController={controller} />
+      <SideControlsContainer rows={rows} controller={controller} />
       <Grid controller={controller} beat={beat} rows={rows} steps={steps} />
     </div>
     <BottomControlContainer controller={controller} />
