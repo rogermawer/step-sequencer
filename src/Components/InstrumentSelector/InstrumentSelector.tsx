@@ -1,4 +1,4 @@
-import { ControlButton } from "../ControlButtons/ControlButton";
+import { SvgIcon } from "../../Common/SvgIcon";
 import { Instrument } from "./InstrumentSelectorContainer";
 import "./InstrumentSelectorStyle.scss";
 
@@ -21,10 +21,9 @@ export const InstrumentSelector = ({
   isOpen,
 }: InstrumentSelectorProps) => (
   <div className="selector-container">
-    <ControlButton
-      title={selectedInstrument.nickName}
-      onClick={controller.toggleInstrumentSelector}
-    />
+    <div onClick={controller.toggleInstrumentSelector}>
+      <SvgIcon type="piano" />
+    </div>
     <ul className={`instrument-list${isOpen ? " is-open" : ""}`}>
       {instruments.map((instrument, i) => (
         <li key={i}>

@@ -6,7 +6,7 @@ interface ControlButtonProps {
 }
 
 export interface SequencerControlButton {
-  title: string;
+  type: string;
   onClick: () => void;
 }
 

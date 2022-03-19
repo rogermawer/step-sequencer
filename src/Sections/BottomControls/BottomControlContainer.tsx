@@ -1,12 +1,11 @@
 import React from "react";
-import {
-  ControlButton,
-  SequencerControlButton,
-} from "../../Components/ControlButtons/ControlButton";
+import { SvgIcon } from "../../Common/SvgIcon";
+import { SequencerControlButton } from "../../Components/ControlButtons/ControlButton";
 import "./BottomControlsStyle.scss";
 
 export interface ControlButtonController {
-  toggleSequencer: () => void;
+  startSequencer: () => void;
+  stopSequencer: () => void;
 }
 
 interface BottomControlContainerProps {
@@ -26,9 +25,10 @@ export class BottomControlContainer extends React.Component<
     this.state = {
       controlButtons: [
         {
-          title: "start/stop sequencer",
-          onClick: this.props.controller.toggleSequencer,
+          type: "play",
+          onClick: this.props.controller.startSequencer,
         },
+        { type: "stop", onClick: this.props.controller.stopSequencer },
       ],
     };
   }
@@ -37,11 +37,9 @@ export class BottomControlContainer extends React.Component<
     return (
       <div className="bottom-controls">
         {this.state.controlButtons.map((button, i) => (
-          <ControlButton
-            key={i}
-            title={button.title}
-            onClick={button.onClick}
-          />
+          <div onClick={button.onClick}>
+            <SvgIcon type={button.type} />
+          </div>
         ))}
       </div>
     );

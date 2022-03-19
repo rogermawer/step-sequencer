@@ -38,10 +38,14 @@ export class SequencerController extends React.Component<
     this.setSequencerData();
   }
 
-  public toggleSequencer = () => {
+  public startSequencer = () => {
     if (this.props.isAudioStarted) {
-      Tone.Transport.toggle();
+      Tone.Transport.start();
     }
+  };
+
+  public stopSequencer = () => {
+    Tone.Transport.stop();
   };
 
   private setSequencerData = () => {
