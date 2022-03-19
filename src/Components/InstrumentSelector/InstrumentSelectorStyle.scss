@@ -3,6 +3,7 @@
 .selector-container {
     display: flex;
     flex-direction: row-reverse;
+    align-items: center;
 
     .instrument-list {
         visibility: hidden;
@@ -15,4 +16,7 @@
         visibility: visible;
     }
 
+    .icon {
+        padding: $standard-padding;
+    }
 }

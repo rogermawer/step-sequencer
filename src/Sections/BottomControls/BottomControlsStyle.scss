@@ -1,0 +1,9 @@
+@import "../../Common/StyleVariables.scss";
+
+.bottom-controls {
+    display: flex;
+
+    .icon {
+        padding: $standard-padding
+    }
+}
