@@ -1,4 +1,4 @@
-import "../Components/StartAudioOverlayStyle.scss";
+import "../StartAudioOverlay/StartAudioOverlayStyle.scss";
 
 interface StartAudioOverlayController {
   onStartAudio: () => void;

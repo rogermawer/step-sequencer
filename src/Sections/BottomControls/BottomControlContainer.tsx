@@ -37,9 +37,7 @@ export class BottomControlContainer extends React.Component<
     return (
       <div className="bottom-controls">
         {this.state.controlButtons.map((button, i) => (
-          <div onClick={button.onClick}>
-            <SvgIcon type={button.type} />
-          </div>
+          <SvgIcon type={button.type} onClick={button.onClick} />
         ))}
       </div>
     );

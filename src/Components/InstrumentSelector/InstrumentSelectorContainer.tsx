@@ -1,6 +1,7 @@
 import React from "react";
-import { MembraneSynth, Synth } from "tone";
+import { MembraneSynth, MetalSynth, Sampler, Synth } from "tone";
 import { InstrumentSelector } from "./InstrumentSelector";
+import clap from "../../Common/Samples/clap.mp3";
 
 export interface SideControlsController {
   onChangeInstrument: (index: number, instrument: Instrument) => void;
@@ -11,7 +12,7 @@ interface InstrumentSelectorContainerProps {
   rowIndex: number;
 }
 
-export type ToneInstrument = Synth | MembraneSynth;
+export type ToneInstrument = Synth | MembraneSynth | MetalSynth | Sampler;
 
 export interface Instrument {
   name: string;
@@ -27,6 +28,16 @@ interface InstrumentSelectorContainerState {
 const instruments: Instrument[] = [
   { name: "Basic Synth", nickName: "syn", type: new Synth() },
   { name: "Membrane Synth", nickName: "memb", type: new MembraneSynth() },
+  { name: "Metal Synth", nickName: "mtlSyn", type: new MetalSynth() },
+  {
+    name: "Clap",
+    nickName: "clp",
+    type: new Sampler({
+      urls: {
+        A3: clap,
+      },
+    }),
+  },
 ];
 
 export class InstrumentSelectorContainer extends React.Component<

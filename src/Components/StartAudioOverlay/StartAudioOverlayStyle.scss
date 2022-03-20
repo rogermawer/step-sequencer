@@ -1,4 +1,4 @@
-@import "../Common/StyleVariables.scss";
+@import "../../Common/StyleVariables.scss";
 
 .start-audio-overlay {
     position: absolute;
@@ -15,7 +15,9 @@
 
         button {
             padding: $standard-padding;
-            background-color: $current-beat-color;
+            color: $current-beat-color;
+            border-radius: 5px;
+            box-shadow: 0 0 2px $grid-border-color inset;
             font-size: 26px;
         }
     }

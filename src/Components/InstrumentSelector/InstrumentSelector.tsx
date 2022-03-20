@@ -21,16 +21,11 @@ export const InstrumentSelector = ({
   isOpen,
 }: InstrumentSelectorProps) => (
   <div className="selector-container">
-    <div onClick={controller.toggleInstrumentSelector}>
-      <SvgIcon type="piano" />
-    </div>
+    <SvgIcon onClick={controller.toggleInstrumentSelector} type="piano" />
     <ul className={`instrument-list${isOpen ? " is-open" : ""}`}>
       {instruments.map((instrument, i) => (
         <li key={i}>
-          <button
-            className=""
-            onClick={() => controller.onToggleInstrument(instrument)}
-          >
+          <button onClick={() => controller.onToggleInstrument(instrument)}>
             {instrument.name}
           </button>
         </li>

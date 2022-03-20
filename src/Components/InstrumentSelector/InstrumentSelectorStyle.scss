@@ -4,12 +4,16 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
+    height: $square-size;
 
     .instrument-list {
         visibility: hidden;
         list-style: none;
-        padding: $standard-padding
+        padding: $standard-padding;
 
+        li:hover {
+            background-color: $current-beat-color;
+        }
     }
 
     .is-open {
