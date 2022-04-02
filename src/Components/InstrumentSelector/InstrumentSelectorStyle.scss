@@ -1,24 +1,10 @@
 @import "../../Common/StyleVariables.scss";
 
-.selector-container {
+.selector-button {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     height: $square-size;
-
-    .instrument-list {
-        visibility: hidden;
-        list-style: none;
-        padding: $standard-padding;
-
-        li:hover {
-            background-color: $current-beat-color;
-        }
-    }
-
-    .is-open {
-        visibility: visible;
-    }
 
     .icon {
         padding: $standard-padding;

@@ -1,0 +1,24 @@
+@import "../../Common/StyleVariables.scss";
+
+.editing-menu {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    box-shadow: $square-box-shadow;
+
+    &.is-open {
+        visibility: visible;
+    }
+
+    .instrument-list {
+        list-style: none;
+        padding: $standard-padding;
+
+        li:hover {
+            background-color: $current-beat-color;
+        }
+    }
+}

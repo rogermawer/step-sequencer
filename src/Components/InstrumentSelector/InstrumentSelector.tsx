@@ -1,35 +1,49 @@
+import { MembraneSynth, MetalSynth, Sampler, Synth } from "tone";
 import { SvgIcon } from "../../Common/SvgIcon";
-import { Instrument } from "./InstrumentSelectorContainer";
 import "./InstrumentSelectorStyle.scss";
+import clap from "../../Common/Samples/clap.mp3";
+import { GridRow } from "../../Sections/Grid/Grid";
 
-interface InstrumentSelectorController {
-  onToggleInstrument: (i: Instrument) => void;
-  toggleInstrumentSelector: () => void;
+export interface InstrumentSelectorController {
+  toggleInstrumentSelector: (r: GridRow) => void;
 }
 
 interface InstrumentSelectorProps {
   controller: InstrumentSelectorController;
-  instruments: Instrument[];
-  selectedInstrument: Instrument;
-  isOpen: boolean;
+  row: GridRow;
 }
+
+export type ToneInstrument = Synth | MembraneSynth | MetalSynth | Sampler;
+
+export interface Instrument {
+  name: string;
+  nickName: string;
+  type: ToneInstrument;
+}
+
+export const instruments: Instrument[] = [
+  { name: "Basic Synth", nickName: "syn", type: new Synth() },
+  { name: "Membrane Synth", nickName: "memb", type: new MembraneSynth() },
+  { name: "Metal Synth", nickName: "mtlSyn", type: new MetalSynth() },
+  {
+    name: "Clap",
+    nickName: "clp",
+    type: new Sampler({
+      urls: {
+        A3: clap,
+      },
+    }),
+  },
+];
 
 export const InstrumentSelector = ({
   controller,
-  instruments,
-  selectedInstrument,
-  isOpen,
+  row,
 }: InstrumentSelectorProps) => (
-  <div className="selector-container">
-    <SvgIcon onClick={controller.toggleInstrumentSelector} type="piano" />
-    <ul className={`instrument-list${isOpen ? " is-open" : ""}`}>
-      {instruments.map((instrument, i) => (
-        <li key={i}>
-          <button onClick={() => controller.onToggleInstrument(instrument)}>
-            {instrument.name}
-          </button>
-        </li>
-      ))}
-    </ul>
+  <div className="selector-button">
+    <SvgIcon
+      onClick={() => controller.toggleInstrumentSelector(row)}
+      type="piano"
+    />
   </div>
 );

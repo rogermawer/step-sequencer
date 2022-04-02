@@ -1,8 +1,9 @@
 import Row, { Step, StepPosition } from "../../Components/Row/Row";
 import { BeatTrackerRow } from "../../Components/BeatTrackerRow/BeatTrackerRow";
 import "./GridStyle.scss";
+import { InstrumentSelectorController } from "../../Components/InstrumentSelector/InstrumentSelector";
 
-export interface GridController {
+export interface GridController extends InstrumentSelectorController {
   toggleIsActiveNote: (p: StepPosition) => void;
 }
 
@@ -14,6 +15,7 @@ interface GridProps {
 }
 
 export interface GridRow {
+  index: number;
   note: string;
   steps: Step[];
 }

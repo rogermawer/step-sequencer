@@ -16,6 +16,7 @@ interface SequencerState {
   scale: string[];
   steps: number;
   rows: GridRow[];
+  editingRow: GridRow | null;
 }
 
 export class SequencerController extends React.Component<
@@ -30,6 +31,7 @@ export class SequencerController extends React.Component<
       rows: [],
       scale: ["G4", "E4", "D4", "C4", "A3"],
       steps: 8,
+      editingRow: null,
     };
   }
 
@@ -76,8 +78,12 @@ export class SequencerController extends React.Component<
 
   private createRows = () => {
     let newRows: GridRow[] = [];
-    this.state.scale.map((note) =>
-      newRows.push({ note, steps: this.createRowSteps(this.state.steps) })
+    this.state.scale.map((note, index) =>
+      newRows.push({
+        index,
+        note,
+        steps: this.createRowSteps(this.state.steps),
+      })
     );
     this.setState({ rows: newRows });
   };
@@ -104,10 +110,16 @@ export class SequencerController extends React.Component<
     this.setState({ rows: newRows });
   };
 
-  public updateRows = (rowIndex: number, row: GridRow) => {
+  public updateRows = (row: GridRow) => {
     const rows: GridRow[] = [...this.state.rows];
-    rows[rowIndex] = row;
+    rows[row.index] = row;
     this.setState({ rows: rows });
+  };
+
+  public toggleInstrumentSelector = (row: GridRow) => {
+    this.setState({
+      editingRow: this.state.editingRow?.index === row.index ? null : row,
+    });
   };
 
   render() {
