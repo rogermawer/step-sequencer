@@ -1,4 +1,4 @@
-import Row, { Step, StepPosition } from "../../Components/Row/Row";
+import Row, { GridRow, StepPosition } from "../../Components/Row/Row";
 import { BeatTrackerRow } from "../../Components/BeatTrackerRow/BeatTrackerRow";
 import "./GridStyle.scss";
 import { InstrumentSelectorController } from "../../Components/InstrumentSelector/InstrumentSelector";
@@ -12,12 +12,6 @@ interface GridProps {
   beat: number;
   steps: number;
   rows: GridRow[];
-}
-
-export interface GridRow {
-  index: number;
-  note: string;
-  steps: Step[];
 }
 
 export const Grid = ({ controller, beat, steps, rows }: GridProps) => (

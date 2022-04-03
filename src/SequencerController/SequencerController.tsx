@@ -1,9 +1,7 @@
 import React from "react";
 import * as Tone from "tone";
-import { Synth, Transport } from "tone";
-import { Time } from "tone/build/esm/core/type/Units";
-import { GridRow } from "../Sections/Grid/Grid";
-import { Step, StepPosition } from "../Components/Row/Row";
+import { Synth } from "tone";
+import { GridRow, Step, StepPosition } from "../Components/Row/Row";
 import { Sequencer } from "./Sequencer";
 
 interface SequencerProps {
@@ -11,8 +9,6 @@ interface SequencerProps {
 }
 
 interface SequencerState {
-  beat: number;
-  bpm: number;
   scale: string[];
   steps: number;
   rows: GridRow[];
@@ -26,8 +22,6 @@ export class SequencerController extends React.Component<
   constructor(props: SequencerProps) {
     super(props);
     this.state = {
-      beat: 0,
-      bpm: 100,
       rows: [],
       scale: ["G4", "E4", "D4", "C4", "A3"],
       steps: 8,
@@ -37,7 +31,6 @@ export class SequencerController extends React.Component<
 
   componentDidMount() {
     this.createRows();
-    this.setSequencerData();
   }
 
   public startSequencer = () => {
@@ -48,13 +41,6 @@ export class SequencerController extends React.Component<
 
   public stopSequencer = () => {
     Tone.Transport.stop();
-  };
-
-  private setSequencerData = () => {
-    Transport.bpm.value = this.state.bpm;
-    Transport.setLoopPoints(0, "1m");
-    Transport.loop = true;
-    Transport.scheduleRepeat(this.getAndSetBeat, "8n");
   };
 
   private createRowSteps = (steps: number): Step[] => {
@@ -70,12 +56,6 @@ export class SequencerController extends React.Component<
     return defaultSteps;
   };
 
-  private getAndSetBeat = (time: Time) => {
-    const currentBeat = Math.floor((Transport.getTicksAtTime(time) / 96) % 8);
-    this.playRow(currentBeat, time);
-    this.setState({ beat: currentBeat });
-  };
-
   private createRows = () => {
     let newRows: GridRow[] = [];
     this.state.scale.map((note, index) =>
@@ -86,14 +66,6 @@ export class SequencerController extends React.Component<
       })
     );
     this.setState({ rows: newRows });
-  };
-
-  private playRow = (beat: number, time: Time) => {
-    this.state.rows.map((row) =>
-      row.steps[beat].isActive
-        ? row.steps[beat].synth.triggerAttackRelease(row.note, "8n", time)
-        : null
-    );
   };
 
   public toggleIsActiveNote = (position: StepPosition): void => {

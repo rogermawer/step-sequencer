@@ -1,6 +1,6 @@
 import React from "react";
-import { GridRow } from "../../Sections/Grid/Grid";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { GridRow } from "../Row/Row";
 import { EditingMenu, EditingMenuControllerState } from "./EditingMenu";
 
 interface EditingMenuControllerMethods {
@@ -21,7 +21,7 @@ export class EditingMenuController extends React.Component<
     this.state = {};
   }
 
-  public onChangeInstrument = (rowIndex: number, instrument: Instrument) => {
+  public onChangeInstrument = (instrument: Instrument) => {
     const selectedRow = this.props.editingRow;
 
     const updatedRow: GridRow = {

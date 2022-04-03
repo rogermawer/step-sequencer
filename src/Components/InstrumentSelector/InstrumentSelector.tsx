@@ -2,7 +2,7 @@ import { MembraneSynth, MetalSynth, Sampler, Synth } from "tone";
 import { SvgIcon } from "../../Common/SvgIcon";
 import "./InstrumentSelectorStyle.scss";
 import clap from "../../Common/Samples/clap.mp3";
-import { GridRow } from "../../Sections/Grid/Grid";
+import { GridRow } from "../Row/Row";
 
 export interface InstrumentSelectorController {
   toggleInstrumentSelector: (r: GridRow) => void;
