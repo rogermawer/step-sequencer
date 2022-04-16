@@ -1,13 +1,9 @@
-import { Select } from "react-nexusui";
-import {
-  Instrument,
-  instruments,
-} from "../InstrumentSelector/InstrumentSelector";
+import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow } from "../Row/Row";
 import "./EditingMenuStyle.scss";
 
 export interface EditingMenuComponentMethods {
-  onChangeInstrument: (instrument: Instrument) => void;
+  onChangeInstrument: (instrument: any) => void;
 }
 
 interface EditingMenuControllerProps extends EditingMenuControllerState {
@@ -15,22 +11,34 @@ interface EditingMenuControllerProps extends EditingMenuControllerState {
   editingRow: GridRow;
 }
 
-export interface EditingMenuControllerState {}
+export interface EditingMenuControllerState {
+  instruments: Instrument[];
+  selectedInstrument: Instrument;
+}
 
 export const EditingMenu = ({
   controller,
   editingRow,
+  instruments,
+  selectedInstrument,
 }: EditingMenuControllerProps) => {
   return (
     <div className={`editing-menu${editingRow !== null ? " is-open" : ""}`}>
-      <div>Row Note: {editingRow?.note}</div>
-      <div>Current Instrument: </div>
-      <Select
-        options={instruments.map((instrument, i) => instrument.name)}
-        onChange={(selection: { value: string; index: number }) =>
-          controller.onChangeInstrument(instruments[selection.index])
-        }
-      ></Select>
+      <div>Row Note: {editingRow.note}</div>
+      <div>
+        {console.log("rendre")}
+        Current Instrument:
+        <select
+          value={selectedInstrument.name}
+          onChange={(e) => controller.onChangeInstrument(e.target.value)}
+        >
+          {instruments.map((instrument, index) => (
+            <option key={index} value={instrument.name}>
+              {instrument.name}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };

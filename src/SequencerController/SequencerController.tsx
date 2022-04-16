@@ -1,6 +1,7 @@
 import React from "react";
 import * as Tone from "tone";
 import { Synth } from "tone";
+import { ToneInstrument } from "../Components/InstrumentSelector/InstrumentSelector";
 import { GridRow, Step, StepPosition } from "../Components/Row/Row";
 import { Sequencer } from "./Sequencer";
 
@@ -9,11 +10,12 @@ interface SequencerProps {
 }
 
 interface SequencerState {
-  scale: string[];
   steps: number;
   rows: GridRow[];
-  editingRow: GridRow | null;
+  editingRowIndex: number | null;
 }
+
+const defaultScale: string[] = ["G4", "E4", "D4", "C4", "A3"];
 
 export class SequencerController extends React.Component<
   SequencerProps,
@@ -23,9 +25,8 @@ export class SequencerController extends React.Component<
     super(props);
     this.state = {
       rows: [],
-      scale: ["G4", "E4", "D4", "C4", "A3"],
       steps: 8,
-      editingRow: null,
+      editingRowIndex: null,
     };
   }
 
@@ -43,26 +44,28 @@ export class SequencerController extends React.Component<
     Tone.Transport.stop();
   };
 
-  private createRowSteps = (steps: number): Step[] => {
-    const synth = new Synth({
+  private createRowSteps = (): Step[] => {
+    const defaultInstrument: ToneInstrument = new Synth({
       oscillator: { type: "square8" },
-    }).toDestination();
+    });
     const defaultStep: Step = {
       isActive: false,
-      synth,
+      synth: defaultInstrument.toDestination(),
     };
     let defaultSteps: Step[] = [];
-    [...Array(steps)].map(() => defaultSteps.push(defaultStep));
+    [...Array(this.state.steps)].map(() => defaultSteps.push(defaultStep));
     return defaultSteps;
   };
 
   private createRows = () => {
     let newRows: GridRow[] = [];
-    this.state.scale.map((note, index) =>
+    const steps = this.createRowSteps();
+    defaultScale.map((note, index) =>
       newRows.push({
         index,
         note,
-        steps: this.createRowSteps(this.state.steps),
+        instrument: steps[0].synth,
+        steps: this.createRowSteps(),
       })
     );
     this.setState({ rows: newRows });
@@ -88,9 +91,10 @@ export class SequencerController extends React.Component<
     this.setState({ rows: rows });
   };
 
-  public toggleInstrumentSelector = (row: GridRow) => {
+  public toggleInstrumentSelector = (rowIndex: number) => {
     this.setState({
-      editingRow: this.state.editingRow?.index === row.index ? null : row,
+      editingRowIndex:
+        this.state.editingRowIndex === rowIndex ? null : rowIndex,
     });
   };
 

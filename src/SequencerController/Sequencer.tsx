@@ -9,25 +9,28 @@ export interface SequencerController {
   startSequencer: () => void;
   stopSequencer: () => void;
   updateRows: (row: GridRow) => void;
-  toggleInstrumentSelector: (r: GridRow) => void;
+  toggleInstrumentSelector: (indexOfRow: number) => void;
 }
 
 interface SequencerProps {
   controller: SequencerController;
   rows: GridRow[];
   steps: number;
-  editingRow: GridRow | null;
+  editingRowIndex: number | null;
 }
 
 export const Sequencer: React.FunctionComponent<SequencerProps> = ({
   controller,
   rows,
   steps,
-  editingRow,
+  editingRowIndex,
 }) => (
   <div className="sequencer">
-    {editingRow !== null ? (
-      <EditingMenuController controller={controller} editingRow={editingRow} />
+    {editingRowIndex !== null ? (
+      <EditingMenuController
+        controller={controller}
+        editingRow={rows[editingRowIndex]}
+      />
     ) : null}
     <GridContainer controller={controller} steps={steps} rows={rows} />
     <BottomControlContainer controller={controller} />

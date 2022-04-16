@@ -15,6 +15,7 @@ interface RowProps {
 export interface GridRow {
   index: number;
   note: string;
+  instrument: ToneInstrument;
   steps: Step[];
 }
 
