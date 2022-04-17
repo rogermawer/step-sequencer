@@ -1,7 +1,10 @@
 import React from "react";
 import * as Tone from "tone";
 import { Synth } from "tone";
-import { ToneInstrument } from "../Components/InstrumentSelector/InstrumentSelector";
+import {
+  Instrument,
+  ToneInstrument,
+} from "../Components/InstrumentSelector/InstrumentSelector";
 import { GridRow, Step, StepPosition } from "../Components/Row/Row";
 import { Sequencer } from "./Sequencer";
 
@@ -15,6 +18,7 @@ interface SequencerState {
   editingRowIndex: number | null;
 }
 
+//move to state
 const defaultScale: string[] = ["G4", "E4", "D4", "C4", "A3"];
 
 export class SequencerController extends React.Component<
@@ -44,13 +48,10 @@ export class SequencerController extends React.Component<
     Tone.Transport.stop();
   };
 
-  private createRowSteps = (): Step[] => {
-    const defaultInstrument: ToneInstrument = new Synth({
-      oscillator: { type: "square8" },
-    });
+  private createRowSteps = (instrument: ToneInstrument): Step[] => {
     const defaultStep: Step = {
       isActive: false,
-      synth: defaultInstrument.toDestination(),
+      synth: instrument.toDestination(),
     };
     let defaultSteps: Step[] = [];
     [...Array(this.state.steps)].map(() => defaultSteps.push(defaultStep));
@@ -59,15 +60,21 @@ export class SequencerController extends React.Component<
 
   private createRows = () => {
     let newRows: GridRow[] = [];
-    const steps = this.createRowSteps();
-    defaultScale.map((note, index) =>
-      newRows.push({
+    defaultScale.map((note, index) => {
+      const defaultInstrument: Instrument = {
+        name: "Basic Synth",
+        nickName: "syn",
+        type: new Synth({
+          oscillator: { type: "square8" },
+        }),
+      };
+      return newRows.push({
         index,
         note,
-        instrument: steps[0].synth,
-        steps: this.createRowSteps(),
-      })
-    );
+        instrument: defaultInstrument,
+        steps: this.createRowSteps(defaultInstrument.type),
+      });
+    });
     this.setState({ rows: newRows });
   };
 

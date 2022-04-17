@@ -2,6 +2,7 @@ import Square from "../Square/Square";
 import "./RowStyle.scss";
 import { GridController } from "../../Sections/Grid/Grid";
 import {
+  Instrument,
   InstrumentSelector,
   ToneInstrument,
 } from "../InstrumentSelector/InstrumentSelector";
@@ -15,7 +16,7 @@ interface RowProps {
 export interface GridRow {
   index: number;
   note: string;
-  instrument: ToneInstrument;
+  instrument: Instrument;
   steps: Step[];
 }
 

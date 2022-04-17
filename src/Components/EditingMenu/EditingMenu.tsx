@@ -13,23 +13,20 @@ interface EditingMenuControllerProps extends EditingMenuControllerState {
 
 export interface EditingMenuControllerState {
   instruments: Instrument[];
-  selectedInstrument: Instrument;
 }
 
 export const EditingMenu = ({
   controller,
   editingRow,
   instruments,
-  selectedInstrument,
 }: EditingMenuControllerProps) => {
   return (
     <div className={`editing-menu${editingRow !== null ? " is-open" : ""}`}>
       <div>Row Note: {editingRow.note}</div>
       <div>
-        {console.log("rendre")}
         Current Instrument:
         <select
-          value={selectedInstrument.name}
+          value={editingRow.instrument.name}
           onChange={(e) => controller.onChangeInstrument(e.target.value)}
         >
           {instruments.map((instrument, index) => (

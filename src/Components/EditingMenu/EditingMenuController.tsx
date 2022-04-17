@@ -35,11 +35,6 @@ export class EditingMenuController extends React.Component<
           }),
         },
       ],
-      selectedInstrument: {
-        name: "Membrane Synth",
-        nickName: "memb",
-        type: new MembraneSynth(),
-      },
     };
   }
 
@@ -52,6 +47,7 @@ export class EditingMenuController extends React.Component<
 
     const updatedRow: GridRow = {
       ...selectedRow,
+      instrument: selectedInstrument,
       steps: selectedRow.steps.map(
         (step) =>
           (step = {
@@ -61,7 +57,6 @@ export class EditingMenuController extends React.Component<
       ),
     };
     this.props.controller.updateRows(updatedRow);
-    this.setState({ selectedInstrument });
   };
 
   render() {
