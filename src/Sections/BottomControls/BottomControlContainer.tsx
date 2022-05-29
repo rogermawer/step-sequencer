@@ -1,6 +1,5 @@
 import React from "react";
 import { SvgIcon } from "../../Common/SvgIcon";
-import { SequencerControlButton } from "../../Components/ControlButtons/ControlButton";
 import "./BottomControlsStyle.scss";
 
 export interface ControlButtonController {
@@ -10,6 +9,11 @@ export interface ControlButtonController {
 
 interface BottomControlContainerProps {
   controller: ControlButtonController;
+}
+
+interface SequencerControlButton {
+  type: string;
+  onClick: () => void;
 }
 
 interface BottomControlContainerState {
@@ -37,9 +41,7 @@ export class BottomControlContainer extends React.Component<
     return (
       <div className="bottom-controls">
         {this.state.controlButtons.map((button, i) => (
-          <div onClick={button.onClick}>
-            <SvgIcon type={button.type} />
-          </div>
+          <SvgIcon key={i} type={button.type} onClick={button.onClick} />
         ))}
       </div>
     );

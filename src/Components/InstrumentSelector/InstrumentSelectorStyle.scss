@@ -1,20 +1,10 @@
 @import "../../Common/StyleVariables.scss";
 
-.selector-container {
+.selector-button {
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
-
-    .instrument-list {
-        visibility: hidden;
-        list-style: none;
-        padding: $standard-padding
-
-    }
-
-    .is-open {
-        visibility: visible;
-    }
+    justify-content: center;
+    width: $square-size;
 
     .icon {
         padding: $standard-padding;

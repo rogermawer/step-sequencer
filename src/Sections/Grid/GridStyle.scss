@@ -1,8 +1,7 @@
 @import "../../Common/StyleVariables.scss";
 
-.grid-container {
+.grid {
     display: flex;
-    flex-direction: row;
 
     .side-controls {
         display: flex;

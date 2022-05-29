@@ -2,8 +2,11 @@ $active-color: rgb(218, 244, 253);
 $current-beat-color: rgb(139, 253, 124);
 $grid-border-color: coral;
 
-$square-padding: 50px;
+$square-size: 100px;
+$square-border-radius: 5px;
+$square-box-shadow: 0 0 2px $grid-border-color inset;
 $standard-padding: 15px;
+$editing-menu-width: 300px;
 
 $bottom-beat-tracker-padding: 10px;
 

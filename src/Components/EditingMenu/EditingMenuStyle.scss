@@ -1,0 +1,30 @@
+@import "../../Common/StyleVariables.scss";
+
+.editing-menu {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $editing-menu-width;
+    height: 100%;
+    box-shadow: $square-box-shadow;
+    background-color: $active-color;
+    padding: $standard-padding;
+
+    &.is-open {
+        visibility: visible;
+    }
+
+    .instrument-list {
+        list-style: none;
+        padding: $standard-padding;
+
+        li:hover {
+            background-color: $current-beat-color;
+        }
+    }
+
+    #nexus-ui-select-2 {
+        display: inline-block;
+    }
+}

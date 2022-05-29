@@ -2,16 +2,17 @@ import "./SvgIconStyle.scss";
 
 interface SvgIconProps {
   type: string;
+  onClick?: () => void;
 }
 
 interface SvgIcons {
   [icon: string]: { path: string[]; viewBox: string };
 }
 
-export const SvgIcon = ({ type }: SvgIconProps) => (
-  <svg className="icon" viewBox={icons[type].viewBox}>
-    {icons[type].path.map((p) => (
-      <path d={p} />
+export const SvgIcon = ({ type, onClick }: SvgIconProps) => (
+  <svg className="icon" viewBox={icons[type].viewBox} onClick={onClick}>
+    {icons[type].path.map((p, i) => (
+      <path key={i} d={p} />
     ))}
   </svg>
 );
