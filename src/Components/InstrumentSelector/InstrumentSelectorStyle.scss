@@ -2,9 +2,9 @@
 
 .selector-button {
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
-    height: $square-size;
+    justify-content: center;
+    width: $square-size;
 
     .icon {
         padding: $standard-padding;

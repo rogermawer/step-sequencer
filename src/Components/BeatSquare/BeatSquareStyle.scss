@@ -1,8 +1,10 @@
 @import "../../Common/StyleVariables.scss";
 
 .beat-square {
-    padding: $bottom-beat-tracker-padding;
+    width: $square-size;
+    height: $standard-padding;
 }
+
 
 .active {
     background-color: $current-beat-color;

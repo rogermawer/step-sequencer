@@ -5,9 +5,11 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 25%;
+    width: $editing-menu-width;
     height: 100%;
     box-shadow: $square-box-shadow;
+    background-color: $active-color;
+    padding: $standard-padding;
 
     &.is-open {
         visibility: visible;

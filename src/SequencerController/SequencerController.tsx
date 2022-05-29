@@ -1,6 +1,7 @@
 import React from "react";
 import * as Tone from "tone";
 import { Synth } from "tone";
+import { Destination } from "tone/build/esm/core/context/Destination";
 import {
   Instrument,
   ToneInstrument,
@@ -25,6 +26,7 @@ export class SequencerController extends React.Component<
   SequencerProps,
   SequencerState
 > {
+  private output: Destination;
   constructor(props: SequencerProps) {
     super(props);
     this.state = {
@@ -32,6 +34,9 @@ export class SequencerController extends React.Component<
       steps: 8,
       editingRowIndex: null,
     };
+
+    this.output = Tone.getDestination();
+    this.output.volume.value = -12;
   }
 
   componentDidMount() {
@@ -51,7 +56,7 @@ export class SequencerController extends React.Component<
   private createRowSteps = (instrument: ToneInstrument): Step[] => {
     const defaultStep: Step = {
       isActive: false,
-      synth: instrument.toDestination(),
+      synth: instrument.connect(this.output),
     };
     let defaultSteps: Step[] = [];
     [...Array(this.state.steps)].map(() => defaultSteps.push(defaultStep));

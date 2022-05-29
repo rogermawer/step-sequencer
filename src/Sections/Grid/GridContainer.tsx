@@ -44,11 +44,12 @@ export class GridContainer extends React.Component<
   };
 
   private playRow = (beat: number, time: Time) => {
-    this.props.rows.map((row) =>
-      row.steps[beat].isActive
-        ? row.steps[beat].synth.triggerAttackRelease(row.note, "8n", time)
-        : null
-    );
+    // eslint-disable-next-line array-callback-return
+    this.props.rows.map((row) => {
+      if (row.steps[beat].isActive) {
+        row.steps[beat].synth.triggerAttackRelease(row.note, "8n", time);
+      }
+    });
   };
 
   render() {

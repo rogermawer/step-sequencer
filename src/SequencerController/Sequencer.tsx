@@ -3,6 +3,7 @@ import { GridRow, StepPosition } from "../Components/Row/Row";
 import "../SequencerController/SequencerStyle.scss";
 import { EditingMenuController } from "../Components/EditingMenu/EditingMenuController";
 import { GridContainer } from "../Sections/Grid/GridContainer";
+import { InstrumentSelector } from "../Components/InstrumentSelector/InstrumentSelector";
 
 export interface SequencerController {
   toggleIsActiveNote: (p: StepPosition) => void;
