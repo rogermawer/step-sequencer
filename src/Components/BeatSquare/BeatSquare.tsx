@@ -1,3 +1,4 @@
+import { FunctionComponent } from "react";
 import "./BeatSquareStyle.scss";
 
 interface SquareProps {
@@ -5,6 +6,9 @@ interface SquareProps {
   isActive: boolean;
 }
 
-export const BeatSquare = ({ beat, isActive }: SquareProps) => {
+export const BeatSquare: FunctionComponent<SquareProps> = ({
+  beat,
+  isActive,
+}) => {
   return <div className={`beat-square${isActive ? " active" : ""}`}></div>;
 };

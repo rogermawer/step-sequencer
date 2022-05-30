@@ -1,3 +1,4 @@
+import { FunctionComponent } from "react";
 import { BeatSquare } from "../BeatSquare/BeatSquare";
 import "./BeatTrackerStyle.scss";
 
@@ -6,7 +7,10 @@ interface BeatTrackerProps {
   beat: number;
 }
 
-export const BeatTrackerRow = ({ steps, beat }: BeatTrackerProps) => (
+export const BeatTrackerRow: FunctionComponent<BeatTrackerProps> = ({
+  steps,
+  beat,
+}) => (
   <div className="beat-tracker">
     <div className="beat-square"></div>
     {[...Array(steps)].map((step, i) => (

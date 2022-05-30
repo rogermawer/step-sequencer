@@ -1,10 +1,8 @@
 import Row, { GridRow, StepPosition } from "../../Components/Row/Row";
 import "./GridStyle.scss";
-import {
-  InstrumentSelector,
-  InstrumentSelectorController,
-} from "../../Components/InstrumentSelector/InstrumentSelector";
+import { InstrumentSelectorController } from "../../Components/InstrumentSelector/InstrumentSelector";
 import { BeatTrackerRow } from "../../Components/BeatTrackerRow/BeatTrackerRow";
+import { FunctionComponent } from "react";
 
 export interface GridController extends InstrumentSelectorController {
   toggleIsActiveNote: (p: StepPosition) => void;
@@ -17,7 +15,12 @@ interface GridProps {
   steps: number;
 }
 
-export const Grid = ({ controller, beat, rows, steps }: GridProps) => (
+export const Grid: FunctionComponent<GridProps> = ({
+  controller,
+  beat,
+  rows,
+  steps,
+}) => (
   <div className="grid">
     <div className="row-container">
       {rows.map((row, i) => (

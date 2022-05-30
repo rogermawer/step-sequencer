@@ -3,7 +3,7 @@ import { GridRow, StepPosition } from "../Components/Row/Row";
 import "../SequencerController/SequencerStyle.scss";
 import { EditingMenuController } from "../Components/EditingMenu/EditingMenuController";
 import { GridContainer } from "../Sections/Grid/GridContainer";
-import { InstrumentSelector } from "../Components/InstrumentSelector/InstrumentSelector";
+import { FunctionComponent } from "react";
 
 export interface SequencerController {
   toggleIsActiveNote: (p: StepPosition) => void;
@@ -20,7 +20,7 @@ interface SequencerProps {
   editingRowIndex: number | null;
 }
 
-export const Sequencer: React.FunctionComponent<SequencerProps> = ({
+export const Sequencer: FunctionComponent<SequencerProps> = ({
   controller,
   rows,
   steps,
