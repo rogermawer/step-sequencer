@@ -1,14 +1,14 @@
-import Square from "../Square/Square";
+import Square, { SquareController } from "../Square/Square";
 import "./RowStyle.scss";
-import { GridController } from "../../Sections/Grid/Grid";
 import {
   Instrument,
-  InstrumentSelector,
   ToneInstrument,
 } from "../InstrumentSelector/InstrumentSelector";
+import { SequencerController } from "../../SequencerController/Sequencer";
 
 interface RowProps {
-  controller: GridController;
+  sequencerController: SequencerController;
+  controller: SquareController;
   row: GridRow;
   beat: number;
 }
@@ -25,18 +25,17 @@ export interface Step {
   synth: ToneInstrument;
 }
 
-export type StepPosition = [string, number];
+export type StepPosition = [rowIndex: number, stepIndex: number];
 
-const Row = ({ controller, row, beat }: RowProps) => (
+const Row = ({ sequencerController, controller, row, beat }: RowProps) => (
   <div className="row">
-    <InstrumentSelector controller={controller} row={row} />
     {row.steps.map((step, i) => (
       <Square
         key={i}
         controller={controller}
         isPlaying={beat === i}
         isActive={step.isActive}
-        stepPosition={[row.note, i]}
+        stepPosition={[row.index, i]}
       />
     ))}
   </div>

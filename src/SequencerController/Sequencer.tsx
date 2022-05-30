@@ -1,39 +1,36 @@
 import { BottomControlContainer } from "../Sections/BottomControls/BottomControlContainer";
-import { GridRow, StepPosition } from "../Components/Row/Row";
+import { GridRow } from "../Components/Row/Row";
 import "../SequencerController/SequencerStyle.scss";
-import { EditingMenuController } from "../Components/EditingMenu/EditingMenuController";
 import { GridContainer } from "../Sections/Grid/GridContainer";
-import { InstrumentSelector } from "../Components/InstrumentSelector/InstrumentSelector";
+import { FunctionComponent } from "react";
+import { EditorContainer } from "../Components/Editor/EditorContainer";
 
 export interface SequencerController {
-  toggleIsActiveNote: (p: StepPosition) => void;
   startSequencer: () => void;
   stopSequencer: () => void;
   updateRows: (row: GridRow) => void;
-  toggleInstrumentSelector: (indexOfRow: number) => void;
 }
 
 interface SequencerProps {
   controller: SequencerController;
   rows: GridRow[];
   steps: number;
-  editingRowIndex: number | null;
 }
 
-export const Sequencer: React.FunctionComponent<SequencerProps> = ({
+export const Sequencer: FunctionComponent<SequencerProps> = ({
   controller,
   rows,
   steps,
-  editingRowIndex,
 }) => (
   <div className="sequencer">
-    {editingRowIndex !== null ? (
-      <EditingMenuController
-        controller={controller}
-        editingRow={rows[editingRowIndex]}
+    <div className="main">
+      <EditorContainer controller={controller} rows={rows} />
+      <GridContainer
+        sequencerController={controller}
+        steps={steps}
+        rows={rows}
       />
-    ) : null}
-    <GridContainer controller={controller} steps={steps} rows={rows} />
+    </div>
     <BottomControlContainer controller={controller} />
   </div>
 );

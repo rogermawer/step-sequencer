@@ -1,3 +1,4 @@
+import { FunctionComponent } from "react";
 import "./SvgIconStyle.scss";
 
 interface SvgIconProps {
@@ -9,7 +10,7 @@ interface SvgIcons {
   [icon: string]: { path: string[]; viewBox: string };
 }
 
-export const SvgIcon = ({ type, onClick }: SvgIconProps) => (
+export const SvgIcon: FunctionComponent<SvgIconProps> = ({ type, onClick }) => (
   <svg className="icon" viewBox={icons[type].viewBox} onClick={onClick}>
     {icons[type].path.map((p, i) => (
       <path key={i} d={p} />

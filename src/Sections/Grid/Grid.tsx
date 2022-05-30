@@ -1,29 +1,35 @@
-import Row, { GridRow, StepPosition } from "../../Components/Row/Row";
+import Row, { GridRow } from "../../Components/Row/Row";
 import "./GridStyle.scss";
-import {
-  InstrumentSelector,
-  InstrumentSelectorController,
-} from "../../Components/InstrumentSelector/InstrumentSelector";
 import { BeatTrackerRow } from "../../Components/BeatTrackerRow/BeatTrackerRow";
-
-export interface GridController extends InstrumentSelectorController {
-  toggleIsActiveNote: (p: StepPosition) => void;
-}
+import { FunctionComponent } from "react";
+import { SequencerController } from "../../SequencerController/Sequencer";
+import { SquareController } from "../../Components/Square/Square";
 
 interface GridProps {
-  controller: GridController;
+  sequencerController: SequencerController;
+  controller: SquareController;
   beat: number;
   rows: GridRow[];
   steps: number;
 }
 
-export const Grid = ({ controller, beat, rows, steps }: GridProps) => (
+export const Grid: FunctionComponent<GridProps> = ({
+  sequencerController,
+  controller,
+  beat,
+  rows,
+  steps,
+}) => (
   <div className="grid">
-    <div className="row-container">
-      {rows.map((row, i) => (
-        <Row key={i} controller={controller} beat={beat} row={row} />
-      ))}
-      <BeatTrackerRow beat={beat} steps={steps} />
-    </div>
+    {rows.map((row, i) => (
+      <Row
+        key={i}
+        sequencerController={sequencerController}
+        controller={controller}
+        beat={beat}
+        row={row}
+      />
+    ))}
+    <BeatTrackerRow beat={beat} steps={steps} />
   </div>
 );

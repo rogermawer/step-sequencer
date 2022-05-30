@@ -1,25 +1,23 @@
+import { FunctionComponent } from "react";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow } from "../Row/Row";
-import "./EditingMenuStyle.scss";
+import "./EditorStyle.scss";
 
-export interface EditingMenuComponentMethods {
+export interface EditorController {
   onChangeInstrument: (instrument: any) => void;
 }
 
-interface EditingMenuControllerProps extends EditingMenuControllerState {
-  controller: EditingMenuComponentMethods;
+interface EditorProps {
+  controller: EditorController;
   editingRow: GridRow;
-}
-
-export interface EditingMenuControllerState {
   instruments: Instrument[];
 }
 
-export const EditingMenu = ({
+export const Editor: FunctionComponent<EditorProps> = ({
   controller,
   editingRow,
   instruments,
-}: EditingMenuControllerProps) => {
+}) => {
   return (
     <div className={`editing-menu${editingRow !== null ? " is-open" : ""}`}>
       <div>Row Note: {editingRow.note}</div>

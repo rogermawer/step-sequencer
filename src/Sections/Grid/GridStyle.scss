@@ -2,6 +2,7 @@
 
 .grid {
     display: flex;
+    flex-direction: column;
 
     .side-controls {
         display: flex;
