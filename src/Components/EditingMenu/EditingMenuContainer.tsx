@@ -1,33 +1,37 @@
 import React from "react";
-import { MembraneSynth, MetalSynth, Sampler, Synth } from "tone";
+import { MembraneSynth, MetalSynth, PolySynth, Sampler } from "tone";
 import { GridRow } from "../Row/Row";
-import { EditingMenu, EditingMenuControllerState } from "./EditingMenu";
+import { EditingMenu } from "./EditingMenu";
 import clap from "../../Common/Samples/clap.mp3";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 
-interface EditingMenuControllerMethods {
+interface EditingMenuContainerController {
   updateRows: (row: GridRow) => void;
 }
 
-interface EditingMenuControllerProps {
-  controller: EditingMenuControllerMethods;
+interface EditingMenuContainerProps {
+  controller: EditingMenuContainerController;
   editingRow: GridRow;
 }
 
-export class EditingMenuController extends React.Component<
-  EditingMenuControllerProps,
-  EditingMenuControllerState
+export interface EditingMenuContainerState {
+  instruments: Instrument[];
+  editingRowIndex: number | null;
+}
+
+export class EditingMenuContainer extends React.Component<
+  EditingMenuContainerProps,
+  EditingMenuContainerState
 > {
-  constructor(props: EditingMenuControllerProps) {
+  constructor(props: EditingMenuContainerProps) {
     super(props);
     this.state = {
       instruments: [
-        { name: "Basic Synth", nickName: "syn", type: new Synth() },
-        { name: "Membrane Synth", nickName: "memb", type: new MembraneSynth() },
-        { name: "Metal Synth", nickName: "mtlSyn", type: new MetalSynth() },
+        { name: "Basic Synth", type: new PolySynth() },
+        { name: "Membrane Synth", type: new MembraneSynth() },
+        { name: "Metal Synth", type: new MetalSynth() },
         {
           name: "Clap",
-          nickName: "clp",
           type: new Sampler({
             urls: {
               A3: clap,
@@ -35,6 +39,7 @@ export class EditingMenuController extends React.Component<
           }),
         },
       ],
+      editingRowIndex: null,
     };
   }
 
@@ -57,6 +62,13 @@ export class EditingMenuController extends React.Component<
       ),
     };
     this.props.controller.updateRows(updatedRow);
+  };
+
+  public toggleInstrumentSelector = (rowIndex: number) => {
+    this.setState({
+      editingRowIndex:
+        this.state.editingRowIndex === rowIndex ? null : rowIndex,
+    });
   };
 
   render() {

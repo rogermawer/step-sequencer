@@ -1,9 +1,12 @@
-import { GridController } from "../../Sections/Grid/Grid";
 import { StepPosition } from "../Row/Row";
 import "./SquareStyle.scss";
 
+export interface SquareController {
+  toggleIsActiveNote: (p: StepPosition) => void;
+}
+
 interface SquareProps {
-  controller: GridController;
+  controller: SquareController;
   isActive: boolean;
   isPlaying: boolean;
   stepPosition: StepPosition;

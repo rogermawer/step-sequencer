@@ -1,4 +1,4 @@
-import { MembraneSynth, MetalSynth, Sampler, Synth } from "tone";
+import { MembraneSynth, MetalSynth, PolySynth, Sampler } from "tone";
 import { SvgIcon } from "../../Common/SvgIcon";
 import "./InstrumentSelectorStyle.scss";
 import { GridRow } from "../Row/Row";
@@ -13,11 +13,10 @@ interface InstrumentSelectorProps {
   row: GridRow;
 }
 
-export type ToneInstrument = Synth | MembraneSynth | MetalSynth | Sampler;
+export type ToneInstrument = PolySynth | MembraneSynth | MetalSynth | Sampler;
 
 export interface Instrument {
   name: string;
-  nickName: string;
   type: ToneInstrument;
 }
 

@@ -1,12 +1,11 @@
 import { BottomControlContainer } from "../Sections/BottomControls/BottomControlContainer";
-import { GridRow, StepPosition } from "../Components/Row/Row";
+import { GridRow } from "../Components/Row/Row";
 import "../SequencerController/SequencerStyle.scss";
-import { EditingMenuController } from "../Components/EditingMenu/EditingMenuController";
 import { GridContainer } from "../Sections/Grid/GridContainer";
 import { FunctionComponent } from "react";
+import { EditingMenuContainer } from "../Components/EditingMenu/EditingMenuContainer";
 
 export interface SequencerController {
-  toggleIsActiveNote: (p: StepPosition) => void;
   startSequencer: () => void;
   stopSequencer: () => void;
   updateRows: (row: GridRow) => void;
@@ -28,12 +27,12 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
 }) => (
   <div className="sequencer">
     {editingRowIndex !== null ? (
-      <EditingMenuController
+      <EditingMenuContainer
         controller={controller}
         editingRow={rows[editingRowIndex]}
       />
     ) : null}
-    <GridContainer controller={controller} steps={steps} rows={rows} />
+    <GridContainer sequencerController={controller} steps={steps} rows={rows} />
     <BottomControlContainer controller={controller} />
   </div>
 );

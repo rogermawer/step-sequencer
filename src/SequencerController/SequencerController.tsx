@@ -1,12 +1,11 @@
 import React from "react";
-import * as Tone from "tone";
-import { Synth } from "tone";
+import { getDestination, PolySynth, Transport } from "tone";
 import { Destination } from "tone/build/esm/core/context/Destination";
 import {
   Instrument,
   ToneInstrument,
 } from "../Components/InstrumentSelector/InstrumentSelector";
-import { GridRow, Step, StepPosition } from "../Components/Row/Row";
+import { GridRow, Step } from "../Components/Row/Row";
 import { Sequencer } from "./Sequencer";
 
 interface SequencerProps {
@@ -16,11 +15,9 @@ interface SequencerProps {
 interface SequencerState {
   steps: number;
   rows: GridRow[];
+  scale: string[];
   editingRowIndex: number | null;
 }
-
-//move to state
-const defaultScale: string[] = ["G4", "E4", "D4", "C4", "A3"];
 
 export class SequencerController extends React.Component<
   SequencerProps,
@@ -31,11 +28,12 @@ export class SequencerController extends React.Component<
     super(props);
     this.state = {
       rows: [],
+      scale: ["G4", "E4", "D4", "C4", "A3"],
       steps: 8,
       editingRowIndex: null,
     };
 
-    this.output = Tone.getDestination();
+    this.output = getDestination();
     this.output.volume.value = -12;
   }
 
@@ -45,12 +43,12 @@ export class SequencerController extends React.Component<
 
   public startSequencer = () => {
     if (this.props.isAudioStarted) {
-      Tone.Transport.start();
+      Transport.start();
     }
   };
 
   public stopSequencer = () => {
-    Tone.Transport.stop();
+    Transport.stop();
   };
 
   private createRowSteps = (instrument: ToneInstrument): Step[] => {
@@ -65,11 +63,10 @@ export class SequencerController extends React.Component<
 
   private createRows = () => {
     let newRows: GridRow[] = [];
-    defaultScale.map((note, index) => {
+    this.state.scale.map((note, index) => {
       const defaultInstrument: Instrument = {
         name: "Basic Synth",
-        nickName: "syn",
-        type: new Synth({
+        type: new PolySynth(undefined, {
           oscillator: { type: "square8" },
         }),
       };
@@ -80,20 +77,6 @@ export class SequencerController extends React.Component<
         steps: this.createRowSteps(defaultInstrument.type),
       });
     });
-    this.setState({ rows: newRows });
-  };
-
-  public toggleIsActiveNote = (position: StepPosition): void => {
-    const newRows = this.state.rows.map((row) =>
-      row.note !== position[0]
-        ? row
-        : {
-            ...row,
-            steps: row.steps.map((step, i) =>
-              i !== position[1] ? step : { ...step, isActive: !step.isActive }
-            ),
-          }
-    );
     this.setState({ rows: newRows });
   };
 

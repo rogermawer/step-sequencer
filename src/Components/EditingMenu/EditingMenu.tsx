@@ -1,22 +1,18 @@
 import { FunctionComponent } from "react";
-import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow } from "../Row/Row";
+import { EditingMenuContainerState } from "./EditingMenuContainer";
 import "./EditingMenuStyle.scss";
 
-export interface EditingMenuComponentMethods {
+export interface EditingMenuController {
   onChangeInstrument: (instrument: any) => void;
 }
 
-interface EditingMenuControllerProps extends EditingMenuControllerState {
-  controller: EditingMenuComponentMethods;
+interface EditingMenuProps extends EditingMenuContainerState {
+  controller: EditingMenuController;
   editingRow: GridRow;
 }
 
-export interface EditingMenuControllerState {
-  instruments: Instrument[];
-}
-
-export const EditingMenu: FunctionComponent<EditingMenuControllerProps> = ({
+export const EditingMenu: FunctionComponent<EditingMenuProps> = ({
   controller,
   editingRow,
   instruments,

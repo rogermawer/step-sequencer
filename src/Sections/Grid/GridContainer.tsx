@@ -1,12 +1,12 @@
 import React from "react";
 import { Transport } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import { GridRow } from "../../Components/Row/Row";
+import { GridRow, StepPosition } from "../../Components/Row/Row";
 import { SequencerController } from "../../SequencerController/Sequencer";
 import { Grid } from "./Grid";
 
 interface GridContainerProps {
-  controller: SequencerController;
+  sequencerController: SequencerController;
   rows: GridRow[];
   steps: number;
 }
@@ -52,7 +52,28 @@ export class GridContainer extends React.Component<
     });
   };
 
+  public toggleIsActiveNote = (position: StepPosition): void => {
+    const { steps, ...oldRow } = this.props.rows[position[0]];
+    const oldStep = steps[position[1]];
+    steps[position[1]] = { ...oldStep, isActive: !oldStep.isActive };
+
+    const newRow = {
+      ...oldRow,
+      steps,
+    };
+
+    this.props.sequencerController.updateRows(newRow);
+  };
+
   render() {
-    return <Grid {...this.props} beat={this.state.beat} />;
+    return (
+      <Grid
+        sequencerController={this.props.sequencerController}
+        controller={this}
+        rows={this.props.rows}
+        steps={this.props.steps}
+        beat={this.state.beat}
+      />
+    );
   }
 }
