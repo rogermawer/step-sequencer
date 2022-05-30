@@ -28,3 +28,8 @@
         display: inline-block;
     }
 }
+
+.selector-container {
+    display: flex;
+    flex-direction: column;
+}

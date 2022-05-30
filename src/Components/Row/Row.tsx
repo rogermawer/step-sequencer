@@ -2,7 +2,6 @@ import Square, { SquareController } from "../Square/Square";
 import "./RowStyle.scss";
 import {
   Instrument,
-  InstrumentSelector,
   ToneInstrument,
 } from "../InstrumentSelector/InstrumentSelector";
 import { SequencerController } from "../../SequencerController/Sequencer";
@@ -30,7 +29,6 @@ export type StepPosition = [rowIndex: number, stepIndex: number];
 
 const Row = ({ sequencerController, controller, row, beat }: RowProps) => (
   <div className="row">
-    <InstrumentSelector controller={sequencerController} row={row} />
     {row.steps.map((step, i) => (
       <Square
         key={i}

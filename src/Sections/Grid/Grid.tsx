@@ -21,17 +21,15 @@ export const Grid: FunctionComponent<GridProps> = ({
   steps,
 }) => (
   <div className="grid">
-    <div className="row-container">
-      {rows.map((row, i) => (
-        <Row
-          key={i}
-          sequencerController={sequencerController}
-          controller={controller}
-          beat={beat}
-          row={row}
-        />
-      ))}
-      <BeatTrackerRow beat={beat} steps={steps} />
-    </div>
+    {rows.map((row, i) => (
+      <Row
+        key={i}
+        sequencerController={sequencerController}
+        controller={controller}
+        beat={beat}
+        row={row}
+      />
+    ))}
+    <BeatTrackerRow beat={beat} steps={steps} />
   </div>
 );

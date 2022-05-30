@@ -16,7 +16,6 @@ interface SequencerState {
   steps: number;
   rows: GridRow[];
   scale: string[];
-  editingRowIndex: number | null;
 }
 
 export class SequencerController extends React.Component<
@@ -30,7 +29,6 @@ export class SequencerController extends React.Component<
       rows: [],
       scale: ["G4", "E4", "D4", "C4", "A3"],
       steps: 8,
-      editingRowIndex: null,
     };
 
     this.output = getDestination();
@@ -84,13 +82,6 @@ export class SequencerController extends React.Component<
     const rows: GridRow[] = [...this.state.rows];
     rows[row.index] = row;
     this.setState({ rows: rows });
-  };
-
-  public toggleInstrumentSelector = (rowIndex: number) => {
-    this.setState({
-      editingRowIndex:
-        this.state.editingRowIndex === rowIndex ? null : rowIndex,
-    });
   };
 
   render() {
