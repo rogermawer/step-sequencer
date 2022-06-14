@@ -18,7 +18,7 @@ interface EditorContainerProps {
 }
 
 export interface EditorContainerState {
-  editingRowIndex: number | null;
+  editingRow: GridRow | null;
 }
 
 const instruments: Instrument[] = [
@@ -42,59 +42,67 @@ export class EditorContainer extends React.Component<
   constructor(props: EditorContainerProps) {
     super(props);
     this.state = {
-      editingRowIndex: null,
+      editingRow: null,
     };
   }
 
-  public onChangeInstrument = (instrument: string) => {
-    const { editingRowIndex } = this.state;
-    const { rows, controller } = this.props;
+  private getInstrument = (instrumentName: string): Instrument => {
+    const index = instruments.findIndex((inst) => inst.name === instrumentName);
+    return instruments[index];
+  };
 
-    if (editingRowIndex === null) {
+  public onChangeInstrument = (instrumentName: string) => {
+    const { editingRow } = this.state;
+    const { controller } = this.props;
+
+    if (editingRow === null) {
       return;
     }
 
-    const selectedInstrument: Instrument = instruments.filter(
-      (inst) => inst.name === instrument
-    )[0];
-    const selectedRow = rows[editingRowIndex];
+    const newInstrument: Instrument = this.getInstrument(instrumentName);
 
     const updatedRow: GridRow = {
-      ...selectedRow,
-      instrument: selectedInstrument,
-      steps: selectedRow.steps.map(
-        (step) =>
-          (step = {
-            ...step,
-            synth: selectedInstrument.type.toDestination(),
-          })
-      ),
+      ...editingRow,
+      instrument: newInstrument,
     };
+    this.setState({ editingRow: updatedRow });
     controller.updateRows(updatedRow);
   };
 
-  public toggleInstrumentSelector = (rowIndex: number) => {
+  public setEnvelopeForRow = (value: string) => {
+    const { editingRow } = this.state;
+    if (editingRow === null) {
+      return;
+    }
+
+    editingRow.instrument.type.set({
+      envelope: { release: parseInt(value) / 10 },
+    });
+    this.setState({ editingRow });
+    this.props.controller.updateRows(editingRow);
+  };
+
+  public toggleInstrumentSelector = (row: GridRow) => {
     this.setState({
-      editingRowIndex:
-        this.state.editingRowIndex === rowIndex ? null : rowIndex,
+      editingRow: this.state.editingRow?.index === row.index ? null : row,
     });
   };
 
   render() {
-    const { editingRowIndex } = this.state;
+    const { editingRow } = this.state;
     const { rows } = this.props;
     return (
       <>
-        {editingRowIndex !== null ? (
+        {editingRow !== null ? (
           <Editor
             controller={this}
             instruments={instruments}
-            editingRow={rows[editingRowIndex]}
+            editingRow={editingRow}
           />
         ) : null}
         <div className="selector-container">
-          {rows.map((row) => (
-            <InstrumentSelector controller={this} row={row} />
+          {rows.map((row, i) => (
+            <InstrumentSelector key={i} controller={this} row={row} />
           ))}
         </div>
       </>

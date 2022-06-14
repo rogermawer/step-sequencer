@@ -1,13 +1,10 @@
 import Square, { SquareController } from "../Square/Square";
 import "./RowStyle.scss";
-import {
-  Instrument,
-  ToneInstrument,
-} from "../InstrumentSelector/InstrumentSelector";
-import { SequencerController } from "../../SequencerController/Sequencer";
+import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { FunctionComponent } from "react";
+import { Envelope } from "../SequencerController/SequencerController";
 
 interface RowProps {
-  sequencerController: SequencerController;
   controller: SquareController;
   row: GridRow;
   beat: number;
@@ -17,17 +14,17 @@ export interface GridRow {
   index: number;
   note: string;
   instrument: Instrument;
+  envelope: Envelope;
   steps: Step[];
 }
 
 export interface Step {
   isActive: boolean;
-  synth: ToneInstrument;
 }
 
 export type StepPosition = [rowIndex: number, stepIndex: number];
 
-const Row = ({ sequencerController, controller, row, beat }: RowProps) => (
+export const Row: FunctionComponent<RowProps> = ({ controller, row, beat }) => (
   <div className="row">
     {row.steps.map((step, i) => (
       <Square
@@ -40,5 +37,3 @@ const Row = ({ sequencerController, controller, row, beat }: RowProps) => (
     ))}
   </div>
 );
-
-export default Row;

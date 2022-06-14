@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.scss";
-import { SequencerController } from "./SequencerController/SequencerController";
 import { start } from "tone";
 import { StartAudioOverlay } from "./Components/StartAudioOverlay/StartAudioOverlay";
+import { SequencerController } from "./Components/SequencerController/SequencerController";
 
 interface AppProps {}
 

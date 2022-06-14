@@ -1,11 +1,8 @@
 import React from "react";
 import { getDestination, PolySynth, Transport } from "tone";
 import { Destination } from "tone/build/esm/core/context/Destination";
-import {
-  Instrument,
-  ToneInstrument,
-} from "../Components/InstrumentSelector/InstrumentSelector";
-import { GridRow, Step } from "../Components/Row/Row";
+import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { GridRow, Step } from "../Row/Row";
 import { Sequencer } from "./Sequencer";
 
 interface SequencerProps {
@@ -16,6 +13,13 @@ interface SequencerState {
   steps: number;
   rows: GridRow[];
   scale: string[];
+}
+
+export interface Envelope {
+  attack: number;
+  decay: number;
+  sustain: number;
+  release: number;
 }
 
 export class SequencerController extends React.Component<
@@ -49,10 +53,9 @@ export class SequencerController extends React.Component<
     Transport.stop();
   };
 
-  private createRowSteps = (instrument: ToneInstrument): Step[] => {
+  private createRowSteps = (): Step[] => {
     const defaultStep: Step = {
       isActive: false,
-      synth: instrument.connect(this.output),
     };
     let defaultSteps: Step[] = [];
     [...Array(this.state.steps)].map(() => defaultSteps.push(defaultStep));
@@ -66,13 +69,19 @@ export class SequencerController extends React.Component<
         name: "Basic Synth",
         type: new PolySynth(undefined, {
           oscillator: { type: "square8" },
-        }),
+        }).connect(this.output),
       };
       return newRows.push({
         index,
         note,
         instrument: defaultInstrument,
-        steps: this.createRowSteps(defaultInstrument.type),
+        envelope: {
+          attack: 0.005,
+          decay: 0.1,
+          sustain: 0.3,
+          release: 1,
+        },
+        steps: this.createRowSteps(),
       });
     });
     this.setState({ rows: newRows });
