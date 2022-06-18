@@ -2,7 +2,6 @@ import Square, { SquareController } from "../Square/Square";
 import "./RowStyle.scss";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { FunctionComponent } from "react";
-import { Envelope } from "../SequencerController/SequencerController";
 
 interface RowProps {
   controller: SquareController;
@@ -14,7 +13,6 @@ export interface GridRow {
   index: number;
   note: string;
   instrument: Instrument;
-  envelope: Envelope;
   steps: Step[];
 }
 

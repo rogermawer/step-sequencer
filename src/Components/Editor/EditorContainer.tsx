@@ -1,8 +1,6 @@
 import React from "react";
-import { MembraneSynth, MetalSynth, PolySynth, Sampler } from "tone";
 import { GridRow } from "../Row/Row";
 import { Editor } from "./Editor";
-import clap from "../../Common/Samples/clap.mp3";
 import {
   Instrument,
   InstrumentSelector,
@@ -15,25 +13,12 @@ interface EditorContainerController {
 interface EditorContainerProps {
   controller: EditorContainerController;
   rows: GridRow[];
+  instruments: Instrument[];
 }
 
 export interface EditorContainerState {
   editingRow: GridRow | null;
 }
-
-const instruments: Instrument[] = [
-  { name: "Basic Synth", type: new PolySynth() },
-  { name: "Membrane Synth", type: new MembraneSynth() },
-  { name: "Metal Synth", type: new MetalSynth() },
-  {
-    name: "Clap",
-    type: new Sampler({
-      urls: {
-        A3: clap,
-      },
-    }),
-  },
-];
 
 export class EditorContainer extends React.Component<
   EditorContainerProps,
@@ -46,10 +31,8 @@ export class EditorContainer extends React.Component<
     };
   }
 
-  private getInstrument = (instrumentName: string): Instrument => {
-    const index = instruments.findIndex((inst) => inst.name === instrumentName);
-    return instruments[index];
-  };
+  private getInstrument = (instrumentName: string): Instrument | undefined =>
+    this.props.instruments.find((inst) => inst.name === instrumentName);
 
   public onChangeInstrument = (instrumentName: string) => {
     const { editingRow } = this.state;
@@ -59,7 +42,8 @@ export class EditorContainer extends React.Component<
       return;
     }
 
-    const newInstrument: Instrument = this.getInstrument(instrumentName);
+    const newInstrument: Instrument =
+      this.getInstrument(instrumentName) ?? this.props.instruments[0];
 
     const updatedRow: GridRow = {
       ...editingRow,
@@ -96,7 +80,7 @@ export class EditorContainer extends React.Component<
         {editingRow !== null ? (
           <Editor
             controller={this}
-            instruments={instruments}
+            instruments={this.props.instruments}
             editingRow={editingRow}
           />
         ) : null}

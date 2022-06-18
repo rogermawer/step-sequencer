@@ -35,12 +35,5 @@ export const Editor: FunctionComponent<EditorProps> = ({
         ))}
       </select>
     </div>
-    <Slider
-      label="release"
-      value={editingRow.envelope.release}
-      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-        controller.setEnvelopeForRow(e.target.value)
-      }
-    />
   </div>
 );
