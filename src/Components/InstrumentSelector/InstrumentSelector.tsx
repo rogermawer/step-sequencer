@@ -5,7 +5,7 @@ import { GridRow } from "../Row/Row";
 import { FunctionComponent } from "react";
 
 export interface InstrumentSelectorController {
-  toggleInstrumentSelector: (indexOfRow: number) => void;
+  toggleInstrumentSelector: (row: GridRow) => void;
 }
 
 interface InstrumentSelectorProps {
@@ -13,7 +13,7 @@ interface InstrumentSelectorProps {
   row: GridRow;
 }
 
-export type ToneInstrument = PolySynth | MembraneSynth | MetalSynth | Sampler;
+export type ToneInstrument = MetalSynth | MembraneSynth | PolySynth | Sampler;
 
 export interface Instrument {
   name: string;
@@ -26,7 +26,7 @@ export const InstrumentSelector: FunctionComponent<InstrumentSelectorProps> = ({
 }) => (
   <div className="selector-button">
     <SvgIcon
-      onClick={() => controller.toggleInstrumentSelector(row.index)}
+      onClick={() => controller.toggleInstrumentSelector(row)}
       type="piano"
     />
   </div>

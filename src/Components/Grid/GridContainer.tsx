@@ -1,8 +1,8 @@
 import React from "react";
 import { Transport } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import { GridRow, StepPosition } from "../../Components/Row/Row";
-import { SequencerController } from "../../SequencerController/Sequencer";
+import { GridRow, StepPosition } from "../Row/Row";
+import { SequencerController } from "../SequencerController/Sequencer";
 import { Grid } from "./Grid";
 
 interface GridContainerProps {
@@ -47,7 +47,7 @@ export class GridContainer extends React.Component<
     // eslint-disable-next-line array-callback-return
     this.props.rows.map((row) => {
       if (row.steps[beat].isActive) {
-        row.steps[beat].synth.triggerAttackRelease(row.note, "8n", time);
+        row.instrument.type.triggerAttackRelease(row.note, "8n", time);
       }
     });
   };
@@ -68,7 +68,6 @@ export class GridContainer extends React.Component<
   render() {
     return (
       <Grid
-        sequencerController={this.props.sequencerController}
         controller={this}
         rows={this.props.rows}
         steps={this.props.steps}
