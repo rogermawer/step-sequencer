@@ -11,7 +11,7 @@ module.exports = {
       directory: path.join(__dirname, "public"),
     },
     compress: true,
-    port: 3000,
+    port: process.env.PORT || 3000,
     client: {
       overlay: {
         errors: false,
