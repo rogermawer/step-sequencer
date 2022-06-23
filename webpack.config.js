@@ -18,6 +18,7 @@ module.exports = {
         warnings: false,
       },
     },
+    allowedHosts: "all",
   },
   devtool: "inline-source-map",
   module: {
