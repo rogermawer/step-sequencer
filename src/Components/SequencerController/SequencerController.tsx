@@ -70,7 +70,7 @@ export class SequencerController extends React.Component<
           }),
         },
         {
-          name: "Basic Synth",
+          name: "Tone",
           type: new PolySynth(undefined, { oscillator: { type: "square8" } }),
         },
       ],

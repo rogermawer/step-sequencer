@@ -7,7 +7,6 @@
     left: 0;
     width: $editing-menu-width;
     height: 100%;
-    box-shadow: $square-box-shadow;
     padding: $standard-padding;
 
     &.is-open {
@@ -31,4 +30,10 @@
 .selector-container {
     display: flex;
     flex-direction: column;
+
+    .selector-info {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
 }

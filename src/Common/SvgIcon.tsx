@@ -3,6 +3,7 @@ import "./SvgIconStyle.scss";
 
 interface SvgIconProps {
   type: string;
+  className?: string;
   onClick?: () => void;
 }
 
@@ -10,8 +11,16 @@ interface SvgIcons {
   [icon: string]: { path: string[]; viewBox: string };
 }
 
-export const SvgIcon: FunctionComponent<SvgIconProps> = ({ type, onClick }) => (
-  <svg className="icon" viewBox={icons[type].viewBox} onClick={onClick}>
+export const SvgIcon: FunctionComponent<SvgIconProps> = ({
+  type,
+  className,
+  onClick,
+}) => (
+  <svg
+    className={`icon${className ? ` ${className}` : ""}`}
+    viewBox={icons[type].viewBox}
+    onClick={onClick}
+  >
     {icons[type].path.map((p, i) => (
       <path key={i} d={p} />
     ))}

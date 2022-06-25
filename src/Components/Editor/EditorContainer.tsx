@@ -86,7 +86,12 @@ export class EditorContainer extends React.Component<
         ) : null}
         <div className="selector-container">
           {rows.map((row, i) => (
-            <InstrumentSelector key={i} controller={this} row={row} />
+            <InstrumentSelector
+              key={i}
+              controller={this}
+              row={row}
+              isEditing={row.index === this.state.editingRow?.index}
+            />
           ))}
         </div>
       </>

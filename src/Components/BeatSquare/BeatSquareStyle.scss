@@ -3,9 +3,11 @@
 .beat-square {
     width: $square-size;
     height: $standard-padding;
+
+    &.active {
+        background-color: $current-beat-color;
+    }
 }
 
 
-.active {
-    background-color: $current-beat-color;
-}
+
