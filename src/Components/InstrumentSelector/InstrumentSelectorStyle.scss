@@ -7,7 +7,13 @@
     width: $square-size;
     height: $square-size;
 
+    .inst-name {
+        margin-right: $standard-padding;
+    }
+
     .icon {
-        padding: $standard-padding;
+        &.active {
+            fill: $orange;
+        }
     }
 }

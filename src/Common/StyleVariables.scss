@@ -1,6 +1,13 @@
-$active-color: rgb(218, 244, 253);
-$current-beat-color: rgb(139, 253, 124);
-$grid-border-color: coral;
+$grey: #EEEEEE;
+$green: #59cece;
+$saphire: #19647E;
+$orange: #F3B61F;
+$hot-green:#27FB6B;
+$ivory: #f4f4f3;
+
+$active-color: $hot-green;
+$current-beat-color: $orange;
+$grid-border-color: $saphire;
 
 $square-size: 100px;
 $square-border-radius: 5px;
