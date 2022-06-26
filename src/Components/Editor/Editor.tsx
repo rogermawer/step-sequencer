@@ -1,11 +1,12 @@
-import { ChangeEvent, FunctionComponent } from "react";
-import { Slider } from "../../Common/Slider/Slider";
+import { Selector } from "../../Common/Selector/Selector";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow } from "../Row/Row";
 import "./EditorStyle.scss";
 
 export interface EditorController {
-  onChangeInstrument: (instrument: any) => void;
+  onChangeInstrument: (instrument: string) => void;
+  onChangeNote: (note: string) => void;
+  onChangeOctave: (octave: string) => void;
   setEnvelopeForRow: (v: string) => void;
 }
 
@@ -15,25 +16,34 @@ interface EditorProps {
   instruments: Instrument[];
 }
 
-export const Editor: FunctionComponent<EditorProps> = ({
+const possibleNotes = ["C", "D", "E", "F", "G", "A", "B"];
+const possibleOctaves = [1, 2, 3, 4, 5];
+
+export const Editor: React.FC<EditorProps> = ({
   controller,
   editingRow,
   instruments,
 }) => (
   <div className={`editing-menu${editingRow !== null ? " is-open" : ""}`}>
-    <div>Row Note: {editingRow.note}</div>
-    <div>
-      Current Instrument:
-      <select
-        value={editingRow.instrument.name}
-        onChange={(e) => controller.onChangeInstrument(e.target.value)}
-      >
-        {instruments.map((instrument, index) => (
-          <option key={index} value={instrument.name}>
-            {instrument.name}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Selector
+      label="Row Note"
+      value={editingRow.note}
+      items={possibleNotes.map((note) => ({ name: note }))}
+      onChange={controller.onChangeNote}
+    />
+
+    <Selector
+      label="Octave"
+      value={editingRow.octave}
+      items={possibleOctaves.map((octave) => ({ name: octave }))}
+      onChange={controller.onChangeOctave}
+    />
+
+    <Selector
+      label="Current Instrument"
+      value={editingRow.instrument.name}
+      items={instruments.map((inst) => ({ name: inst.name }))}
+      onChange={controller.onChangeInstrument}
+    />
   </div>
 );

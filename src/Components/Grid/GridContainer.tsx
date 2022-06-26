@@ -47,7 +47,11 @@ export class GridContainer extends React.Component<
     // eslint-disable-next-line array-callback-return
     this.props.rows.map((row) => {
       if (row.steps[beat].isActive) {
-        row.instrument.type.triggerAttackRelease(row.note, "8n", time);
+        row.instrument.type.triggerAttackRelease(
+          row.note + row.octave,
+          "8n",
+          time
+        );
       }
     });
   };

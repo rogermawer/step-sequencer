@@ -53,8 +53,42 @@ export class EditorContainer extends React.Component<
     controller.updateRows(updatedRow);
   };
 
+  public onChangeNote = (note: string) => {
+    const { editingRow } = this.state;
+    const { controller } = this.props;
+
+    if (editingRow === null) {
+      return;
+    }
+
+    const updatedRow: GridRow = {
+      ...editingRow,
+      note,
+    };
+    this.setState({ editingRow: updatedRow });
+    controller.updateRows(updatedRow);
+  };
+
+  public onChangeOctave = (octave: string) => {
+    const { editingRow } = this.state;
+    const { controller } = this.props;
+
+    if (editingRow === null) {
+      return;
+    }
+
+    const updatedRow: GridRow = {
+      ...editingRow,
+      octave: parseInt(octave),
+    };
+    this.setState({ editingRow: updatedRow });
+    controller.updateRows(updatedRow);
+  };
+
   public setEnvelopeForRow = (value: string) => {
     const { editingRow } = this.state;
+    const { controller } = this.props;
+
     if (editingRow === null) {
       return;
     }
@@ -63,7 +97,7 @@ export class EditorContainer extends React.Component<
       envelope: { release: parseInt(value) / 10 },
     });
     this.setState({ editingRow });
-    this.props.controller.updateRows(editingRow);
+    controller.updateRows(editingRow);
   };
 
   public toggleInstrumentSelector = (row: GridRow) => {

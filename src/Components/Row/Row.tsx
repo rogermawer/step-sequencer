@@ -12,6 +12,7 @@ interface RowProps {
 export interface GridRow {
   index: number;
   note: string;
+  octave: number;
   instrument: Instrument;
   steps: Step[];
 }

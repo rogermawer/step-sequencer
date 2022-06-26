@@ -42,14 +42,14 @@ export class SequencerController extends React.Component<
     super(props);
     this.state = {
       rows: [],
-      scale: ["G4", "E4", "D4", "C4", "A3"],
+      scale: ["G", "E", "D", "C", "A"],
       steps: 8,
       instruments: [
         {
           name: "Clap",
           type: new Sampler({
             urls: {
-              A3: clap,
+              C3: clap,
             },
           }),
         },
@@ -57,7 +57,7 @@ export class SequencerController extends React.Component<
           name: "Hat",
           type: new Sampler({
             urls: {
-              A3: hat,
+              C3: hat,
             },
           }),
         },
@@ -65,7 +65,7 @@ export class SequencerController extends React.Component<
           name: "Kick",
           type: new Sampler({
             urls: {
-              A3: kick,
+              C3: kick,
             },
           }),
         },
@@ -111,6 +111,7 @@ export class SequencerController extends React.Component<
       return newRows.push({
         index,
         note,
+        octave: 3,
         instrument: defaultInstrument,
         steps: this.createRowSteps(),
       });
