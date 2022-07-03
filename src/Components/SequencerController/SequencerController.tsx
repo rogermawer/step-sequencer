@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  getDestination,
-  MembraneSynth,
-  MetalSynth,
-  PolySynth,
-  Sampler,
-  Transport,
-} from "tone";
+import { getDestination, PolySynth, Sampler, Transport } from "tone";
 import { Destination } from "tone/build/esm/core/context/Destination";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, Step } from "../Row/Row";
@@ -24,6 +17,7 @@ interface SequencerState {
   rows: GridRow[];
   scale: string[];
   instruments: Instrument[];
+  bpm: number;
 }
 
 export interface Envelope {
@@ -44,6 +38,7 @@ export class SequencerController extends React.Component<
       rows: [],
       scale: ["G", "E", "D", "C", "A"],
       steps: 8,
+      bpm: 120,
       instruments: [
         {
           name: "Clap",
@@ -124,6 +119,12 @@ export class SequencerController extends React.Component<
     const rows: GridRow[] = [...this.state.rows];
     rows[row.index] = row;
     this.setState({ rows: rows });
+  };
+
+  public handleChangeTempo = (bpmString: string) => {
+    const bpm = parseInt(bpmString);
+    Transport.set({ bpm });
+    this.setState({ bpm });
   };
 
   render() {

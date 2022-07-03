@@ -1,15 +1,16 @@
-import { BottomControlContainer } from "../BottomControls/BottomControlContainer";
 import { GridRow } from "../Row/Row";
 import "./SequencerStyle.scss";
 import { GridContainer } from "../Grid/GridContainer";
 import { FunctionComponent } from "react";
 import { EditorContainer } from "../Editor/EditorContainer";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
 
 export interface SequencerController {
   startSequencer: () => void;
   stopSequencer: () => void;
   updateRows: (row: GridRow) => void;
+  handleChangeTempo: (bpm: string) => void;
 }
 
 interface SequencerProps {
@@ -17,6 +18,7 @@ interface SequencerProps {
   rows: GridRow[];
   steps: number;
   instruments: Instrument[];
+  bpm: number;
 }
 
 export const Sequencer: FunctionComponent<SequencerProps> = ({
@@ -24,6 +26,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   rows,
   steps,
   instruments,
+  bpm,
 }) => (
   <div className="sequencer">
     <div className="main">
@@ -38,6 +41,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
         rows={rows}
       />
     </div>
-    <BottomControlContainer controller={controller} />
+    <BottomControlsComponent controller={controller} bpm={bpm} />
   </div>
 );

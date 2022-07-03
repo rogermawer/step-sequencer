@@ -2,6 +2,7 @@
 
 .bottom-controls {
     display: flex;
+    flex-direction: column;
 
     .icon {
         fill: $saphire;
