@@ -1,16 +1,11 @@
 import React from "react";
 import { Slider } from "../../Common/Slider/Slider";
 import { SvgIcon } from "../../Common/SvgIcon";
+import { GridController } from "../Grid/Grid";
 import "./BottomControlsStyle.scss";
 
-export interface ControlButtonController {
-  startSequencer: () => void;
-  stopSequencer: () => void;
-  handleChangeTempo: (tempo: string) => void;
-}
-
 interface BottomControlContainerProps {
-  controller: ControlButtonController;
+  controller: GridController;
   bpm: number;
 }
 

@@ -2,10 +2,5 @@
 
 .sequencer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .main {
-        display: flex;
-    }
+    justify-content: center;
 }

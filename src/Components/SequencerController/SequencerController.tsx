@@ -17,7 +17,6 @@ interface SequencerState {
   rows: GridRow[];
   scale: string[];
   instruments: Instrument[];
-  bpm: number;
 }
 
 export interface Envelope {
@@ -38,7 +37,6 @@ export class SequencerController extends React.Component<
       rows: [],
       scale: ["G", "E", "D", "C", "A"],
       steps: 8,
-      bpm: 120,
       instruments: [
         {
           name: "Clap",
@@ -79,16 +77,6 @@ export class SequencerController extends React.Component<
     this.createRows();
   }
 
-  public startSequencer = () => {
-    if (this.props.isAudioStarted) {
-      Transport.start();
-    }
-  };
-
-  public stopSequencer = () => {
-    Transport.stop();
-  };
-
   private createRowSteps = (): Step[] => {
     const defaultStep: Step = {
       isActive: false,
@@ -121,13 +109,13 @@ export class SequencerController extends React.Component<
     this.setState({ rows: rows });
   };
 
-  public handleChangeTempo = (bpmString: string) => {
-    const bpm = parseInt(bpmString);
-    Transport.set({ bpm });
-    this.setState({ bpm });
-  };
-
   render() {
-    return <Sequencer controller={this} {...this.state} />;
+    return (
+      <Sequencer
+        controller={this}
+        {...this.state}
+        isAudioStarted={this.props.isAudioStarted}
+      />
+    );
   }
 }
