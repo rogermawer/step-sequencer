@@ -6,13 +6,15 @@ import { SequencerController } from "../SequencerController/Sequencer";
 import { Grid } from "./Grid";
 
 interface GridContainerProps {
-  sequencerController: SequencerController;
+  controller: SequencerController;
   rows: GridRow[];
   steps: number;
+  isAudioStarted: boolean;
 }
 
 interface GridContainerState {
   beat: number;
+  bpm: number;
 }
 
 export class GridContainer extends React.Component<
@@ -23,6 +25,7 @@ export class GridContainer extends React.Component<
     super(props);
     this.state = {
       beat: 0,
+      bpm: 100,
     };
   }
 
@@ -31,10 +34,20 @@ export class GridContainer extends React.Component<
   }
 
   private setSequencerData = () => {
-    Transport.bpm.value = 100;
+    Transport.bpm.value = this.state.bpm;
     Transport.setLoopPoints(0, "1m");
     Transport.loop = true;
     Transport.scheduleRepeat(this.getAndSetBeat, "8n");
+  };
+
+  public startSequencer = () => {
+    if (this.props.isAudioStarted) {
+      Transport.start();
+    }
+  };
+
+  public stopSequencer = () => {
+    Transport.stop();
   };
 
   private getAndSetBeat = (time: Time) => {
@@ -43,8 +56,7 @@ export class GridContainer extends React.Component<
     this.setState({ beat: currentBeat });
   };
 
-  private playRow = (beat: number, time: Time) => {
-    // eslint-disable-next-line array-callback-return
+  private playRow = (beat: number, time: Time) =>
     this.props.rows.map((row) => {
       if (row.steps[beat].isActive) {
         row.instrument.type.triggerAttackRelease(
@@ -54,19 +66,26 @@ export class GridContainer extends React.Component<
         );
       }
     });
-  };
 
   public toggleIsActiveNote = (position: StepPosition): void => {
-    const { steps, ...oldRow } = this.props.rows[position[0]];
-    const oldStep = steps[position[1]];
-    steps[position[1]] = { ...oldStep, isActive: !oldStep.isActive };
+    console.log(position);
+    const { steps, ...oldRow } = this.props.rows[position.rowIndex];
+    steps[position.stepIndex] = {
+      isActive: !steps[position.stepIndex].isActive,
+    };
 
     const newRow = {
       ...oldRow,
       steps,
     };
 
-    this.props.sequencerController.updateRows(newRow);
+    this.props.controller.updateRows(newRow);
+  };
+
+  public handleChangeTempo = (bpmString: string) => {
+    const bpm = parseInt(bpmString);
+    Transport.set({ bpm });
+    this.setState({ bpm });
   };
 
   render() {
@@ -75,7 +94,7 @@ export class GridContainer extends React.Component<
         controller={this}
         rows={this.props.rows}
         steps={this.props.steps}
-        beat={this.state.beat}
+        {...this.state}
       />
     );
   }
