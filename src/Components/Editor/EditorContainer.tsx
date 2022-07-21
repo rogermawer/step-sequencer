@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { GridRow } from "../Row/Row";
 import { Editor } from "./Editor";
 import {
@@ -20,43 +20,33 @@ export interface EditorContainerState {
   editingRow: GridRow | null;
 }
 
-export class EditorContainer extends React.Component<
-  EditorContainerProps,
-  EditorContainerState
-> {
-  constructor(props: EditorContainerProps) {
-    super(props);
-    this.state = {
-      editingRow: null,
-    };
-  }
+export const EditorContainer: React.FC<EditorContainerProps> = ({
+  controller,
+  rows,
+  instruments,
+}) => {
+  const [editingRow, setEditingRow] = useState<GridRow | null>(null);
 
-  private getInstrument = (instrumentName: string): Instrument | undefined =>
-    this.props.instruments.find((inst) => inst.name === instrumentName);
+  const getInstrument = (instrumentName: string): Instrument | undefined =>
+    instruments.find((inst) => inst.name === instrumentName);
 
-  public onChangeInstrument = (instrumentName: string) => {
-    const { editingRow } = this.state;
-    const { controller } = this.props;
-
+  const onChangeInstrument = (instrumentName: string) => {
     if (editingRow === null) {
       return;
     }
 
     const newInstrument: Instrument =
-      this.getInstrument(instrumentName) ?? this.props.instruments[0];
+      getInstrument(instrumentName) ?? instruments[0];
 
     const updatedRow: GridRow = {
       ...editingRow,
       instrument: newInstrument,
     };
-    this.setState({ editingRow: updatedRow });
+    setEditingRow(updatedRow);
     controller.updateRows(updatedRow);
   };
 
-  public onChangeNote = (note: string) => {
-    const { editingRow } = this.state;
-    const { controller } = this.props;
-
+  const onChangeNote = (note: string) => {
     if (editingRow === null) {
       return;
     }
@@ -65,14 +55,11 @@ export class EditorContainer extends React.Component<
       ...editingRow,
       note,
     };
-    this.setState({ editingRow: updatedRow });
+    setEditingRow(updatedRow);
     controller.updateRows(updatedRow);
   };
 
-  public onChangeOctave = (octave: string) => {
-    const { editingRow } = this.state;
-    const { controller } = this.props;
-
+  const onChangeOctave = (octave: string) => {
     if (editingRow === null) {
       return;
     }
@@ -81,54 +68,33 @@ export class EditorContainer extends React.Component<
       ...editingRow,
       octave: parseInt(octave),
     };
-    this.setState({ editingRow: updatedRow });
+    setEditingRow(updatedRow);
     controller.updateRows(updatedRow);
   };
 
-  public setEnvelopeForRow = (value: string) => {
-    const { editingRow } = this.state;
-    const { controller } = this.props;
-
-    if (editingRow === null) {
-      return;
-    }
-
-    editingRow.instrument.type.set({
-      envelope: { release: parseInt(value) / 10 },
-    });
-    this.setState({ editingRow });
-    controller.updateRows(editingRow);
+  const toggleInstrumentSelector = (row: GridRow) => {
+    setEditingRow(editingRow?.index === row.index ? null : row);
   };
 
-  public toggleInstrumentSelector = (row: GridRow) => {
-    this.setState({
-      editingRow: this.state.editingRow?.index === row.index ? null : row,
-    });
-  };
-
-  render() {
-    const { editingRow } = this.state;
-    const { rows } = this.props;
-    return (
-      <>
-        {editingRow !== null ? (
-          <Editor
-            controller={this}
-            instruments={this.props.instruments}
-            editingRow={editingRow}
+  return (
+    <>
+      {editingRow !== null ? (
+        <Editor
+          controller={{ onChangeNote, onChangeOctave, onChangeInstrument }}
+          instruments={instruments}
+          editingRow={editingRow}
+        />
+      ) : null}
+      <div className="selector-container">
+        {rows.map((row, i) => (
+          <InstrumentSelector
+            key={i}
+            controller={{ toggleInstrumentSelector }}
+            row={row}
+            isEditing={row.index === editingRow?.index}
           />
-        ) : null}
-        <div className="selector-container">
-          {rows.map((row, i) => (
-            <InstrumentSelector
-              key={i}
-              controller={this}
-              row={row}
-              isEditing={row.index === this.state.editingRow?.index}
-            />
-          ))}
-        </div>
-      </>
-    );
-  }
-}
+        ))}
+      </div>
+    </>
+  );
+};

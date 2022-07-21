@@ -7,7 +7,6 @@ export interface EditorController {
   onChangeInstrument: (instrument: string) => void;
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
-  setEnvelopeForRow: (v: string) => void;
 }
 
 interface EditorProps {
