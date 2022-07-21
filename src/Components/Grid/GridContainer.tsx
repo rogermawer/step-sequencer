@@ -68,7 +68,6 @@ export class GridContainer extends React.Component<
     });
 
   public toggleIsActiveNote = (position: StepPosition): void => {
-    console.log(position);
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
     steps[position.stepIndex] = {
       isActive: !steps[position.stepIndex].isActive,

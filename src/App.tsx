@@ -1,36 +1,23 @@
-import React from "react";
+import { useState } from "react";
 import { start } from "tone";
 import { StartAudioOverlay } from "./Components/StartAudioOverlay/StartAudioOverlay";
 import { SequencerController } from "./Components/SequencerController/SequencerController";
 import "./App.scss";
 
-interface AppProps {}
+export const App: React.FC = () => {
+  const [isAudioStarted, setIsAudioStarted] = useState<boolean>(false);
 
-interface AppState {
-  isAudioStarted: boolean;
-}
-
-export class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      isAudioStarted: false,
-    };
-  }
-
-  public onStartAudio = () => {
+  const onStartAudio = () => {
     start();
-    this.setState({ isAudioStarted: true });
+    setIsAudioStarted(true);
   };
 
-  render() {
-    return (
-      <div className="App">
-        {!this.state.isAudioStarted ? (
-          <StartAudioOverlay controller={this} />
-        ) : null}
-        <SequencerController {...this.state} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      {!isAudioStarted ? (
+        <StartAudioOverlay controller={{ onStartAudio }} />
+      ) : null}
+      <SequencerController isAudioStarted={isAudioStarted} />
+    </div>
+  );
+};
