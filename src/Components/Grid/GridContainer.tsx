@@ -69,9 +69,10 @@ export class GridContainer extends React.Component<
 
   public toggleIsActiveNote = (position: StepPosition): void => {
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
+    const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
-      ...steps[position.stepIndex],
-      isActive: !steps[position.stepIndex].isActive,
+      ...step,
+      isActive: !step.isActive,
     };
 
     const newRow = {
@@ -85,9 +86,10 @@ export class GridContainer extends React.Component<
   public onSplitSquare = (position: StepPosition, e: SyntheticEvent): void => {
     e.preventDefault();
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
+    const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
-      ...steps[position.stepIndex],
-      isSplit: !steps[position.stepIndex].isSplit,
+      ...step,
+      isSplit: !step.isSplit,
     };
 
     const newRow = {
