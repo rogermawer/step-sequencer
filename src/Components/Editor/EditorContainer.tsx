@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { GridRow } from "../Row/Row";
 import { Editor } from "./Editor";
-import {
-  Instrument,
-  InstrumentSelector,
-} from "../InstrumentSelector/InstrumentSelector";
+import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 
 interface EditorContainerController {
   updateRows: (row: GridRow) => void;
@@ -72,29 +69,21 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
     controller.updateRows(updatedRow);
   };
 
-  const toggleInstrumentSelector = (row: GridRow) => {
+  const onOpenEditor = (row: GridRow) => {
     setEditingRow(editingRow?.index === row.index ? null : row);
   };
 
   return (
-    <>
-      {editingRow !== null ? (
-        <Editor
-          controller={{ onChangeNote, onChangeOctave, onChangeInstrument }}
-          instruments={instruments}
-          editingRow={editingRow}
-        />
-      ) : null}
-      <div className="selector-container">
-        {rows.map((row, i) => (
-          <InstrumentSelector
-            key={i}
-            controller={{ toggleInstrumentSelector }}
-            row={row}
-            isEditing={row.index === editingRow?.index}
-          />
-        ))}
-      </div>
-    </>
+    <Editor
+      controller={{
+        onChangeNote,
+        onChangeOctave,
+        onChangeInstrument,
+        onOpenEditor,
+      }}
+      instruments={instruments}
+      editingRow={editingRow}
+      rows={rows}
+    />
   );
 };

@@ -5,7 +5,7 @@ import { FunctionComponent } from "react";
 import "./InstrumentSelectorStyle.scss";
 
 export interface InstrumentSelectorController {
-  toggleInstrumentSelector: (row: GridRow) => void;
+  onOpenEditor: (row: GridRow) => void;
 }
 
 interface InstrumentSelectorProps {
@@ -30,7 +30,7 @@ export const InstrumentSelector: FunctionComponent<InstrumentSelectorProps> = ({
     <span className="inst-name">{row.instrument.name}</span>
     <SvgIcon
       className={isEditing ? "active" : ""}
-      onClick={() => controller.toggleInstrumentSelector(row)}
+      onClick={() => controller.onOpenEditor(row)}
       type="piano"
     />
   </div>

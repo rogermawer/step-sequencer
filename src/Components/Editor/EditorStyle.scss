@@ -26,6 +26,7 @@
 .selector-container {
     display: flex;
     flex-direction: column;
+    margin-right: $standard-padding;
 
     .selector-info {
         display: flex;
