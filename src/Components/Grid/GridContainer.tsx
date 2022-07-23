@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Transport } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import { GridRow, StepPosition } from "../Row/Row";
@@ -70,7 +70,24 @@ export class GridContainer extends React.Component<
   public toggleIsActiveNote = (position: StepPosition): void => {
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
     steps[position.stepIndex] = {
+      ...steps[position.stepIndex],
       isActive: !steps[position.stepIndex].isActive,
+    };
+
+    const newRow = {
+      ...oldRow,
+      steps,
+    };
+
+    this.props.controller.updateRows(newRow);
+  };
+
+  public onSplitSquare = (position: StepPosition, e: SyntheticEvent): void => {
+    e.preventDefault();
+    const { steps, ...oldRow } = this.props.rows[position.rowIndex];
+    steps[position.stepIndex] = {
+      ...steps[position.stepIndex],
+      isSplit: !steps[position.stepIndex].isSplit,
     };
 
     const newRow = {

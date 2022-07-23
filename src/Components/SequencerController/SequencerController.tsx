@@ -80,6 +80,7 @@ export class SequencerController extends React.Component<
   private createRowSteps = (): Step[] => {
     const defaultStep: Step = {
       isActive: false,
+      isSplit: false,
     };
     let defaultSteps: Step[] = [];
     [...Array(this.state.steps)].map(() => defaultSteps.push(defaultStep));

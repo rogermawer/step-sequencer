@@ -1,4 +1,4 @@
-import Square, { SquareController } from "../Square/Square";
+import { Square } from "../Square/Square";
 import "./RowStyle.scss";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { FunctionComponent } from "react";
@@ -20,6 +20,7 @@ export interface GridRow {
 
 export interface Step {
   isActive: boolean;
+  isSplit: boolean;
 }
 
 export type StepPosition = { rowIndex: number; stepIndex: number };
@@ -32,6 +33,7 @@ export const Row: FunctionComponent<RowProps> = ({ controller, row, beat }) => (
         controller={controller}
         isPlaying={beat === i}
         isActive={step.isActive}
+        isSplit={step.isSplit}
         stepPosition={{ rowIndex: row.index, stepIndex: i }}
       />
     ))}
