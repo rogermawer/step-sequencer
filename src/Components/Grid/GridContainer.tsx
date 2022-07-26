@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from "react";
-import { Transport } from "tone";
+import * as Tone from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import { GridRow, StepPosition } from "../Row/Row";
 import { SequencerController } from "../SequencerController/Sequencer";
@@ -34,36 +34,52 @@ export class GridContainer extends React.Component<
   }
 
   private setSequencerData = () => {
-    Transport.bpm.value = this.state.bpm;
-    Transport.setLoopPoints(0, "1m");
-    Transport.loop = true;
-    Transport.scheduleRepeat(this.getAndSetBeat, "8n");
+    Tone.Transport.bpm.value = this.state.bpm;
+    Tone.Transport.setLoopPoints(0, "1m");
+    Tone.Transport.loop = true;
+    Tone.Transport.scheduleRepeat(this.getAndSetBeat, "8n");
   };
 
   public startSequencer = () => {
     if (this.props.isAudioStarted) {
-      Transport.start();
+      Tone.Transport.start();
     }
   };
 
   public stopSequencer = () => {
-    Transport.stop();
+    Tone.Transport.stop();
   };
 
   private getAndSetBeat = (time: Time) => {
-    const currentBeat = Math.floor((Transport.getTicksAtTime(time) / 96) % 8);
+    const currentBeat = Math.floor(
+      (Tone.Transport.getTicksAtTime(time) / 96) % 8
+    );
     this.playRow(currentBeat, time);
     this.setState({ beat: currentBeat });
   };
 
   private playRow = (beat: number, time: Time) =>
     this.props.rows.map((row) => {
-      if (row.steps[beat].isActive) {
-        row.instrument.type.triggerAttackRelease(
-          row.note + row.octave,
-          "8n",
-          time
-        );
+      const currBeat = row.steps[beat];
+      if (currBeat.isActive) {
+        if (!currBeat.isSplit) {
+          row.instrument.type.triggerAttackRelease(
+            row.note + row.octave,
+            "8n",
+            time
+          );
+        } else {
+          row.instrument.type.triggerAttackRelease(
+            row.note + row.octave,
+            "16n",
+            time
+          );
+          row.instrument.type.triggerAttackRelease(
+            row.note + row.octave,
+            "16n",
+            Tone.Time(time).toSeconds() + Tone.Time("16n").toSeconds()
+          );
+        }
       }
     });
 
@@ -71,8 +87,8 @@ export class GridContainer extends React.Component<
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
     const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
-      ...step,
       isActive: !step.isActive,
+      isSplit: step.isActive && step.isSplit ? false : step.isSplit,
     };
 
     const newRow = {
@@ -88,7 +104,7 @@ export class GridContainer extends React.Component<
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
     const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
-      ...step,
+      isActive: !step.isActive && !step.isSplit ? true : step.isActive,
       isSplit: !step.isSplit,
     };
 
@@ -102,7 +118,7 @@ export class GridContainer extends React.Component<
 
   public handleChangeTempo = (bpmString: string) => {
     const bpm = parseInt(bpmString);
-    Transport.set({ bpm });
+    Tone.Transport.set({ bpm });
     this.setState({ bpm });
   };
 
