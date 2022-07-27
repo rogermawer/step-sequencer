@@ -62,13 +62,7 @@ export class GridContainer extends React.Component<
     this.props.rows.map((row) => {
       const currBeat = row.steps[beat];
       if (currBeat.isActive) {
-        if (!currBeat.isSplit) {
-          row.instrument.type.triggerAttackRelease(
-            row.note + row.octave,
-            "8n",
-            time
-          );
-        } else {
+        if (currBeat.isSplit) {
           row.instrument.type.triggerAttackRelease(
             row.note + row.octave,
             "16n",
@@ -79,6 +73,12 @@ export class GridContainer extends React.Component<
             "16n",
             Tone.Time(time).toSeconds() + Tone.Time("16n").toSeconds()
           );
+        } else {
+          row.instrument.type.triggerAttackRelease(
+            row.note + row.octave,
+            "8n",
+            time
+          );
         }
       }
     });
@@ -87,7 +87,7 @@ export class GridContainer extends React.Component<
     const { steps, ...oldRow } = this.props.rows[position.rowIndex];
     const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
-      isActive: !step.isActive,
+      isActive: !step.isActive || step.isSplit,
       isSplit: step.isActive && step.isSplit ? false : step.isSplit,
     };
 

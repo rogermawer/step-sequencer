@@ -23,5 +23,8 @@ export const BottomControlsComponent: React.FC<BottomControlContainerProps> = ({
       range={{ min: 60, max: 190 }}
       onChange={(e) => controller.handleChangeTempo(e.currentTarget.value)}
     />
+    <div className="hints">
+      Hint: right click on a square to split it in half
+    </div>
   </div>
 );
