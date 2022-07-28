@@ -1,7 +1,10 @@
 import React from "react";
 import { getDestination, PolySynth, Sampler, Transport } from "tone";
 import { Destination } from "tone/build/esm/core/context/Destination";
-import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import {
+  Instrument,
+  ToneInstrumentName,
+} from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, Step } from "../Row/Row";
 import { Sequencer } from "./Sequencer";
 import clap from "../../Common/Samples/clap.wav";
@@ -12,10 +15,15 @@ interface SequencerProps {
   isAudioStarted: boolean;
 }
 
+interface SequencerConfig {
+  instrumentName: ToneInstrumentName;
+  pitch: string;
+  octave: number;
+}
+
 interface SequencerState {
   steps: number;
   rows: GridRow[];
-  scale: string[];
   instruments: Instrument[];
 }
 
@@ -26,6 +34,14 @@ export interface Envelope {
   release: number;
 }
 
+const initialConfig: SequencerConfig[] = [
+  { instrumentName: ToneInstrumentName.TONE, pitch: "G", octave: 1 },
+  { instrumentName: ToneInstrumentName.HAT, pitch: "E", octave: 3 },
+  { instrumentName: ToneInstrumentName.HAT, pitch: "D", octave: 3 },
+  { instrumentName: ToneInstrumentName.CLAP, pitch: "C", octave: 3 },
+  { instrumentName: ToneInstrumentName.KICK, pitch: "A", octave: 3 },
+];
+
 export class SequencerController extends React.Component<
   SequencerProps,
   SequencerState
@@ -35,11 +51,10 @@ export class SequencerController extends React.Component<
     super(props);
     this.state = {
       rows: [],
-      scale: ["G", "E", "D", "C", "A"],
       steps: 8,
       instruments: [
         {
-          name: "Clap",
+          name: ToneInstrumentName.CLAP,
           type: new Sampler({
             urls: {
               C3: clap,
@@ -47,7 +62,7 @@ export class SequencerController extends React.Component<
           }),
         },
         {
-          name: "Hat",
+          name: ToneInstrumentName.HAT,
           type: new Sampler({
             urls: {
               C3: hat,
@@ -55,7 +70,7 @@ export class SequencerController extends React.Component<
           }),
         },
         {
-          name: "Kick",
+          name: ToneInstrumentName.KICK,
           type: new Sampler({
             urls: {
               C3: kick,
@@ -63,7 +78,7 @@ export class SequencerController extends React.Component<
           }),
         },
         {
-          name: "Tone",
+          name: ToneInstrumentName.TONE,
           type: new PolySynth(undefined, { oscillator: { type: "square8" } }),
         },
       ],
@@ -89,13 +104,16 @@ export class SequencerController extends React.Component<
 
   private createRows = () => {
     let newRows: GridRow[] = [];
-    this.state.scale.map((note, index) => {
-      const defaultInstrument: Instrument = this.state.instruments[0];
+    initialConfig.map((value, index) => {
+      const defaultInstrument: Instrument =
+        this.state.instruments.find(
+          (inst) => inst.name === value.instrumentName
+        ) ?? this.state.instruments[0];
       defaultInstrument.type.connect(this.output);
       return newRows.push({
         index,
-        note,
-        octave: 3,
+        note: value.pitch,
+        octave: value.octave,
         instrument: defaultInstrument,
         steps: this.createRowSteps(),
       });

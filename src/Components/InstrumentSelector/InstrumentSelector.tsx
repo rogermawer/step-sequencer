@@ -15,9 +15,15 @@ interface InstrumentSelectorProps {
 }
 
 export type ToneInstrument = MetalSynth | MembraneSynth | PolySynth | Sampler;
+export enum ToneInstrumentName {
+  HAT = "Hat",
+  CLAP = "Clap",
+  KICK = "Kick",
+  TONE = "Tone",
+}
 
 export interface Instrument {
-  name: string;
+  name: ToneInstrumentName;
   type: ToneInstrument;
 }
 
