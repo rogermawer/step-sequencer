@@ -1,7 +1,7 @@
 import { GridRow, Row, StepPosition } from "../Row/Row";
 import "./GridStyle.scss";
 import { BeatTrackerRow } from "../BeatTrackerRow/BeatTrackerRow";
-import { FunctionComponent } from "react";
+import { FunctionComponent, SyntheticEvent } from "react";
 import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
 
 export interface GridController {
@@ -9,6 +9,7 @@ export interface GridController {
   stopSequencer: () => void;
   toggleIsActiveNote: (p: StepPosition) => void;
   handleChangeTempo: (bpm: string) => void;
+  onSplitSquare: (p: StepPosition, e: SyntheticEvent) => void;
 }
 
 interface GridProps {
