@@ -9,13 +9,9 @@
   &.active {
     background-color: $active-color;
   }
-  
-  &.playing {
-    border-bottom-color: $current-beat-color;
-  }
 
   &.split {
-    background-color: $current-beat-color;
+    background-color: $split-color;
   }
 }
 
