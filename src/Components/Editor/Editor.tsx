@@ -1,4 +1,7 @@
+import { useRef } from "react";
 import { Selector } from "../../Common/Selector/Selector";
+import { SvgIcon } from "../../Common/SvgIcon";
+import { useClickOutside } from "../../Hooks/useClickOutside";
 import {
   Instrument,
   InstrumentSelector,
@@ -10,7 +13,7 @@ export interface EditorController {
   onChangeInstrument: (instrument: string) => void;
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
-  onOpenEditor: (row: GridRow) => void;
+  onToggleEditor: (row: GridRow | null) => void;
 }
 
 interface EditorProps {
@@ -28,42 +31,57 @@ export const Editor: React.FC<EditorProps> = ({
   editingRow,
   instruments,
   rows,
-}) => (
-  <>
-    {editingRow !== null ? (
-      <div className={`editing-menu${editingRow !== null ? " is-open" : ""}`}>
-        <Selector
-          label="Row Note"
-          value={editingRow.note}
-          items={possibleNotes.map((note) => ({ name: note }))}
-          onChange={controller.onChangeNote}
-        />
+}) => {
+  const ref = useRef(null);
+  useClickOutside(ref, () => controller.onToggleEditor(null));
 
-        <Selector
-          label="Octave"
-          value={editingRow.octave}
-          items={possibleOctaves.map((octave) => ({ name: octave }))}
-          onChange={controller.onChangeOctave}
-        />
+  return (
+    <>
+      {editingRow !== null ? (
+        <div className="editor">
+          <div
+            ref={ref}
+            className={`editing-menu${editingRow !== null ? " is-open" : ""}`}
+          >
+            <SvgIcon
+              type="closeX"
+              className="close"
+              onClick={() => controller.onToggleEditor(null)}
+            />
+            <Selector
+              label="Row Note"
+              value={editingRow.note}
+              items={possibleNotes.map((note) => ({ name: note }))}
+              onChange={controller.onChangeNote}
+            />
 
-        <Selector
-          label="Current Instrument"
-          value={editingRow.instrument.name}
-          items={instruments.map((inst) => ({ name: inst.name }))}
-          onChange={controller.onChangeInstrument}
-        />
+            <Selector
+              label="Octave"
+              value={editingRow.octave}
+              items={possibleOctaves.map((octave) => ({ name: octave }))}
+              onChange={controller.onChangeOctave}
+            />
+
+            <Selector
+              label="Current Instrument"
+              value={editingRow.instrument.name}
+              items={instruments.map((inst) => ({ name: inst.name }))}
+              onChange={controller.onChangeInstrument}
+            />
+          </div>
+        </div>
+      ) : null}
+
+      <div className="selector-container">
+        {rows.map((row, i) => (
+          <InstrumentSelector
+            key={i}
+            controller={controller}
+            row={row}
+            isEditing={row.index === editingRow?.index}
+          />
+        ))}
       </div>
-    ) : null}
-
-    <div className="selector-container">
-      {rows.map((row, i) => (
-        <InstrumentSelector
-          key={i}
-          controller={controller}
-          row={row}
-          isEditing={row.index === editingRow?.index}
-        />
-      ))}
-    </div>
-  </>
-);
+    </>
+  );
+};

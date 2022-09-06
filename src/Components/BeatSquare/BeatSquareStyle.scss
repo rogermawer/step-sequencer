@@ -7,6 +7,10 @@
     &.active {
         background-color: $saphire;
     }
+
+    @include mobile {
+        width: $square-size-mobile;
+    }
 }
 
 

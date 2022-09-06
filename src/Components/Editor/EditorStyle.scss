@@ -1,36 +1,62 @@
 @import "../../Common/StyleVariables.scss";
 
-.editing-menu {
+$editing-menu-width: 400px;
+$editing-menu-width-mobile: 100%;
+$close-icon-size: 1.3rem;
+
+.editor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .editing-menu {
+    position: relative;
     visibility: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: $editing-menu-width;
-    height: 100%;
+    min-height: 50%;
+    min-width: $editing-menu-width;
     padding: $standard-padding;
+    background-color: $grey;
+
+    .close {
+      position: absolute;
+      right: $standard-padding;
+      top: $standard-padding;
+      width: $close-icon-size;
+      height: $close-icon-size;
+      cursor: pointer;
+    }
 
     &.is-open {
-        visibility: visible;
+      visibility: visible;
     }
 
     .instrument-list {
-        list-style: none;
-        padding: $standard-padding;
+      list-style: none;
+      padding: $standard-padding;
 
-        li:hover {
-            background-color: $current-beat-color;
-        }
+      li:hover {
+        background-color: $current-beat-color;
+      }
     }
+
+    @include mobile {
+      width: $editing-menu-width-mobile;
+    }
+  }
 }
 
 .selector-container {
-    display: flex;
-    flex-direction: column;
-    margin-right: $standard-padding;
+  display: flex;
+  flex-direction: column;
+  margin-right: $standard-padding;
 
-    .selector-info {
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
+  .selector-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
 }
