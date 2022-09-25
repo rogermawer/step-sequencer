@@ -23,6 +23,10 @@ $standard-icon-size: 30px;
 
 $min-size-desktop: 600px;
 
+// z indexes
+$editor-z: 98;
+$start-overlay-z: 99;
+
 @mixin mobile {
   @media only screen and (max-width: ($min-size-desktop)) {
     @content;

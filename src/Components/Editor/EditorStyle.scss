@@ -17,9 +17,10 @@ $close-icon-size: 1.3rem;
     position: relative;
     visibility: hidden;
     min-height: 50%;
-    min-width: $editing-menu-width;
+    width: $editing-menu-width;
     padding: $standard-padding;
     background-color: $grey;
+    z-index: $editor-z;
 
     .close {
       position: absolute;
@@ -45,6 +46,7 @@ $close-icon-size: 1.3rem;
 
     @include mobile {
       width: $editing-menu-width-mobile;
+      margin: $standard-padding;
     }
   }
 }
