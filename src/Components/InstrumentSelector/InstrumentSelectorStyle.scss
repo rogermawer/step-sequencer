@@ -1,19 +1,23 @@
 @import "../../Common/StyleVariables.scss";
 
 .selector-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: $square-size;
-    height: $square-size;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: $square-size;
+  height: $square-size;
 
-    .inst-name {
-        margin-right: $standard-padding;
-    }
+  .inst-name {
+    margin-right: $standard-padding;
+  }
 
-    .icon {
-        &.active {
-            fill: $orange;
-        }
+  .icon {
+    &.active {
+      fill: $orange;
     }
+  }
+
+  @include mobile {
+    height: $square-size-mobile;
+  }
 }
