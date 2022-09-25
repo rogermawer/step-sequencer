@@ -13,6 +13,11 @@
   &.split {
     background-color: $split-color;
   }
+
+  @include mobile {
+    width: $square-size-mobile;
+    height: $square-size-mobile;
+  }
 }
 
 

@@ -13,7 +13,7 @@ export const BeatTrackerRow: FunctionComponent<BeatTrackerProps> = ({
 }) => (
   <div className="beat-tracker">
     {[...Array(steps)].map((step, i) => (
-      <BeatSquare key={i} beat={beat} isActive={i === beat} />
+      <BeatSquare key={i} isActive={i === beat} />
     ))}
   </div>
 );

@@ -1,24 +1,25 @@
 @import "../../Common/StyleVariables.scss";
 
 .start-audio-overlay {
-    position: absolute;
-    background-color: rgba(0, 0, 0, .7);
-    width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  z-index: $start-overlay-z;
+
+  .start-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100%;
 
-    .start-button-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-
-        button {
-            padding: $standard-padding;
-            color: $current-beat-color;
-            border-radius: 5px;
-            box-shadow: 0 0 2px $orange inset;
-            font-size: 26px;
-        }
+    button {
+      padding: $standard-padding;
+      color: $current-beat-color;
+      border-radius: 5px;
+      box-shadow: 0 0 2px $orange inset;
+      font-size: 26px;
     }
+  }
 }

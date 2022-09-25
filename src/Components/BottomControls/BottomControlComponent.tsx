@@ -1,18 +1,22 @@
 import React from "react";
 import { Slider } from "../../Common/Slider/Slider";
 import { SvgIcon } from "../../Common/SvgIcon";
-import { GridController } from "../Grid/Grid";
 import "./BottomControlsStyle.scss";
 
-interface BottomControlContainerProps {
-  controller: GridController;
+interface BottomControlsController {
+  startSequencer: () => void;
+  stopSequencer: () => void;
+  handleChangeTempo: (bpn: string) => void;
+}
+
+interface BottomControlsComponentProps {
+  controller: BottomControlsController;
   bpm: number;
 }
 
-export const BottomControlsComponent: React.FC<BottomControlContainerProps> = ({
-  controller,
-  bpm,
-}) => (
+export const BottomControlsComponent: React.FC<
+  BottomControlsComponentProps
+> = ({ controller, bpm }) => (
   <div className="bottom-controls">
     <div>
       <SvgIcon type="play" onClick={controller.startSequencer} />

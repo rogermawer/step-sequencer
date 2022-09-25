@@ -24,6 +24,7 @@ interface SequencerConfig {
 interface SequencerState {
   steps: number;
   rows: GridRow[];
+  bpm: number;
   instruments: Instrument[];
 }
 
@@ -52,6 +53,7 @@ export class SequencerController extends React.Component<
     this.state = {
       rows: [],
       steps: 8,
+      bpm: 100,
       instruments: [
         {
           name: ToneInstrumentName.CLAP,
@@ -90,7 +92,30 @@ export class SequencerController extends React.Component<
 
   componentDidMount() {
     this.createRows();
+    this.setSequencerData();
   }
+
+  private setSequencerData = () => {
+    Transport.bpm.value = this.state.bpm;
+    Transport.setLoopPoints(0, "1m");
+    Transport.loop = true;
+  };
+
+  public startSequencer = () => {
+    if (this.props.isAudioStarted) {
+      Transport.start();
+    }
+  };
+
+  public stopSequencer = () => {
+    Transport.stop();
+  };
+
+  public handleChangeTempo = (bpmString: string) => {
+    const bpm = parseInt(bpmString);
+    Transport.set({ bpm });
+    this.setState({ bpm });
+  };
 
   private createRowSteps = (): Step[] => {
     const defaultStep: Step = {

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GridRow } from "../Row/Row";
 import { Editor } from "./Editor";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { useClickOutside } from "../../Hooks/useClickOutside";
 
 interface EditorContainerController {
   updateRows: (row: GridRow) => void;
@@ -69,8 +70,8 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
     controller.updateRows(updatedRow);
   };
 
-  const onOpenEditor = (row: GridRow) => {
-    setEditingRow(editingRow?.index === row.index ? null : row);
+  const onToggleEditor = (row: GridRow | null) => {
+    setEditingRow(row === null || editingRow?.index === row.index ? null : row);
   };
 
   return (
@@ -79,7 +80,7 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
         onChangeNote,
         onChangeOctave,
         onChangeInstrument,
-        onOpenEditor,
+        onToggleEditor,
       }}
       instruments={instruments}
       editingRow={editingRow}
