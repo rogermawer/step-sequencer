@@ -4,8 +4,12 @@ import { GridContainer } from "../Grid/GridContainer";
 import { FunctionComponent } from "react";
 import { EditorContainer } from "../Editor/EditorContainer";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
 
 export interface SequencerController {
+  startSequencer: () => void;
+  stopSequencer: () => void;
+  handleChangeTempo: (bpn: string) => void;
   updateRows: (row: GridRow) => void;
 }
 
@@ -13,6 +17,7 @@ interface SequencerProps {
   controller: SequencerController;
   rows: GridRow[];
   steps: number;
+  bpm: number;
   instruments: Instrument[];
   isAudioStarted: boolean;
 }
@@ -21,20 +26,24 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   controller,
   rows,
   steps,
+  bpm,
   instruments,
   isAudioStarted,
 }) => (
-  <div className="sequencer">
-    <EditorContainer
-      controller={controller}
-      rows={rows}
-      instruments={instruments}
-    />
-    <GridContainer
-      controller={controller}
-      steps={steps}
-      rows={rows}
-      isAudioStarted={isAudioStarted}
-    />
+  <div className="sequencer-container">
+    <div className="sequencer">
+      <EditorContainer
+        controller={controller}
+        rows={rows}
+        instruments={instruments}
+      />
+      <GridContainer
+        controller={controller}
+        steps={steps}
+        rows={rows}
+        isAudioStarted={isAudioStarted}
+      />
+    </div>
+    <BottomControlsComponent controller={controller} bpm={bpm} />
   </div>
 );

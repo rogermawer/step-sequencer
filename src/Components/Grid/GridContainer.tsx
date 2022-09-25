@@ -14,7 +14,6 @@ interface GridContainerProps {
 
 interface GridContainerState {
   beat: number;
-  bpm: number;
 }
 
 export class GridContainer extends React.Component<
@@ -25,30 +24,12 @@ export class GridContainer extends React.Component<
     super(props);
     this.state = {
       beat: 0,
-      bpm: 100,
     };
   }
 
   componentDidMount() {
-    this.setSequencerData();
-  }
-
-  private setSequencerData = () => {
-    Tone.Transport.bpm.value = this.state.bpm;
-    Tone.Transport.setLoopPoints(0, "1m");
-    Tone.Transport.loop = true;
     Tone.Transport.scheduleRepeat(this.getAndSetBeat, "8n");
-  };
-
-  public startSequencer = () => {
-    if (this.props.isAudioStarted) {
-      Tone.Transport.start();
-    }
-  };
-
-  public stopSequencer = () => {
-    Tone.Transport.stop();
-  };
+  }
 
   private getAndSetBeat = (time: Time) => {
     const currentBeat = Math.floor(
@@ -114,12 +95,6 @@ export class GridContainer extends React.Component<
     };
 
     this.props.controller.updateRows(newRow);
-  };
-
-  public handleChangeTempo = (bpmString: string) => {
-    const bpm = parseInt(bpmString);
-    Tone.Transport.set({ bpm });
-    this.setState({ bpm });
   };
 
   render() {

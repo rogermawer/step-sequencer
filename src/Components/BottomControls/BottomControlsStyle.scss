@@ -1,20 +1,34 @@
 @import "../../Common/StyleVariables.scss";
 
 .bottom-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $standard-padding;
 
-    .icon {
-        fill: $saphire;
-        padding: $standard-padding
-    }
+  .icon {
+    fill: $saphire;
+    padding: $standard-padding;
+  }
 
+  .slider {
+    width: 100%;
+    max-width: 50rem;
+  }
+
+  .hints {
+    margin-top: $standard-padding;
+  }
+
+  @include mobile {
     .slider {
-        width: 80%;
-    }
+      display: flex;
+      flex-direction: column;
 
-    .hints {
-        margin-top: $standard-padding;
+      .value-readout {
+        position: relative;
+        right: 0;
+      }
     }
+  }
 }

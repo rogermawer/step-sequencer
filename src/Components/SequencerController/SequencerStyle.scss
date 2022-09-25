@@ -1,6 +1,12 @@
 @import "../../Common/StyleVariables.scss";
 
-.sequencer {
+.sequencer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .sequencer {
     display: flex;
     justify-content: center;
+  }
 }

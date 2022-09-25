@@ -1,10 +1,9 @@
-$grey: #EEEEEE;
+$grey: #eeeeee;
 $dark-grey: #d3d3d3;
 $sky-blue: #59cece;
-$saphire: #19647E;
-$orange: #F3B61F;
+$saphire: #19647e;
+$orange: #f3b61f;
 $ivory: #f4f4f3;
-
 
 $active-color: $orange;
 $split-color: $sky-blue;
@@ -12,7 +11,7 @@ $current-beat-color: $orange;
 $grid-border-color: $saphire;
 
 $square-size: 100px;
-$square-size-mobile: 50px;
+$square-size-mobile: 30px;
 $square-border-radius: 5px;
 $square-box-shadow: 0 0 2px $grid-border-color inset;
 $light-padding: 5px;
@@ -25,7 +24,7 @@ $standard-icon-size: 30px;
 $min-size-desktop: 600px;
 
 @mixin mobile {
-    @media only screen and (max-width: ($min-size-desktop)) {
-        @content;
-    }
+  @media only screen and (max-width: ($min-size-desktop)) {
+    @content;
+  }
 }
