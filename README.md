@@ -23,6 +23,6 @@ The build is minified and the filenames include the hashes.\
 
 # Deploy
 
-Production is deployed on Heroku at https://step-sequencer-production.up.railway.app/ \
+Production is deployed on Railway at https://step-sequencer-production.up.railway.app/ \
 
 Deployment is based off of `main`, so be advised that direct pushes to `main` will result in deployment.\
