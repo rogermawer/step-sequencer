@@ -19,5 +19,14 @@
 
   @include mobile {
     height: $square-size-mobile;
+    width: $square-size-mobile;
+
+    .icon {
+      height: $square-size-mobile / 2;
+    }
+
+    .inst-name {
+      display: none;
+    }
   }
 }
