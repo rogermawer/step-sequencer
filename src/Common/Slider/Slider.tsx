@@ -7,20 +7,17 @@ interface SliderRange {
 }
 
 interface SliderProps {
-  label?: string;
   value?: number;
   range: SliderRange;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Slider: FunctionComponent<SliderProps> = ({
-  label,
   range,
   value,
   onChange,
 }) => (
   <div className="slider">
-    <label>{label}</label>
     <input
       className="input"
       type="range"

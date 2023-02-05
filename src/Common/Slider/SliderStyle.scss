@@ -10,7 +10,7 @@
     -webkit-appearance: none;
     background: transparent;
     width: 100%;
-    border-radius: 5px;
+    border-radius: $square-border-radius;
     background: $dark-grey;
     outline: none;
   }
@@ -18,22 +18,22 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: 15px;
-    width: 15px;
+    height: $s3;
+    width: $s3;
     background: $saphire;
     cursor: pointer;
   }
 
   input[type="range"]::-moz-range-thumb {
-    height: 15px;
-    width: 15px;
+    height: $s3;
+    width: $s3;
     background: $saphire;
     cursor: pointer;
   }
 
   .value-readout {
     position: absolute;
-    right: -$standard-padding * 2;
-    width: $standard-padding * 2;
+    right: -$s3 * 2;
+    width: $s3 * 2;
   }
 }

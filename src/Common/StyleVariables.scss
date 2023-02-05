@@ -1,5 +1,6 @@
 $grey: #eeeeee;
 $dark-grey: #d3d3d3;
+$darker-grey: #636363;
 $sky-blue: #59cece;
 $saphire: #19647e;
 $orange: #f3b61f;
@@ -17,9 +18,18 @@ $square-box-shadow: 0 0 2px $grid-border-color inset;
 $light-padding: 5px;
 $standard-padding: 15px;
 
+$border-width: 0.1rem;
+
+// sizes
+
+$s1: 0.3rem;
+$s2: $s1 * 2;
+$s3: $s2 + $s1;
+$s4: $s2 * 2;
+
 $bottom-beat-tracker-padding: 10px;
 
-$standard-icon-size: 30px;
+$icon-size: $s4;
 
 $min-size-desktop: 600px;
 

@@ -1,0 +1,27 @@
+@import "../../Common/StyleVariables.scss";
+
+.top-menu {
+  display: flex;
+  width: 100%;
+  border-bottom: $border-width solid $darker-grey;
+  margin-bottom: $s4;
+
+  .controls {
+    padding: $s2;
+    border-right: $border-width solid $darker-grey;
+    flex: 0 1 25%;
+    display: flex;
+    justify-content: center;
+
+    .icon {
+      fill: $saphire;
+      padding: 0 $s1;
+    }
+  }
+
+  .slider-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}

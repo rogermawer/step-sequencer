@@ -11,11 +11,6 @@
     padding: $standard-padding;
   }
 
-  .slider {
-    width: 100%;
-    max-width: 50rem;
-  }
-
   .hints {
     margin-top: $standard-padding;
 
@@ -29,14 +24,9 @@
   }
 
   @include mobile {
-    .slider {
-      display: flex;
-      flex-direction: column;
-
-      .value-readout {
-        position: relative;
-        right: 0;
-      }
+    .value-readout {
+      position: relative;
+      right: 0;
     }
   }
 }

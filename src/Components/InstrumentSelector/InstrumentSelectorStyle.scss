@@ -22,7 +22,7 @@
     width: $square-size-mobile;
 
     .icon {
-      height: $square-size-mobile / 2;
+      height: calc($square-size-mobile / 2);
     }
 
     .inst-name {
