@@ -11,15 +11,6 @@ $split-color: $sky-blue;
 $current-beat-color: $orange;
 $grid-border-color: $saphire;
 
-$square-size: 100px;
-$square-size-mobile: 30px;
-$square-border-radius: 5px;
-$square-box-shadow: 0 0 2px $grid-border-color inset;
-$light-padding: 5px;
-$standard-padding: 15px;
-
-$border-width: 0.1rem;
-
 // sizes
 
 $s1: 0.3rem;
@@ -27,9 +18,18 @@ $s2: $s1 * 2;
 $s3: $s2 + $s1;
 $s4: $s2 * 2;
 
+$square-size: $s4 * 4;
+$square-size-mobile: $s4 * 2;
+$square-border-radius: 5px;
+$square-box-shadow: 0 0 2px $grid-border-color inset;
+$light-padding: 5px;
+$standard-padding: 15px;
+
+$border-width: 0.1rem;
+
 $bottom-beat-tracker-padding: 10px;
 
-$icon-size: $s4;
+$icon-size: $s4 + $s1;
 
 $min-size-desktop: 600px;
 

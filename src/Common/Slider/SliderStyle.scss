@@ -4,7 +4,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  text-transform: capitalize;
+  width: 100%;
+  max-width: 20rem;
 
   input[type="range"] {
     -webkit-appearance: none;
@@ -18,22 +19,20 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: $s3;
-    width: $s3;
+    height: $icon-size;
+    width: $icon-size;
     background: $saphire;
     cursor: pointer;
   }
 
   input[type="range"]::-moz-range-thumb {
-    height: $s3;
-    width: $s3;
+    height: $icon-size;
+    width: $icon-size;
     background: $saphire;
     cursor: pointer;
   }
 
   .value-readout {
-    position: absolute;
-    right: -$s3 * 2;
-    width: $s3 * 2;
+    width: $s4;
   }
 }

@@ -7,7 +7,7 @@
   margin-bottom: $s4;
 
   .controls {
-    padding: $s2;
+    padding: $s4;
     border-right: $border-width solid $darker-grey;
     flex: 0 1 25%;
     display: flex;
@@ -15,13 +15,15 @@
 
     .icon {
       fill: $saphire;
-      padding: 0 $s1;
+      padding: 0 $s2;
     }
   }
 
   .slider-container {
+    padding: $s4;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
   }
 }

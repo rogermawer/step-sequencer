@@ -1,5 +1,7 @@
 @import "../../Common/StyleVariables.scss";
 
+$square-size-mobile-width: calc($square-size-mobile / 2);
+
 .selector-button {
   display: flex;
   align-items: center;
@@ -19,10 +21,10 @@
 
   @include mobile {
     height: $square-size-mobile;
-    width: $square-size-mobile;
+    width: $square-size-mobile-width;
 
     .icon {
-      height: calc($square-size-mobile / 2);
+      height: $square-size-mobile-width;
     }
 
     .inst-name {

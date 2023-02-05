@@ -6,12 +6,14 @@ $close-icon-size: 1.3rem;
 
 .editor {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: $editor-z;
 
   .editing-menu {
@@ -21,6 +23,7 @@ $close-icon-size: 1.3rem;
     width: $editing-menu-width;
     padding: $standard-padding;
     background-color: $grey;
+    border-radius: $square-border-radius;
 
     .close {
       position: absolute;
