@@ -6,12 +6,8 @@ $square-size-mobile-width: calc($square-size-mobile / 2);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: $square-size;
+  width: $icon-size;
   height: $square-size;
-
-  .inst-name {
-    margin-right: $standard-padding;
-  }
 
   .icon {
     &.active {

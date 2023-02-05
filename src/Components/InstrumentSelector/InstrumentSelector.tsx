@@ -33,7 +33,6 @@ export const InstrumentSelector: FunctionComponent<InstrumentSelectorProps> = ({
   isEditing,
 }) => (
   <div className="selector-button">
-    <span className="inst-name">{row.instrument.name}</span>
     <SvgIcon
       className={isEditing ? "active" : ""}
       onClick={() => controller.onToggleEditor(row)}
