@@ -9,6 +9,8 @@ interface BottomControlsController {
   handleChangeTempo: (bpn: string) => void;
 }
 
+const hints = ["Right click on a square to split it in half"];
+
 interface BottomControlsComponentProps {
   controller: BottomControlsController;
   bpm: number;
@@ -28,7 +30,12 @@ export const BottomControlsComponent: React.FC<
       onChange={(e) => controller.handleChangeTempo(e.currentTarget.value)}
     />
     <div className="hints">
-      Hint: right click on a square to split it in half
+      <h3>Hints:</h3>
+      <ul>
+        {hints.map((hint) => (
+          <li>{hint}</li>
+        ))}
+      </ul>
     </div>
   </div>
 );

@@ -18,6 +18,14 @@
 
   .hints {
     margin-top: $standard-padding;
+
+    h3 {
+      text-align: center;
+    }
+
+    ul {
+      padding-left: $standard-padding;
+    }
   }
 
   @include mobile {
