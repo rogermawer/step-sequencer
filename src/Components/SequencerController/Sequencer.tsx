@@ -5,6 +5,7 @@ import { FunctionComponent } from "react";
 import { EditorContainer } from "../Editor/EditorContainer";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
+import { TopMenu } from "../TopMenu/TopMenu";
 
 export interface SequencerController {
   startSequencer: () => void;
@@ -31,6 +32,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   isAudioStarted,
 }) => (
   <div className="sequencer-container">
+    <TopMenu controller={controller} bpm={bpm} />
     <div className="sequencer">
       <EditorContainer
         controller={controller}
@@ -44,6 +46,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
         isAudioStarted={isAudioStarted}
       />
     </div>
-    <BottomControlsComponent controller={controller} bpm={bpm} />
+    <BottomControlsComponent />
   </div>
 );

@@ -1,15 +1,13 @@
 @import "../../Common/StyleVariables.scss";
 
+$square-size-mobile-width: calc($square-size-mobile / 2);
+
 .selector-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: $square-size;
+  width: $icon-size;
   height: $square-size;
-
-  .inst-name {
-    margin-right: $standard-padding;
-  }
 
   .icon {
     &.active {
@@ -19,5 +17,14 @@
 
   @include mobile {
     height: $square-size-mobile;
+    width: $square-size-mobile-width;
+
+    .icon {
+      height: $square-size-mobile-width;
+    }
+
+    .inst-name {
+      display: none;
+    }
   }
 }

@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react";
 import "../StartAudioOverlay/StartAudioOverlayStyle.scss";
 
 interface StartAudioOverlayController {
@@ -9,7 +8,7 @@ interface StartAudioOverlayProps {
   controller: StartAudioOverlayController;
 }
 
-export const StartAudioOverlay: FunctionComponent<StartAudioOverlayProps> = ({
+export const StartAudioOverlay: React.FC<StartAudioOverlayProps> = ({
   controller,
 }) => (
   <div className="start-audio-overlay">

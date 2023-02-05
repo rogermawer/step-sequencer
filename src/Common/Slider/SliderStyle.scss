@@ -4,13 +4,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  text-transform: capitalize;
+  width: 100%;
+  max-width: 20rem;
 
   input[type="range"] {
     -webkit-appearance: none;
     background: transparent;
     width: 100%;
-    border-radius: 5px;
+    border-radius: $square-border-radius;
     background: $dark-grey;
     outline: none;
   }
@@ -18,22 +19,20 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: 15px;
-    width: 15px;
+    height: $icon-size;
+    width: $icon-size;
     background: $saphire;
     cursor: pointer;
   }
 
   input[type="range"]::-moz-range-thumb {
-    height: 15px;
-    width: 15px;
+    height: $icon-size;
+    width: $icon-size;
     background: $saphire;
     cursor: pointer;
   }
 
   .value-readout {
-    position: absolute;
-    right: -$standard-padding * 2;
-    width: $standard-padding * 2;
+    width: $s4;
   }
 }

@@ -11,24 +11,22 @@
     padding: $standard-padding;
   }
 
-  .slider {
-    width: 100%;
-    max-width: 50rem;
-  }
-
   .hints {
     margin-top: $standard-padding;
+
+    h3 {
+      text-align: center;
+    }
+
+    ul {
+      padding-left: $standard-padding;
+    }
   }
 
   @include mobile {
-    .slider {
-      display: flex;
-      flex-direction: column;
-
-      .value-readout {
-        position: relative;
-        right: 0;
-      }
+    .value-readout {
+      position: relative;
+      right: 0;
     }
   }
 }
