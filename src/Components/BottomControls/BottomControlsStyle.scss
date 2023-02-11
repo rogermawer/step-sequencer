@@ -1,32 +1,14 @@
 @import "../../Common/StyleVariables.scss";
 
 .bottom-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: $standard-padding;
-
-  .icon {
-    fill: $saphire;
-    padding: $standard-padding;
-  }
-
+  margin-top: $s4;
   .hints {
-    margin-top: $standard-padding;
-
     h3 {
       text-align: center;
     }
 
     ul {
       padding-left: $standard-padding;
-    }
-  }
-
-  @include mobile {
-    .value-readout {
-      position: relative;
-      right: 0;
     }
   }
 }

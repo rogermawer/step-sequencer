@@ -1,17 +1,14 @@
 @import "../../Common/StyleVariables.scss";
 
 .beat-square {
-    width: $square-size;
-    height: $standard-padding;
+  width: $square-size;
+  height: $s1;
 
-    &.active {
-        background-color: $saphire;
-    }
+  &.active {
+    background-color: $saphire;
+  }
 
-    @include mobile {
-        width: $square-size-mobile;
-    }
+  @include mobile {
+    width: $square-size-mobile;
+  }
 }
-
-
-
