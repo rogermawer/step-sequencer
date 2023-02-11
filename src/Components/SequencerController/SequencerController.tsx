@@ -21,10 +21,11 @@ interface SequencerConfig {
   octave: number;
 }
 
-interface SequencerState {
+export interface SequencerState {
   steps: number;
   rows: GridRow[];
   bpm: number;
+  isPlaying: boolean;
   instruments: Instrument[];
 }
 
@@ -54,6 +55,7 @@ export class SequencerController extends React.Component<
       rows: [],
       steps: 8,
       bpm: 100,
+      isPlaying: false,
       instruments: [
         {
           name: ToneInstrumentName.CLAP,
@@ -104,11 +106,20 @@ export class SequencerController extends React.Component<
   public startSequencer = () => {
     if (this.props.isAudioStarted) {
       Transport.start();
+      this.setState({ isPlaying: true });
+    }
+  };
+
+  public pauseSequencer = () => {
+    if (this.state.isPlaying) {
+      Transport.pause();
+      this.setState({ isPlaying: false });
     }
   };
 
   public stopSequencer = () => {
     Transport.stop();
+    this.setState({ isPlaying: false });
   };
 
   public handleChangeTempo = (bpmString: string) => {

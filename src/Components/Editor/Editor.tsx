@@ -36,18 +36,15 @@ export const Editor: React.FC<EditorProps> = ({
   useClickOutside(ref, () => controller.onToggleEditor(null));
 
   return (
-    <>
-      {editingRow !== null ? (
-        <div className="editor">
-          <div
-            ref={ref}
-            className={`editing-menu${editingRow !== null ? " is-open" : ""}`}
-          >
-            <SvgIcon
-              type="closeX"
-              className="close"
-              onClick={() => controller.onToggleEditor(null)}
-            />
+    <div ref={ref}>
+      <div className={`editing-menu${editingRow !== null ? " is-open" : ""}`}>
+        <SvgIcon
+          type="arrowDown"
+          className="close"
+          onClick={() => controller.onToggleEditor(null)}
+        />
+        {editingRow ? (
+          <div className="selector-group">
             <Selector
               label="Row Note"
               value={editingRow.note}
@@ -69,8 +66,8 @@ export const Editor: React.FC<EditorProps> = ({
               onChange={controller.onChangeInstrument}
             />
           </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
 
       <div className="selector-container">
         {rows.map((row, i) => (
@@ -82,6 +79,6 @@ export const Editor: React.FC<EditorProps> = ({
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };

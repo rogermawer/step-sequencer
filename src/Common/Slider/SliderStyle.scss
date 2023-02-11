@@ -1,5 +1,7 @@
 @import "../../Common/StyleVariables.scss";
 
+$slider-size: $icon-size - $s2;
+
 .slider {
   position: relative;
   display: flex;
@@ -19,15 +21,15 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: $icon-size;
-    width: $icon-size;
+    height: $slider-size;
+    width: $slider-size;
     background: $saphire;
     cursor: pointer;
   }
 
   input[type="range"]::-moz-range-thumb {
-    height: $icon-size;
-    width: $icon-size;
+    height: $slider-size;
+    width: $slider-size;
     background: $saphire;
     cursor: pointer;
   }
