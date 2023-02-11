@@ -6,20 +6,18 @@ import { EditorContainer } from "../Editor/EditorContainer";
 import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
 import { TopMenu } from "../TopMenu/TopMenu";
+import { SequencerState } from "./SequencerController";
 
 export interface SequencerController {
   startSequencer: () => void;
+  pauseSequencer: () => void;
   stopSequencer: () => void;
   handleChangeTempo: (bpn: string) => void;
   updateRows: (row: GridRow) => void;
 }
 
-interface SequencerProps {
+interface SequencerProps extends SequencerState {
   controller: SequencerController;
-  rows: GridRow[];
-  steps: number;
-  bpm: number;
-  instruments: Instrument[];
   isAudioStarted: boolean;
 }
 
@@ -28,11 +26,12 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   rows,
   steps,
   bpm,
+  isPlaying,
   instruments,
   isAudioStarted,
 }) => (
   <div className="sequencer-container">
-    <TopMenu controller={controller} bpm={bpm} />
+    <TopMenu controller={controller} bpm={bpm} isPlaying={isPlaying} />
     <div className="sequencer">
       <EditorContainer
         controller={controller}

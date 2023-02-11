@@ -4,6 +4,7 @@ import "../TopMenu/TopMenuStyle.scss";
 
 interface TopMenuController {
   startSequencer: () => void;
+  pauseSequencer: () => void;
   stopSequencer: () => void;
   handleChangeTempo: (bpn: string) => void;
 }
@@ -11,12 +12,21 @@ interface TopMenuController {
 interface TopMenuProps {
   controller: TopMenuController;
   bpm: number;
+  isPlaying: boolean;
 }
 
-export const TopMenu: React.FC<TopMenuProps> = ({ controller, bpm }) => (
+export const TopMenu: React.FC<TopMenuProps> = ({
+  controller,
+  bpm,
+  isPlaying,
+}) => (
   <div className="top-menu">
     <div className="controls">
-      <SvgIcon type="play" onClick={controller.startSequencer} />
+      {isPlaying ? (
+        <SvgIcon type="pause" onClick={controller.pauseSequencer} />
+      ) : (
+        <SvgIcon type="play" onClick={controller.startSequencer} />
+      )}
       <SvgIcon type="stop" onClick={controller.stopSequencer} />
     </div>
     <div className="slider-container">
