@@ -1,56 +1,33 @@
 @import "../../Common/StyleVariables.scss";
 
-$editing-menu-width: 400px;
-$editing-menu-width-mobile: 100%;
 $close-icon-size: 1.3rem;
+$editing-menu-height: 19rem;
 
-.editor {
+.editing-menu {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: $editor-z;
+  bottom: 0;
+  left: 0;
+  height: 0;
+  transition: all 0.5s;
+  background-color: $grey;
+  border-radius: $square-border-radius;
 
-  .editing-menu {
-    position: relative;
-    visibility: hidden;
-    min-height: 50%;
-    width: $editing-menu-width;
-    padding: $standard-padding;
-    background-color: $grey;
-    border-radius: $square-border-radius;
+  &.is-open {
+    height: $editing-menu-height;
+  }
 
-    .close {
-      position: absolute;
-      right: $standard-padding;
-      top: $standard-padding;
-      width: $close-icon-size;
-      height: $close-icon-size;
-      cursor: pointer;
-    }
+  .close {
+    position: absolute;
+    right: $s2;
+    top: $s1;
+    width: $close-icon-size;
+    height: $close-icon-size;
+    cursor: pointer;
+  }
 
-    &.is-open {
-      visibility: visible;
-    }
-
-    .instrument-list {
-      list-style: none;
-      padding: $standard-padding;
-
-      li:hover {
-        background-color: $current-beat-color;
-      }
-    }
-
-    @include mobile {
-      width: $editing-menu-width-mobile;
-      margin: $standard-padding;
-    }
+  .selector-group {
+    margin: $s2;
   }
 }
 
