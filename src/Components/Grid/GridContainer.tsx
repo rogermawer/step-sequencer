@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { Time, Transport } from "tone";
 import { Seconds } from "tone/build/esm/core/type/Units";
 import { GridRow, StepPosition } from "../Row/Row";
@@ -13,7 +13,7 @@ interface GridContainerProps {
 
 type TransportCallback = (time: Seconds) => void;
 
-export const GridContainer: React.FC<GridContainerProps> = ({
+export const GridContainer: FC<GridContainerProps> = ({
   controller,
   rows,
   steps,
