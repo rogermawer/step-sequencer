@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getDestination, PolySynth, Sampler, Transport } from "tone";
 import { Destination } from "tone/build/esm/core/context/Destination";
 import {
@@ -10,6 +10,10 @@ import { Sequencer } from "./Sequencer";
 import clap from "../../Common/Samples/clap.wav";
 import hat from "../../Common/Samples/hat.wav";
 import kick from "../../Common/Samples/kick.wav";
+
+interface ExportedSequence {
+  rows: GridRow[];
+}
 
 interface SequencerProps {
   isAudioStarted: boolean;
@@ -44,133 +48,133 @@ const initialConfig: SequencerConfig[] = [
   { instrumentName: ToneInstrumentName.KICK, pitch: "A", octave: 3 },
 ];
 
-export class SequencerController extends React.Component<
-  SequencerProps,
-  SequencerState
-> {
-  private output: Destination;
-  constructor(props: SequencerProps) {
-    super(props);
-    this.state = {
-      rows: [],
-      steps: 8,
-      bpm: 100,
-      isPlaying: false,
-      instruments: [
-        {
-          name: ToneInstrumentName.CLAP,
-          type: new Sampler({
-            urls: {
-              C3: clap,
-            },
-          }),
-        },
-        {
-          name: ToneInstrumentName.HAT,
-          type: new Sampler({
-            urls: {
-              C3: hat,
-            },
-          }),
-        },
-        {
-          name: ToneInstrumentName.KICK,
-          type: new Sampler({
-            urls: {
-              C3: kick,
-            },
-          }),
-        },
-        {
-          name: ToneInstrumentName.TONE,
-          type: new PolySynth(undefined, { oscillator: { type: "square8" } }),
-        },
-      ],
-    };
+export const SequencerController: React.FC<SequencerProps> = ({
+  isAudioStarted,
+}) => {
+  const output = getDestination();
+  output.volume.value = -12;
 
-    this.output = getDestination();
-    this.output.volume.value = -12;
-  }
+  const [rows, setRows] = useState<GridRow[]>([]);
+  const [steps, setSteps] = useState<number>(8);
+  const [bpm, setBpm] = useState<number>(100);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [instruments, setInstruments] = useState<Instrument[]>([
+    {
+      name: ToneInstrumentName.CLAP,
+      type: new Sampler({
+        urls: {
+          C3: clap,
+        },
+      }),
+    },
+    {
+      name: ToneInstrumentName.HAT,
+      type: new Sampler({
+        urls: {
+          C3: hat,
+        },
+      }),
+    },
+    {
+      name: ToneInstrumentName.KICK,
+      type: new Sampler({
+        urls: {
+          C3: kick,
+        },
+      }),
+    },
+    {
+      name: ToneInstrumentName.TONE,
+      type: new PolySynth(undefined, { oscillator: { type: "square8" } }),
+    },
+  ]);
 
-  componentDidMount() {
-    this.createRows();
-    this.setSequencerData();
-  }
+  useEffect(() => {
+    createRows();
+    setSequencerData();
+  }, []);
 
-  private setSequencerData = () => {
-    Transport.bpm.value = this.state.bpm;
+  const setSequencerData = () => {
+    Transport.bpm.value = bpm;
     Transport.setLoopPoints(0, "1m");
     Transport.loop = true;
   };
 
-  public startSequencer = () => {
-    if (this.props.isAudioStarted) {
+  const startSequencer = () => {
+    if (isAudioStarted) {
       Transport.start();
-      this.setState({ isPlaying: true });
+      setIsPlaying(true);
     }
   };
 
-  public pauseSequencer = () => {
-    if (this.state.isPlaying) {
+  const pauseSequencer = () => {
+    if (isPlaying) {
       Transport.pause();
-      this.setState({ isPlaying: false });
+      setIsPlaying(false);
     }
   };
 
-  public stopSequencer = () => {
+  const stopSequencer = () => {
     Transport.stop();
-    this.setState({ isPlaying: false });
+    setIsPlaying(false);
   };
 
-  public handleChangeTempo = (bpmString: string) => {
+  const handleChangeTempo = (bpmString: string) => {
     const bpm = parseInt(bpmString);
     Transport.set({ bpm });
-    this.setState({ bpm });
+    setBpm(bpm);
   };
 
-  private createRowSteps = (): Step[] => {
+  const createRowSteps = (): Step[] => {
     const defaultStep: Step = {
       isActive: false,
       isSplit: false,
     };
     let defaultSteps: Step[] = [];
-    [...Array(this.state.steps)].map(() => defaultSteps.push(defaultStep));
+    [...Array(steps)].map(() => defaultSteps.push(defaultStep));
     return defaultSteps;
   };
 
-  private createRows = () => {
+  const createRows = () => {
     let newRows: GridRow[] = [];
     initialConfig.map((value, index) => {
       const defaultInstrument: Instrument =
-        this.state.instruments.find(
-          (inst) => inst.name === value.instrumentName
-        ) ?? this.state.instruments[0];
-      defaultInstrument.type.connect(this.output);
+        instruments.find((inst) => inst.name === value.instrumentName) ??
+        instruments[0];
+      defaultInstrument.type.connect(output);
       return newRows.push({
         index,
         note: value.pitch,
         octave: value.octave,
         instrument: defaultInstrument,
-        steps: this.createRowSteps(),
+        steps: createRowSteps(),
       });
     });
-    this.setState({ rows: newRows });
+    setRows(newRows);
   };
 
-  public updateRows = (row: GridRow) => {
-    row.instrument.type.connect(this.output);
-    const rows: GridRow[] = [...this.state.rows];
-    rows[row.index] = row;
-    this.setState({ rows: rows });
+  const updateRows = (row: GridRow) => {
+    row.instrument.type.connect(output);
+    const newRows: GridRow[] = [...rows];
+    newRows[row.index] = row;
+    setRows(newRows);
   };
 
-  render() {
-    return (
-      <Sequencer
-        controller={this}
-        {...this.state}
-        isAudioStarted={this.props.isAudioStarted}
-      />
-    );
-  }
-}
+  return (
+    <Sequencer
+      controller={{
+        startSequencer,
+        pauseSequencer,
+        stopSequencer,
+        handleChangeTempo,
+        updateRows,
+      }}
+      steps={steps}
+      rows={rows}
+      bpm={bpm}
+      instruments={instruments}
+      isPlaying={isPlaying}
+      isAudioStarted={isAudioStarted}
+    />
+  );
+};

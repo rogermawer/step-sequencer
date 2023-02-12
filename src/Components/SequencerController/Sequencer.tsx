@@ -3,7 +3,6 @@ import "./SequencerStyle.scss";
 import { GridContainer } from "../Grid/GridContainer";
 import { FunctionComponent } from "react";
 import { EditorContainer } from "../Editor/EditorContainer";
-import { Instrument } from "../InstrumentSelector/InstrumentSelector";
 import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
 import { TopMenu } from "../TopMenu/TopMenu";
 import { SequencerState } from "./SequencerController";
@@ -38,12 +37,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
         rows={rows}
         instruments={instruments}
       />
-      <GridContainer
-        controller={controller}
-        steps={steps}
-        rows={rows}
-        isAudioStarted={isAudioStarted}
-      />
+      <GridContainer controller={controller} steps={steps} rows={rows} />
     </div>
     <BottomControlsComponent />
   </div>
