@@ -37,12 +37,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
         rows={rows}
         instruments={instruments}
       />
-      <GridContainer
-        controller={controller}
-        steps={steps}
-        rows={rows}
-        isAudioStarted={isAudioStarted}
-      />
+      <GridContainer controller={controller} steps={steps} rows={rows} />
     </div>
     <BottomControlsComponent />
   </div>

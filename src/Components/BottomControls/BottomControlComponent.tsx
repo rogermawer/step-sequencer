@@ -12,8 +12,8 @@ export const BottomControlsComponent: React.FC<
     <div className="hints">
       <h3>Hints:</h3>
       <ul>
-        {hints.map((hint) => (
-          <li>{hint}</li>
+        {hints.map((hint, i) => (
+          <li key={i}>{hint}</li>
         ))}
       </ul>
     </div>

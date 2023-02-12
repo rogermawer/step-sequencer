@@ -1,6 +1,6 @@
-import React, { SyntheticEvent } from "react";
-import * as Tone from "tone";
-import { Time } from "tone/build/esm/core/type/Units";
+import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { Time, Transport } from "tone";
+import { Seconds } from "tone/build/esm/core/type/Units";
 import { GridRow, StepPosition } from "../Row/Row";
 import { SequencerController } from "../SequencerController/Sequencer";
 import { Grid } from "./Grid";
@@ -9,102 +9,88 @@ interface GridContainerProps {
   controller: SequencerController;
   rows: GridRow[];
   steps: number;
-  isAudioStarted: boolean;
 }
 
-interface GridContainerState {
-  beat: number;
-}
+type TransportCallback = (time: Seconds) => void;
 
-export class GridContainer extends React.Component<
-  GridContainerProps,
-  GridContainerState
-> {
-  constructor(props: GridContainerProps) {
-    super(props);
-    this.state = {
-      beat: 0,
-    };
-  }
+export const GridContainer: React.FC<GridContainerProps> = ({
+  controller,
+  rows,
+  steps,
+}) => {
+  const [beat, setBeat] = useState<number>(0);
+  const playRef = useRef<TransportCallback>(() => {});
 
-  componentDidMount() {
-    Tone.Transport.scheduleRepeat(this.getAndSetBeat, "8n");
-  }
+  useEffect(() => {
+    playRef.current = play;
+    Transport.scheduleRepeat((time) => playRef.current(time), "8n");
+  }, []);
 
-  private getAndSetBeat = (time: Time) => {
-    const currentBeat = Math.floor(
-      (Tone.Transport.getTicksAtTime(time) / 96) % 8
-    );
-    this.playRow(currentBeat, time);
-    this.setState({ beat: currentBeat });
-  };
+  useEffect(() => {
+    playRef.current = play;
+  }, [rows]);
 
-  private playRow = (beat: number, time: Time) =>
-    this.props.rows.map((row) => {
-      const currBeat = row.steps[beat];
+  const play = (time: Seconds) => {
+    const beat = Math.floor((Transport.getTicksAtTime(time) / 96) % 8);
+    rows.map((row) => {
+      const {
+        steps,
+        instrument: { type },
+        note,
+        octave,
+      } = row;
+      const octaveNote = note + octave;
+      const currBeat = steps[beat];
       if (currBeat.isActive) {
         if (currBeat.isSplit) {
-          row.instrument.type.triggerAttackRelease(
-            row.note + row.octave,
+          type.triggerAttackRelease(octaveNote, "16n", time);
+          type.triggerAttackRelease(
+            octaveNote,
             "16n",
-            time
-          );
-          row.instrument.type.triggerAttackRelease(
-            row.note + row.octave,
-            "16n",
-            Tone.Time(time).toSeconds() + Tone.Time("16n").toSeconds()
+            time + Time("16n").toSeconds()
           );
         } else {
-          row.instrument.type.triggerAttackRelease(
-            row.note + row.octave,
-            "8n",
-            time
-          );
+          type.triggerAttackRelease(octaveNote, "8n", time);
         }
       }
     });
+    setBeat(beat);
+  };
 
-  public toggleIsActiveNote = (position: StepPosition): void => {
-    const { steps, ...oldRow } = this.props.rows[position.rowIndex];
+  const toggleIsActiveNote = (position: StepPosition): void => {
+    const { steps, ...oldRow } = rows[position.rowIndex];
     const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
       isActive: !step.isActive || step.isSplit,
       isSplit: step.isActive && step.isSplit ? false : step.isSplit,
     };
-
-    const newRow = {
+    controller.updateRows({
       ...oldRow,
       steps,
-    };
-
-    this.props.controller.updateRows(newRow);
+    });
   };
 
-  public onSplitSquare = (position: StepPosition, e: SyntheticEvent): void => {
+  const onSplitSquare = (position: StepPosition, e: SyntheticEvent): void => {
     e.preventDefault();
-    const { steps, ...oldRow } = this.props.rows[position.rowIndex];
+    const { steps, ...oldRow } = rows[position.rowIndex];
     const step = steps[position.stepIndex];
     steps[position.stepIndex] = {
       isActive: !step.isActive && !step.isSplit ? true : step.isActive,
       isSplit: !step.isSplit,
     };
 
-    const newRow = {
+    controller.updateRows({
       ...oldRow,
       steps,
-    };
-
-    this.props.controller.updateRows(newRow);
+    });
   };
 
-  render() {
-    return (
-      <Grid
-        controller={this}
-        rows={this.props.rows}
-        steps={this.props.steps}
-        {...this.state}
-      />
-    );
-  }
-}
+  return (
+    <Grid
+      controller={{ toggleIsActiveNote, onSplitSquare }}
+      rows={rows}
+      steps={steps}
+      beat={beat}
+    />
+  );
+};
