@@ -1,11 +1,13 @@
 @import "../../Common/StyleVariables.scss";
 
 .selector {
-    margin-bottom: $light-padding;
+  margin-bottom: $light-padding;
 
-    select {
-        border: none;
-        background: transparent;
-        font-size: 100%;
-    }
+  select {
+    border: none;
+    background: transparent;
+    font-size: 100%;
+    color: $saphire;
+    font-weight: $fw-semibold;
+  }
 }

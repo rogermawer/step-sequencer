@@ -10,6 +10,8 @@ $square-size-mobile-width: calc($square-size-mobile / 2);
   height: $square-size;
 
   .icon {
+    cursor: pointer;
+
     &.active {
       fill: $orange;
     }

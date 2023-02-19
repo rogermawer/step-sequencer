@@ -14,6 +14,8 @@ export interface EditorController {
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
   onToggleEditor: (row: GridRow | null) => void;
+  onShiftRow: (r: GridRow) => void;
+  onShiftSequence: () => void;
 }
 
 interface EditorProps {
@@ -45,26 +47,43 @@ export const Editor: React.FC<EditorProps> = ({
         />
         {editingRow ? (
           <div className="selector-group">
-            <Selector
-              label="Row Note"
-              value={editingRow.note}
-              items={possibleNotes.map((note) => ({ name: note }))}
-              onChange={controller.onChangeNote}
-            />
+            <div className="note-actions">
+              <h3>Note Actions</h3>
+              <Selector
+                label="Row Note"
+                value={editingRow.note}
+                items={possibleNotes.map((note) => ({ name: note }))}
+                onChange={controller.onChangeNote}
+              />
 
-            <Selector
-              label="Octave"
-              value={editingRow.octave}
-              items={possibleOctaves.map((octave) => ({ name: octave }))}
-              onChange={controller.onChangeOctave}
-            />
+              <Selector
+                label="Octave"
+                value={editingRow.octave}
+                items={possibleOctaves.map((octave) => ({ name: octave }))}
+                onChange={controller.onChangeOctave}
+              />
 
-            <Selector
-              label="Current Instrument"
-              value={editingRow.instrument.name}
-              items={instruments.map((inst) => ({ name: inst.name }))}
-              onChange={controller.onChangeInstrument}
-            />
+              <Selector
+                label="Current Instrument"
+                value={editingRow.instrument.name}
+                items={instruments.map((inst) => ({ name: inst.name }))}
+                onChange={controller.onChangeInstrument}
+              />
+            </div>
+            <div className="row-actions">
+              <h3>Row Actions</h3>
+              <button
+                className="shift"
+                onClick={() => controller.onShiftRow(editingRow)}
+              >
+                Shift Row
+                <SvgIcon type="shift" />
+              </button>
+              <button className="shift" onClick={controller.onShiftSequence}>
+                Shift Sequence
+                <SvgIcon type="shift" />
+              </button>
+            </div>
           </div>
         ) : null}
       </div>

@@ -27,7 +27,31 @@ $editing-menu-height: 20rem;
   }
 
   .selector-group {
+    display: flex;
     margin: $s2;
+
+    h3 {
+      margin-bottom: $s2;
+      color: $saphire;
+    }
+
+    .row-actions {
+      margin: 0 $s4;
+
+      .shift {
+        display: flex;
+        font-size: 100%;
+        padding: 0;
+        margin-bottom: $s2;
+
+        .icon {
+          margin-left: $s2;
+          height: $s4;
+          width: $s4;
+          fill: $saphire;
+        }
+      }
+    }
   }
 }
 

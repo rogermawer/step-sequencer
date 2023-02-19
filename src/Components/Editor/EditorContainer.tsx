@@ -33,39 +33,41 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
       return;
     }
 
-    const newInstrument: Instrument =
+    const instrument: Instrument =
       getInstrument(instrumentName) ?? instruments[0];
 
-    const updatedRow: GridRow = {
-      ...editingRow,
-      instrument: newInstrument,
-    };
-    setEditingRow(updatedRow);
-    controller.updateRows(updatedRow);
+    updateRow({ instrument });
   };
 
   const onChangeNote = (note: string) => {
-    if (editingRow === null) {
-      return;
-    }
-
-    const updatedRow: GridRow = {
-      ...editingRow,
-      note,
-    };
-    setEditingRow(updatedRow);
-    controller.updateRows(updatedRow);
+    updateRow({ note });
   };
 
   const onChangeOctave = (octave: string) => {
+    updateRow({ octave: parseInt(octave) });
+  };
+
+  const onShiftRow = (row: GridRow) => {
+    const steps = row.steps;
+    const lastStep = steps.pop();
+    if (lastStep) {
+      steps.unshift(lastStep);
+    }
+    updateRow({ steps });
+  };
+
+  const onShiftSequence = () => {
     if (editingRow === null) {
       return;
     }
+    rows.map((r) => onShiftRow(r));
+  };
 
-    const updatedRow: GridRow = {
-      ...editingRow,
-      octave: parseInt(octave),
-    };
+  const updateRow = (partial: Partial<GridRow>) => {
+    if (editingRow === null) {
+      return;
+    }
+    const updatedRow: GridRow = { ...editingRow, ...partial };
     setEditingRow(updatedRow);
     controller.updateRows(updatedRow);
   };
@@ -81,6 +83,8 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
         onChangeOctave,
         onChangeInstrument,
         onToggleEditor,
+        onShiftRow,
+        onShiftSequence,
       }}
       instruments={instruments}
       editingRow={editingRow}

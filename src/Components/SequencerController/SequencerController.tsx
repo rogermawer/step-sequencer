@@ -174,7 +174,6 @@ export const SequencerController: React.FC<SequencerProps> = ({
       bpm={bpm}
       instruments={instruments}
       isPlaying={isPlaying}
-      isAudioStarted={isAudioStarted}
     />
   );
 };

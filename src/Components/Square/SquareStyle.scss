@@ -1,10 +1,11 @@
-@import "../../Common/StyleVariables.scss" ;
+@import "../../Common/StyleVariables.scss";
 
 .square {
   width: $square-size;
   height: $square-size;
   border-radius: $square-border-radius;
   box-shadow: $square-box-shadow;
+  cursor: pointer;
 
   &.active {
     background-color: $active-color;
@@ -19,5 +20,3 @@
     height: $square-size-mobile;
   }
 }
-
-
