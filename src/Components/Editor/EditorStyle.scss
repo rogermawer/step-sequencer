@@ -53,6 +53,10 @@ $editing-menu-height: 20rem;
       }
     }
   }
+
+  @include mobile {
+    font-size: small;
+  }
 }
 
 .selector-container {

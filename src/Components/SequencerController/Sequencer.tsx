@@ -37,6 +37,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
       />
       <GridContainer controller={controller} steps={steps} rows={rows} />
     </div>
-    <BottomControlsComponent />
+    {/* <BottomControlsComponent /> */}
   </div>
 );

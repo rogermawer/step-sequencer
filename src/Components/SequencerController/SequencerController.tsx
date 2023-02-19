@@ -7,6 +7,7 @@ import {
 } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, Step } from "../Row/Row";
 import { Sequencer } from "./Sequencer";
+import bell from "../../Common/Samples/bell.wav";
 import clap from "../../Common/Samples/clap.wav";
 import hat from "../../Common/Samples/hat.wav";
 import kick from "../../Common/Samples/kick.wav";
@@ -41,8 +42,8 @@ export interface Envelope {
 }
 
 const initialConfig: SequencerConfig[] = [
-  { instrumentName: ToneInstrumentName.TONE, pitch: "G", octave: 1 },
-  { instrumentName: ToneInstrumentName.HAT, pitch: "E", octave: 3 },
+  { instrumentName: ToneInstrumentName.BELL, pitch: "C", octave: 3 },
+  { instrumentName: ToneInstrumentName.HAT, pitch: "F", octave: 3 },
   { instrumentName: ToneInstrumentName.HAT, pitch: "D", octave: 3 },
   { instrumentName: ToneInstrumentName.CLAP, pitch: "C", octave: 3 },
   { instrumentName: ToneInstrumentName.KICK, pitch: "A", octave: 3 },
@@ -80,6 +81,14 @@ export const SequencerController: React.FC<SequencerProps> = ({
       type: new Sampler({
         urls: {
           C3: kick,
+        },
+      }),
+    },
+    {
+      name: ToneInstrumentName.BELL,
+      type: new Sampler({
+        urls: {
+          C3: bell,
         },
       }),
     },

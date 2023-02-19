@@ -41,4 +41,23 @@
       width: $s4 + $s1;
     }
   }
+
+  @include mobile {
+    .icon {
+      height: $icon-size - $s2;
+      width: $icon-size - $s2;
+    }
+
+    .slider {
+      input[type="range"]::-webkit-slider-thumb {
+        height: $slider-size - $s2;
+        width: $slider-size - $s2;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        height: $slider-size - $s2;
+        width: $slider-size - $s2;
+      }
+    }
+  }
 }
