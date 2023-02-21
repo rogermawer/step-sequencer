@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getDestination, PolySynth, Sampler, Transport } from "tone";
-import { Destination } from "tone/build/esm/core/context/Destination";
 import {
   Instrument,
   ToneInstrumentName,
