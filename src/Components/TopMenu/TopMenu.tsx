@@ -38,8 +38,8 @@ export const TopMenu: React.FC<TopMenuProps> = ({
       />
     </div>
 
-    <div className="help">
+    {/* <div className="help">
       <SvgIcon type="help" />
-    </div>
+    </div> */}
   </div>
 );
