@@ -1,5 +1,6 @@
 import { Slider } from "../../Common/Slider/Slider";
 import { SvgIcon } from "../../Common/SvgIcon";
+import { Editor } from "../Editor/Editor";
 import "../TopMenu/TopMenuStyle.scss";
 
 interface TopMenuController {
@@ -36,5 +37,9 @@ export const TopMenu: React.FC<TopMenuProps> = ({
         onChange={(e) => controller.handleChangeTempo(e.currentTarget.value)}
       />
     </div>
+
+    {/* <div className="help">
+      <SvgIcon type="help" />
+    </div> */}
   </div>
 );

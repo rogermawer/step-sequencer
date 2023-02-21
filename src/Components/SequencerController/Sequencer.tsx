@@ -17,7 +17,6 @@ export interface SequencerController {
 
 interface SequencerProps extends SequencerState {
   controller: SequencerController;
-  isAudioStarted: boolean;
 }
 
 export const Sequencer: FunctionComponent<SequencerProps> = ({
@@ -27,7 +26,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   bpm,
   isPlaying,
   instruments,
-  isAudioStarted,
 }) => (
   <div className="sequencer-container">
     <TopMenu controller={controller} bpm={bpm} isPlaying={isPlaying} />
@@ -39,6 +37,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
       />
       <GridContainer controller={controller} steps={steps} rows={rows} />
     </div>
-    <BottomControlsComponent />
+    {/* <BottomControlsComponent /> */}
   </div>
 );

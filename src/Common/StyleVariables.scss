@@ -17,19 +17,26 @@ $s1: 0.3rem;
 $s2: $s1 * 2;
 $s3: $s2 + $s1;
 $s4: $s2 * 2;
+$s8: $s4 * 2;
 
 $square-size: $s4 * 4;
-$square-size-mobile: $s4 * 2;
+$square-size-mobile: $s8;
 $square-border-radius: 5px;
 $square-box-shadow: 0 0 2px $grid-border-color inset;
 $light-padding: 5px;
 $standard-padding: 15px;
+
+// font weight
+$fw-normal: normal;
+$fw-semibold: 600;
+$fw-bold: 800;
 
 $border-width: 0.1rem;
 
 $bottom-beat-tracker-padding: 10px;
 
 $icon-size: $s4 + $s3;
+$slider-size: $icon-size - $s2;
 
 $min-size-desktop: 600px;
 

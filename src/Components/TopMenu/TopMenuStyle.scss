@@ -4,27 +4,60 @@
   display: flex;
   width: 100%;
   border-bottom: $border-width solid $darker-grey;
-  margin-bottom: $s4;
+  margin-bottom: $s8;
 
-  .controls {
-    padding: $s4;
-    border-right: $border-width solid $darker-grey;
-    flex: 0 1 25%;
+  div {
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .icon {
+    fill: $saphire;
+    cursor: pointer;
+  }
+
+  .controls {
+    padding: $s2;
+    border-right: $border-width solid $darker-grey;
 
     .icon {
-      fill: $saphire;
       margin: 0 $s2;
-      cursor: pointer;
     }
   }
 
   .slider-container {
-    padding: $s4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: $s2 $s4;
     width: 100%;
+  }
+
+  .help {
+    border-left: $border-width solid $darker-grey;
+    padding: $s2 $s4;
+
+    .icon {
+      fill: $saphire;
+      height: $s4 + $s1;
+      width: $s4 + $s1;
+    }
+  }
+
+  @include mobile {
+    .icon {
+      height: $icon-size - $s2;
+      width: $icon-size - $s2;
+    }
+
+    .slider {
+      input[type="range"]::-webkit-slider-thumb {
+        height: $slider-size - $s2;
+        width: $slider-size - $s2;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        height: $slider-size - $s2;
+        width: $slider-size - $s2;
+      }
+    }
   }
 }

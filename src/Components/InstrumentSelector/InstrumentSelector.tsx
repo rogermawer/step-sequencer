@@ -20,6 +20,7 @@ export enum ToneInstrumentName {
   CLAP = "Clap",
   KICK = "Kick",
   TONE = "Tone",
+  BELL = "Bell",
 }
 
 export interface Instrument {
