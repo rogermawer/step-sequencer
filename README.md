@@ -23,6 +23,6 @@ The build is minified and the filenames include the hashes.\
 
 # Deploy
 
-Production is deployed on Railway at https://step-sequencer-production.up.railway.app/ \
+Production is deployed on AWS at [https://main.d2ccmx7twxyjn2.amplifyapp.com](https://main.d2ccmx7twxyjn2.amplifyapp.com) \
 
 Deployment is based off of `main`, so be advised that direct pushes to `main` will result in deployment.\
