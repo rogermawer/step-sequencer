@@ -1,6 +1,6 @@
 import { Square } from "../Square/Square";
 import "./RowStyle.scss";
-import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { ToneInstrumentName } from "../InstrumentSelector/InstrumentSelector";
 import { FunctionComponent } from "react";
 import { GridController } from "../Grid/Grid";
 
@@ -14,7 +14,7 @@ export interface GridRow {
   index: number;
   note: string;
   octave: number;
-  instrument: Instrument;
+  instrumentName: ToneInstrumentName;
   steps: Step[];
 }
 

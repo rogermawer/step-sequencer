@@ -1,4 +1,3 @@
-import { MembraneSynth, MetalSynth, PolySynth, Sampler } from "tone";
 import { SvgIcon } from "../../Common/SvgIcon";
 import { GridRow } from "../Row/Row";
 import { FunctionComponent } from "react";
@@ -14,18 +13,12 @@ interface InstrumentSelectorProps {
   isEditing: boolean;
 }
 
-export type ToneInstrument = MetalSynth | MembraneSynth | PolySynth | Sampler;
 export enum ToneInstrumentName {
   HAT = "Hat",
   CLAP = "Clap",
   KICK = "Kick",
   TONE = "Tone",
   BELL = "Bell",
-}
-
-export interface Instrument {
-  name: ToneInstrumentName;
-  type: ToneInstrument;
 }
 
 export const InstrumentSelector: FunctionComponent<InstrumentSelectorProps> = ({

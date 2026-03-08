@@ -3,11 +3,10 @@ import "./SequencerStyle.scss";
 import { GridContainer } from "../Grid/GridContainer";
 import { FunctionComponent } from "react";
 import { EditorContainer } from "../Editor/EditorContainer";
-import { BottomControlsComponent } from "../BottomControls/BottomControlComponent";
 import { TopMenu } from "../TopMenu/TopMenu";
 import { SequencerState } from "./SequencerController";
 
-export interface SequencerController {
+export interface SequencerDelegate {
   startSequencer: () => void;
   pauseSequencer: () => void;
   stopSequencer: () => void;
@@ -16,27 +15,27 @@ export interface SequencerController {
 }
 
 interface SequencerProps extends SequencerState {
-  controller: SequencerController;
+  delegate: SequencerDelegate;
 }
 
 export const Sequencer: FunctionComponent<SequencerProps> = ({
-  controller,
+  delegate,
   rows,
   steps,
   bpm,
+  beat,
   isPlaying,
-  instruments,
+  instrumentNames,
 }) => (
   <div className="sequencer-container">
-    <TopMenu controller={controller} bpm={bpm} isPlaying={isPlaying} />
+    <TopMenu controller={delegate} bpm={bpm} isPlaying={isPlaying} />
     <div className="sequencer">
       <EditorContainer
-        controller={controller}
+        controller={delegate}
         rows={rows}
-        instruments={instruments}
+        instrumentNames={instrumentNames}
       />
-      <GridContainer controller={controller} steps={steps} rows={rows} />
+      <GridContainer controller={delegate} steps={steps} rows={rows} beat={beat} />
     </div>
-    {/* <BottomControlsComponent /> */}
   </div>
 );

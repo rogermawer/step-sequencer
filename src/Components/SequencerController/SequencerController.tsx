@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { getDestination, PolySynth, Sampler, Transport } from "tone";
-import {
-  Instrument,
-  ToneInstrumentName,
-} from "../InstrumentSelector/InstrumentSelector";
+import React, { useEffect, useRef, useState } from "react";
+import { ToneInstrumentName } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, Step } from "../Row/Row";
 import { Sequencer } from "./Sequencer";
-import bell from "../../Common/Samples/bell.wav";
-import clap from "../../Common/Samples/clap.wav";
-import hat from "../../Common/Samples/hat.wav";
-import kick from "../../Common/Samples/kick.wav";
-
-interface ExportedSequence {
-  rows: GridRow[];
-}
+import { AudioEngine } from "../../audio/AudioEngine";
 
 interface SequencerProps {
   isAudioStarted: boolean;
+  engine: AudioEngine;
 }
 
 interface SequencerConfig {
@@ -29,8 +19,9 @@ export interface SequencerState {
   steps: number;
   rows: GridRow[];
   bpm: number;
+  beat: number;
   isPlaying: boolean;
-  instruments: Instrument[];
+  instrumentNames: ToneInstrumentName[];
 }
 
 export interface Envelope {
@@ -48,140 +39,81 @@ const initialConfig: SequencerConfig[] = [
   { instrumentName: ToneInstrumentName.KICK, pitch: "A", octave: 3 },
 ];
 
+const createRowSteps = (count: number): Step[] =>
+  Array.from({ length: count }, () => ({ isActive: false, isSplit: false }));
+
+const buildInitialRows = (steps: number): GridRow[] =>
+  initialConfig.map((config, index) => ({
+    index,
+    note: config.pitch,
+    octave: config.octave,
+    instrumentName: config.instrumentName,
+    steps: createRowSteps(steps),
+  }));
+
 export const SequencerController: React.FC<SequencerProps> = ({
   isAudioStarted,
+  engine,
 }) => {
-  const output = getDestination();
-  output.volume.value = -12;
-
-  const [rows, setRows] = useState<GridRow[]>([]);
-  const [steps, setSteps] = useState<number>(8);
+  const STEPS = 8;
+  const [rows, setRows] = useState<GridRow[]>(buildInitialRows(STEPS));
   const [bpm, setBpm] = useState<number>(100);
+  const [beat, setBeat] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [instruments, setInstruments] = useState<Instrument[]>([
-    {
-      name: ToneInstrumentName.CLAP,
-      type: new Sampler({
-        urls: {
-          C3: clap,
-        },
-      }),
-    },
-    {
-      name: ToneInstrumentName.HAT,
-      type: new Sampler({
-        urls: {
-          C3: hat,
-        },
-      }),
-    },
-    {
-      name: ToneInstrumentName.KICK,
-      type: new Sampler({
-        urls: {
-          C3: kick,
-        },
-      }),
-    },
-    {
-      name: ToneInstrumentName.BELL,
-      type: new Sampler({
-        urls: {
-          C3: bell,
-        },
-      }),
-    },
-    {
-      name: ToneInstrumentName.TONE,
-      type: new PolySynth(undefined, { oscillator: { type: "square8" } }),
-    },
-  ]);
 
   useEffect(() => {
-    createRows();
-    setSequencerData();
+    engine.setOnStep(setBeat);
+    engine.setRows(rows);
+    engine.setTempo(bpm);
   }, []);
-
-  const setSequencerData = () => {
-    Transport.bpm.value = bpm;
-    Transport.setLoopPoints(0, "1m");
-    Transport.loop = true;
-  };
 
   const startSequencer = () => {
     if (isAudioStarted) {
-      Transport.start();
+      engine.startSequencer();
       setIsPlaying(true);
     }
   };
 
   const pauseSequencer = () => {
     if (isPlaying) {
-      Transport.pause();
+      engine.pauseSequencer();
       setIsPlaying(false);
     }
   };
 
   const stopSequencer = () => {
-    Transport.stop();
+    engine.stopSequencer();
     setIsPlaying(false);
   };
 
   const handleChangeTempo = (bpmString: string) => {
-    const bpm = parseInt(bpmString);
-    Transport.set({ bpm });
-    setBpm(bpm);
-  };
-
-  const createRowSteps = (): Step[] => {
-    const defaultStep: Step = {
-      isActive: false,
-      isSplit: false,
-    };
-    let defaultSteps: Step[] = [];
-    [...Array(steps)].map(() => defaultSteps.push(defaultStep));
-    return defaultSteps;
-  };
-
-  const createRows = () => {
-    let newRows: GridRow[] = [];
-    initialConfig.map((value, index) => {
-      const defaultInstrument: Instrument =
-        instruments.find((inst) => inst.name === value.instrumentName) ??
-        instruments[0];
-      defaultInstrument.type.connect(output);
-      return newRows.push({
-        index,
-        note: value.pitch,
-        octave: value.octave,
-        instrument: defaultInstrument,
-        steps: createRowSteps(),
-      });
-    });
-    setRows(newRows);
+    const newBpm = parseInt(bpmString);
+    engine.setTempo(newBpm);
+    setBpm(newBpm);
   };
 
   const updateRows = (row: GridRow) => {
-    row.instrument.type.connect(output);
     const newRows: GridRow[] = [...rows];
     newRows[row.index] = row;
+    engine.setRows(newRows);
     setRows(newRows);
   };
 
   return (
     <Sequencer
-      controller={{
+      delegate={{
         startSequencer,
         pauseSequencer,
         stopSequencer,
         handleChangeTempo,
         updateRows,
       }}
-      steps={steps}
+      steps={STEPS}
       rows={rows}
       bpm={bpm}
-      instruments={instruments}
+      beat={beat}
       isPlaying={isPlaying}
+      instrumentNames={Object.values(ToneInstrumentName)}
     />
   );
 };

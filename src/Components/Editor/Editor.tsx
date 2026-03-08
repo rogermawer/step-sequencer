@@ -3,7 +3,7 @@ import { Selector } from "../../Common/Selector/Selector";
 import { SvgIcon } from "../../Common/SvgIcon";
 import { useClickOutside } from "../../Hooks/useClickOutside";
 import {
-  Instrument,
+  ToneInstrumentName,
   InstrumentSelector,
 } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow } from "../Row/Row";
@@ -21,7 +21,7 @@ export interface EditorController {
 interface EditorProps {
   controller: EditorController;
   editingRow: GridRow | null;
-  instruments: Instrument[];
+  instrumentNames: ToneInstrumentName[];
   rows: GridRow[];
 }
 
@@ -31,7 +31,7 @@ const possibleOctaves = [1, 2, 3, 4, 5];
 export const Editor: React.FC<EditorProps> = ({
   controller,
   editingRow,
-  instruments,
+  instrumentNames,
   rows,
 }) => {
   const ref = useRef(null);
@@ -65,8 +65,8 @@ export const Editor: React.FC<EditorProps> = ({
 
               <Selector
                 label="Current Instrument"
-                value={editingRow.instrument.name}
-                items={instruments.map((inst) => ({ name: inst.name }))}
+                value={editingRow.instrumentName}
+                items={instrumentNames.map((name) => ({ name }))}
                 onChange={controller.onChangeInstrument}
               />
             </div>

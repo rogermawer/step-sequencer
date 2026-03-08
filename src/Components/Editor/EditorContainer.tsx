@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GridRow } from "../Row/Row";
 import { Editor } from "./Editor";
-import { Instrument } from "../InstrumentSelector/InstrumentSelector";
+import { ToneInstrumentName } from "../InstrumentSelector/InstrumentSelector";
 
 interface EditorContainerController {
   updateRows: (row: GridRow) => void;
@@ -10,7 +10,7 @@ interface EditorContainerController {
 interface EditorContainerProps {
   controller: EditorContainerController;
   rows: GridRow[];
-  instruments: Instrument[];
+  instrumentNames: ToneInstrumentName[];
 }
 
 export interface EditorContainerState {
@@ -20,18 +20,14 @@ export interface EditorContainerState {
 export const EditorContainer: React.FC<EditorContainerProps> = ({
   controller,
   rows,
-  instruments,
+  instrumentNames,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
 
-  const getInstrument = (instrumentName: string): Instrument | undefined =>
-    instruments.find((inst) => inst.name === instrumentName);
-
   const onChangeInstrument = (instrumentName: string) => {
-    const instrument: Instrument =
-      getInstrument(instrumentName) ?? instruments[0];
-
-    updateRow(editingRowIndex, { instrument });
+    updateRow(editingRowIndex, {
+      instrumentName: instrumentName as ToneInstrumentName,
+    });
   };
 
   const onChangeNote = (note: string) => {
@@ -84,7 +80,7 @@ export const EditorContainer: React.FC<EditorContainerProps> = ({
         onShiftRow,
         onShiftSequence,
       }}
-      instruments={instruments}
+      instrumentNames={instrumentNames}
       editingRow={getEditingRow()}
       rows={rows}
     />
