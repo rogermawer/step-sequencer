@@ -1,14 +1,14 @@
 import { SyntheticEvent } from "react";
-import { StepPosition } from "../Row/Row";
 import "./SquareStyle.scss";
+import { StepPosition } from "../StepEditor/StepEditor";
 
-export interface SquareController {
+export interface SquareDelegate {
   toggleIsActiveNote: (p: StepPosition) => void;
   onSplitSquare: (p: StepPosition, e: SyntheticEvent) => void;
 }
 
 interface SquareProps {
-  controller: SquareController;
+  delegate: SquareDelegate;
   isActive: boolean;
   isSplit: boolean;
   isPlaying: boolean;
@@ -16,15 +16,15 @@ interface SquareProps {
 }
 
 export const Square = ({
-  controller,
+  delegate,
   isActive,
   isSplit,
   isPlaying,
   stepPosition,
 }: SquareProps) => (
   <div
-    onClick={() => controller.toggleIsActiveNote(stepPosition)}
-    onContextMenu={(e) => controller.onSplitSquare(stepPosition, e)}
+    onClick={() => delegate.toggleIsActiveNote(stepPosition)}
+    onContextMenu={(e) => delegate.onSplitSquare(stepPosition, e)}
     className={`square${isPlaying ? " playing" : ""}${
       isActive ? " active" : ""
     }${isSplit ? " split" : ""}`}

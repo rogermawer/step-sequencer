@@ -21,6 +21,7 @@ $s8: $s4 * 2;
 
 $square-size: $s4 * 4;
 $square-size-mobile: $s8;
+$square-size-mobile-width: calc($square-size-mobile / 2);
 $square-border-radius: 5px;
 $square-box-shadow: 0 0 2px $grid-border-color inset;
 $light-padding: 5px;

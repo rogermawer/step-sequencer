@@ -1,9 +1,8 @@
 import { Slider } from "../../Common/Slider/Slider";
 import { SvgIcon } from "../../Common/SvgIcon";
-import { Editor } from "../Editor/Editor";
 import "../TopMenu/TopMenuStyle.scss";
 
-interface TopMenuController {
+interface TopMenuDelegate {
   startSequencer: () => void;
   pauseSequencer: () => void;
   stopSequencer: () => void;
@@ -11,30 +10,30 @@ interface TopMenuController {
 }
 
 interface TopMenuProps {
-  controller: TopMenuController;
+  delegate: TopMenuDelegate;
   bpm: number;
   isPlaying: boolean;
 }
 
 export const TopMenu: React.FC<TopMenuProps> = ({
-  controller,
+  delegate,
   bpm,
   isPlaying,
 }) => (
   <div className="top-menu">
     <div className="controls">
       {isPlaying ? (
-        <SvgIcon type="pause" onClick={controller.pauseSequencer} />
+        <SvgIcon type="pause" onClick={delegate.pauseSequencer} />
       ) : (
-        <SvgIcon type="play" onClick={controller.startSequencer} />
+        <SvgIcon type="play" onClick={delegate.startSequencer} />
       )}
-      <SvgIcon type="stop" onClick={controller.stopSequencer} />
+      <SvgIcon type="stop" onClick={delegate.stopSequencer} />
     </div>
     <div className="slider-container">
       <Slider
         value={bpm}
         range={{ min: 60, max: 190 }}
-        onChange={(e) => controller.handleChangeTempo(e.currentTarget.value)}
+        onChange={(e) => delegate.handleChangeTempo(e.currentTarget.value)}
       />
     </div>
 

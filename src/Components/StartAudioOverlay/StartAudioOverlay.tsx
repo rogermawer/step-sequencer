@@ -1,19 +1,19 @@
 import "../StartAudioOverlay/StartAudioOverlayStyle.scss";
 
-interface StartAudioOverlayController {
+interface StartAudioOverlayDelegate {
   onStartAudio: () => void;
 }
 
 interface StartAudioOverlayProps {
-  controller: StartAudioOverlayController;
+  delegate: StartAudioOverlayDelegate;
 }
 
 export const StartAudioOverlay: React.FC<StartAudioOverlayProps> = ({
-  controller,
+  delegate,
 }) => (
   <div className="start-audio-overlay">
     <div className="start-button-container">
-      <button onClick={controller.onStartAudio}>START AUDIO ENGINE</button>
+      <button onClick={delegate.onStartAudio}>START AUDIO ENGINE</button>
     </div>
   </div>
 );

@@ -1,12 +1,10 @@
 @import "../../Common/StyleVariables.scss";
 
-$square-size-mobile-width: calc($square-size-mobile / 2);
-
 .selector-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: $icon-size;
+  width: $square-size;
   height: $square-size;
 
   .icon {
@@ -19,7 +17,7 @@ $square-size-mobile-width: calc($square-size-mobile / 2);
 
   @include mobile {
     height: $square-size-mobile;
-    width: $square-size-mobile-width;
+    width: $square-size-mobile;
 
     .icon {
       height: $square-size-mobile-width;

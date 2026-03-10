@@ -2,40 +2,40 @@ import { useRef } from "react";
 import { Selector } from "../../Common/Selector/Selector";
 import { SvgIcon } from "../../Common/SvgIcon";
 import { useClickOutside } from "../../Hooks/useClickOutside";
-import {
-  ToneInstrumentName,
-  InstrumentSelector,
-} from "../InstrumentSelector/InstrumentSelector";
-import { GridRow } from "../Row/Row";
+import { InstrumentSelector } from "../InstrumentSelector/InstrumentSelector";
 import "./EditorStyle.scss";
+import { GridRow, GridRows } from "../StepEditor/StepEditor";
+import { ToneInstrumentName } from "../../audio/AudioEngine";
 
-export interface EditorController {
+export interface EditorDelegate {
   onChangeInstrument: (instrument: string) => void;
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
-  onToggleEditor: (row: GridRow | null) => void;
-  onShiftRow: (r: GridRow) => void;
+  onToggleEditor: (rowIndex: number | null) => void;
+  onShiftRow: (row: GridRow | null) => void;
   onShiftSequence: () => void;
 }
 
 interface EditorProps {
-  controller: EditorController;
+  delegate: EditorDelegate;
   editingRow: GridRow | null;
+  editingRowIndex: number | null;
   instrumentNames: ToneInstrumentName[];
-  rows: GridRow[];
+  rows: GridRows;
 }
 
 const possibleNotes = ["C", "D", "E", "F", "G", "A", "B"];
 const possibleOctaves = [1, 2, 3, 4, 5];
 
 export const Editor: React.FC<EditorProps> = ({
-  controller,
+  delegate,
   editingRow,
+  editingRowIndex,
   instrumentNames,
   rows,
 }) => {
   const ref = useRef(null);
-  useClickOutside(ref, () => controller.onToggleEditor(null));
+  useClickOutside(ref, () => delegate.onToggleEditor(null));
 
   return (
     <div ref={ref}>
@@ -43,7 +43,7 @@ export const Editor: React.FC<EditorProps> = ({
         <SvgIcon
           type="arrowDown"
           className="close"
-          onClick={() => controller.onToggleEditor(null)}
+          onClick={() => delegate.onToggleEditor(null)}
         />
         {editingRow ? (
           <div className="selector-group">
@@ -53,33 +53,33 @@ export const Editor: React.FC<EditorProps> = ({
                 label="Row Note"
                 value={editingRow.note}
                 items={possibleNotes.map((note) => ({ name: note }))}
-                onChange={controller.onChangeNote}
+                onChange={delegate.onChangeNote}
               />
 
               <Selector
                 label="Octave"
                 value={editingRow.octave}
                 items={possibleOctaves.map((octave) => ({ name: octave }))}
-                onChange={controller.onChangeOctave}
+                onChange={delegate.onChangeOctave}
               />
 
               <Selector
                 label="Current Instrument"
                 value={editingRow.instrumentName}
                 items={instrumentNames.map((name) => ({ name }))}
-                onChange={controller.onChangeInstrument}
+                onChange={delegate.onChangeInstrument}
               />
             </div>
             <div className="row-actions">
               <h3>Row Actions</h3>
               <button
                 className="shift"
-                onClick={() => controller.onShiftRow(editingRow)}
+                onClick={() => delegate.onShiftRow(editingRow)}
               >
                 Shift Row
                 <SvgIcon type="shift" />
               </button>
-              <button className="shift" onClick={controller.onShiftSequence}>
+              <button className="shift" onClick={delegate.onShiftSequence}>
                 Shift Sequence
                 <SvgIcon type="shift" />
               </button>
@@ -89,12 +89,12 @@ export const Editor: React.FC<EditorProps> = ({
       </div>
 
       <div className="selector-container">
-        {rows.map((row, i) => (
+        {Object.entries(rows).map(([i]) => (
           <InstrumentSelector
             key={i}
-            controller={controller}
-            row={row}
-            isEditing={row.index === editingRow?.index}
+            delegate={delegate}
+            rowIndex={Number(i)}
+            isEditing={Number(i) === editingRowIndex}
           />
         ))}
       </div>

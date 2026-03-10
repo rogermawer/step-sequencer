@@ -6,18 +6,25 @@ import {
   start,
   Time,
 } from "tone";
-import { ToneInstrumentName } from "../Components/InstrumentSelector/InstrumentSelector";
-import { GridRow } from "../Components/Row/Row";
 import bell from "../Common/Samples/bell.wav";
 import clap from "../Common/Samples/clap.wav";
 import hat from "../Common/Samples/hat.wav";
 import kick from "../Common/Samples/kick.wav";
+import { GridRows } from "../Components/StepEditor/StepEditor";
+
+export enum ToneInstrumentName {
+  HAT = "Hat",
+  CLAP = "Clap",
+  KICK = "Kick",
+  TONE = "Tone",
+  BELL = "Bell",
+}
 
 type ToneInstrument = PolySynth | Sampler;
 
 export class AudioEngine {
   private instruments: Map<ToneInstrumentName, ToneInstrument>;
-  private rows: GridRow[] = [];
+  private rows: GridRows = {};
   private transport = getTransport();
   private output = getDestination();
   private currentStep = 0;
@@ -51,7 +58,7 @@ export class AudioEngine {
     this.transport.scheduleRepeat((time) => this.play(time), "8n");
   }
 
-  public setRows(rows: GridRow[]): void {
+  public setRows(rows: GridRows): void {
     this.rows = rows;
   }
 
@@ -87,7 +94,7 @@ export class AudioEngine {
 
   private play(time: number): void {
     if (this.transport.state !== "started") return;
-    this.rows.forEach((row) => {
+    Object.values(this.rows).forEach((row) => {
       const { steps, instrumentName, note, octave } = row;
       const instrument = this.instruments.get(instrumentName);
       if (!instrument) return;

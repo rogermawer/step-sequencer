@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { StartAudioOverlay } from "./Components/StartAudioOverlay/StartAudioOverlay";
-import { SequencerController } from "./Components/SequencerController/SequencerController";
+import { SequencerContainer } from "./Components/SequencerContainer/SequencerContainer";
 import "./App.scss";
 import { AudioEngine } from "./audio/AudioEngine";
 
@@ -24,9 +24,9 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       {!isAudioStarted ? (
-        <StartAudioOverlay controller={{ onStartAudio }} />
+        <StartAudioOverlay delegate={{ onStartAudio }} />
       ) : audioEngineRef.current ? (
-        <SequencerController
+        <SequencerContainer
           isAudioStarted={isAudioStarted}
           engine={audioEngineRef.current}
         />

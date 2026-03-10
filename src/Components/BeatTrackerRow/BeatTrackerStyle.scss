@@ -3,4 +3,9 @@
 .beat-tracker {
   display: flex;
   flex-direction: row;
+  margin-left: $square-size;
+
+  @include mobile {
+    margin-left: $square-size-mobile;
+  }
 }

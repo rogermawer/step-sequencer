@@ -1,35 +1,26 @@
 import { SvgIcon } from "../../Common/SvgIcon";
-import { GridRow } from "../Row/Row";
 import { FunctionComponent } from "react";
 import "./InstrumentSelectorStyle.scss";
 
-export interface InstrumentSelectorController {
-  onToggleEditor: (row: GridRow | null) => void;
+export interface InstrumentSelectorDelegate {
+  onToggleEditor: (rowIndex: number) => void;
 }
 
 interface InstrumentSelectorProps {
-  controller: InstrumentSelectorController;
-  row: GridRow;
+  delegate: InstrumentSelectorDelegate;
+  rowIndex: number;
   isEditing: boolean;
 }
 
-export enum ToneInstrumentName {
-  HAT = "Hat",
-  CLAP = "Clap",
-  KICK = "Kick",
-  TONE = "Tone",
-  BELL = "Bell",
-}
-
 export const InstrumentSelector: FunctionComponent<InstrumentSelectorProps> = ({
-  controller,
-  row,
+  delegate,
+  rowIndex,
   isEditing,
 }) => (
   <div className="selector-button">
     <SvgIcon
       className={isEditing ? "active" : ""}
-      onClick={() => controller.onToggleEditor(row)}
+      onClick={() => delegate.onToggleEditor(rowIndex)}
       type="piano"
     />
   </div>

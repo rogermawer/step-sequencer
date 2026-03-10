@@ -1,0 +1,11 @@
+@import "../../Common/StyleVariables.scss";
+
+.steps {
+  display: flex;
+
+  .side-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
