@@ -84,17 +84,6 @@ export const RowEditor: React.FC<RowEditorProps> = ({
           </div>
         ) : null}
       </div>
-
-      {/* <div className="selector-container">
-        {Object.entries(rows).map(([i]) => (
-          <InstrumentSelector
-            key={i}
-            delegate={delegate}
-            rowIndex={Number(i)}
-            isEditing={Number(i) === editingRowIndex}
-          />
-        ))}
-      </div> */}
     </div>
   );
 };

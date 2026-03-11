@@ -3,24 +3,23 @@
 .selector-button {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: $square-size;
-  height: $square-size;
+  justify-content: center;
+  cursor: pointer;
 
-  .icon {
-    cursor: pointer;
-
-    &.active {
-      fill: $orange;
-    }
+  .row-dot {
+    width: $row-dot-size;
+    height: $row-dot-size;
+    border-radius: 50%;
+    background: $border-dark;
+    transition: background $quick-transition;
+    flex-shrink: 0;
   }
 
-  @include mobile {
-    height: $square-size-mobile;
-    width: $square-size-mobile;
+  &:hover .row-dot {
+    background: $text-muted;
+  }
 
-    .icon {
-      height: $square-size-mobile-width;
-    }
+  &.active .row-dot {
+    background: $active-color;
   }
 }

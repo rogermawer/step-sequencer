@@ -1,13 +1,29 @@
 @import "./Common/StyleVariables.scss";
 
-html, body{
-  height: 100%;
+* {
   margin: 0;
   padding: 0;
-  background-color: $ivory;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: $bg-primary;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 
   button {
     background: transparent;
@@ -15,16 +31,12 @@ html, body{
     cursor: pointer;
   }
 
-  h1, h2, h3, div, p, a {
+  h1,
+  h2,
+  h3,
+  div,
+  p,
+  a {
     margin: 0;
   }
-}
-
-* {
-  font-family: 'Roboto', sans-serif;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: local('Roboto'), url(./fonts/Roboto-Regular.ttf) format('truetype');
 }

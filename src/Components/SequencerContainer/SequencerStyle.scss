@@ -3,15 +3,30 @@
 .sequencer-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 
   .sequencer {
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    gap: $cell-gap;
 
     .row {
-      display: flex;
+      display: grid;
+      grid-template-columns: $row-label-width auto;
+      gap: $cell-gap;
+      align-items: center;
+    }
+  }
+
+  @include mobile {
+    width: 100%;
+
+    .sequencer {
+      width: 100%;
+
+      .row {
+        grid-template-columns: $row-label-width 1fr;
+      }
     }
   }
 }

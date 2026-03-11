@@ -1,4 +1,3 @@
-import { SvgIcon } from "../../Common/SvgIcon";
 import { FunctionComponent } from "react";
 import "./InstrumentSelectorStyle.scss";
 
@@ -17,11 +16,10 @@ export const InstrumentSelector: FunctionComponent<InstrumentSelectorProps> = ({
   rowIndex,
   isEditing,
 }) => (
-  <div className="selector-button">
-    <SvgIcon
-      className={isEditing ? "active" : ""}
-      onClick={() => delegate.onToggleEditor(rowIndex)}
-      type="piano"
-    />
+  <div
+    className={`selector-button${isEditing ? " active" : ""}`}
+    onClick={() => delegate.onToggleEditor(rowIndex)}
+  >
+    <div className="row-dot" />
   </div>
 );

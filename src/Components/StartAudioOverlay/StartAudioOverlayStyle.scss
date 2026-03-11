@@ -1,10 +1,8 @@
 @import "../../Common/StyleVariables.scss";
 
 .start-audio-overlay {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.9);
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  background-color: $bg-primary;
   z-index: $start-overlay-z;
 
   .start-button-container {
@@ -13,13 +11,26 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    gap: $s4;
 
     button {
-      padding: $standard-padding;
-      color: $sky-blue;
-      border-radius: $square-border-radius;
-      border: 2px solid $sky-blue;
-      font-size: 26px;
+      padding: $s4 $s8;
+      color: $text-primary;
+      border-radius: $cell-border-radius;
+      border: $border-width solid $border-dark;
+      font-size: $s4;
+      background: $bg-sheet;
+      cursor: pointer;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition:
+        border-color $quick-transition,
+        background $quick-transition;
+
+      &:hover {
+        border-color: $text-muted;
+        background: $bg-cell;
+      }
     }
   }
 }

@@ -1,5 +1,4 @@
 import "./StepEditorStyle.scss";
-import { BeatTrackerRow } from "../BeatTrackerRow/BeatTrackerRow";
 import { FunctionComponent, SyntheticEvent } from "react";
 import { Square } from "../Square/Square";
 import { ToneInstrumentName } from "../../audio/AudioEngine";

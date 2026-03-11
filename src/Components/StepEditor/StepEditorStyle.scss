@@ -1,11 +1,12 @@
 @import "../../Common/StyleVariables.scss";
 
 .steps {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: $square-size;
+  gap: $cell-gap;
 
-  .side-controls {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  @include mobile {
+    grid-auto-columns: 1fr;
   }
 }

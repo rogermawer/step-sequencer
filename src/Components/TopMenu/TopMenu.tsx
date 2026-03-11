@@ -36,9 +36,5 @@ export const TopMenu: React.FC<TopMenuProps> = ({
         onChange={(e) => delegate.handleChangeTempo(e.currentTarget.value)}
       />
     </div>
-
-    {/* <div className="help">
-      <SvgIcon type="help" />
-    </div> */}
   </div>
 );

@@ -6,7 +6,6 @@ import { InstrumentSelector } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
 import { RowEditorContainer } from "../RowEditor/RowEditorContainer";
 import { ToneInstrumentName } from "../../audio/AudioEngine";
-import { BeatTrackerRow } from "../BeatTrackerRow/BeatTrackerRow";
 
 export interface SequencerDelegate {
   startSequencer: () => void;
@@ -60,7 +59,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
           </div>
         );
       })}
-      <BeatTrackerRow steps={steps} beat={beat} />
     </div>
     {editingIndex >= 0 ? (
       <RowEditorContainer
