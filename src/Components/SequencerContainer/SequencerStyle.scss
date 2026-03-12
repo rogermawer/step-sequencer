@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  overflow: auto;
 
   .sequencer {
     display: flex;
@@ -69,11 +70,7 @@
   }
 
   @include mobile {
-    width: 100%;
-
     .sequencer {
-      width: 100%;
-
       .row {
         grid-template-columns: $row-label-width 1fr;
       }
