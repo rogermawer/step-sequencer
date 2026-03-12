@@ -4,35 +4,44 @@
   position: relative;
   display: flex;
   align-items: center;
+  gap: $s2;
   width: 100%;
-  max-width: 20rem;
 
   input[type="range"] {
+    -webkit-appearance: none;
     appearance: none;
-    background: transparent;
     width: 100%;
-    border-radius: $square-border-radius;
-    background: $dark-grey;
+    height: $s1;
+    border-radius: $s1;
+    background: $border-dark;
     outline: none;
+    cursor: pointer;
   }
 
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: $slider-size;
-    width: $slider-size;
-    background: $saphire;
+    height: $s4;
+    width: $s4;
+    border-radius: 50%;
+    background: $text-primary;
     cursor: pointer;
   }
 
   input[type="range"]::-moz-range-thumb {
-    height: $slider-size;
-    width: $slider-size;
-    background: $saphire;
+    height: $s4;
+    width: $s4;
+    border-radius: 50%;
+    background: $text-primary;
     cursor: pointer;
+    border: none;
   }
 
   .value-readout {
-    width: $s4;
+    font-size: $s3;
+    color: $text-secondary;
+    min-width: $s4 + $s2;
+    white-space: nowrap;
+    text-align: right;
   }
 }

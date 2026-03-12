@@ -3,20 +3,64 @@
 .square {
   width: $square-size;
   height: $square-size;
-  border-radius: $square-border-radius;
-  box-shadow: $square-box-shadow;
+  border-radius: $cell-border-radius;
+  background: $bg-cell;
   cursor: pointer;
+  transition:
+    background $quick-transition,
+    transform $quick-transition;
 
-  &.active {
-    background-color: $active-color;
+  &:active {
+    transform: scale(0.9);
   }
 
-  &.split {
-    background-color: $split-color;
+  &.active {
+    background: var(--rc);
+    box-shadow: 0 0 $s4 color-mix(in srgb, var(--rc) 60%, transparent);
+  }
+
+  &.playing:not(.active) {
+    background: lighten($bg-cell, 5%);
+  }
+
+  &.active.playing {
+    background: $text-primary;
+    box-shadow: 0 0 $s4 color-mix(in srgb, var(--rc) 90%, transparent);
+  }
+
+  &.split:not(.active) {
+    background: linear-gradient(
+      to bottom right,
+      $bg-cell calc(50% - 1px),
+      rgba(255, 255, 255, 0.12) calc(50% - 1px),
+      rgba(255, 255, 255, 0.12) calc(50% + 1px),
+      lighten($bg-cell, 8%) calc(50% + 1px)
+    );
+  }
+
+  &.split.active {
+    background: linear-gradient(
+      to bottom right,
+      var(--rc) calc(50% - 1px),
+      rgba(255, 255, 255, 0.5) calc(50% - 1px),
+      rgba(255, 255, 255, 0.5) calc(50% + 1px),
+      color-mix(in srgb, var(--rc) 80%, white) calc(50% + 1px)
+    );
+  }
+
+  &.split.active.playing {
+    background: linear-gradient(
+      to bottom right,
+      $text-primary calc(50% - 1px),
+      rgba(255, 255, 255, 0.5) calc(50% - 1px),
+      rgba(255, 255, 255, 0.5) calc(50% + 1px),
+      darken($text-primary, 10%) calc(50% + 1px)
+    );
   }
 
   @include mobile {
-    width: $square-size-mobile;
-    height: $square-size-mobile;
+    width: $square-size / 3;
+    height: $square-size / 3;
+    aspect-ratio: 1;
   }
 }

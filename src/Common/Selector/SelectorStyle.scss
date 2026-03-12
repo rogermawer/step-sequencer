@@ -3,11 +3,16 @@
 .selector {
   margin-bottom: $light-padding;
 
+  label {
+    color: $text-secondary;
+  }
   select {
     border: none;
     background: transparent;
     font-size: 100%;
-    color: $saphire;
+    color: $text-primary;
     font-weight: $fw-semibold;
+    outline: none;
+    cursor: pointer;
   }
 }

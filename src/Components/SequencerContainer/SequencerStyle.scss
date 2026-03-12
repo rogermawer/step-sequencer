@@ -1,0 +1,82 @@
+@import "../../Common/StyleVariables.scss";
+
+.sequencer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .sequencer {
+    display: flex;
+    flex-direction: column;
+    gap: $cell-gap;
+
+    .row {
+      display: grid;
+      grid-template-columns: $row-label-width auto;
+      gap: $cell-gap;
+      align-items: center;
+
+      &:nth-child(1) {
+        --rc: #{$row-color-1};
+      }
+      &:nth-child(2) {
+        --rc: #{$row-color-2};
+      }
+      &:nth-child(3) {
+        --rc: #{$row-color-3};
+      }
+      &:nth-child(4) {
+        --rc: #{$row-color-4};
+      }
+      &:nth-child(5) {
+        --rc: #{$row-color-5};
+      }
+    }
+  }
+
+  .shift-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: $s2;
+    margin-top: $s4;
+
+    .shift-btn {
+      width: $clear-btn-size;
+      height: $clear-btn-size;
+      border-radius: 50%;
+      background: none;
+      border: $border-width solid $border-dark;
+      color: $text-muted;
+      font-size: $s4;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        border-color $quick-transition,
+        color $quick-transition,
+        transform $quick-transition;
+
+      &:hover {
+        border-color: $text-muted;
+        color: $text-secondary;
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  @include mobile {
+    width: 100%;
+
+    .sequencer {
+      width: 100%;
+
+      .row {
+        grid-template-columns: $row-label-width 1fr;
+      }
+    }
+  }
+}

@@ -1,29 +1,35 @@
 @import "../../Common/StyleVariables.scss";
 
-$close-icon-size: 1.3rem;
-$editing-menu-height: 20rem;
+$close-icon-size: $s4;
 
 .editing-menu {
-  position: absolute;
-  width: 100%;
+  position: fixed;
   bottom: 0;
   left: 0;
-  height: 0;
-  transition: all 0.5s;
-  background-color: $grey;
-  border-radius: $square-border-radius;
+  right: 0;
+  width: 100%;
+  margin: 0 auto;
+  background-color: $bg-sheet;
+  border-radius: $sheet-border-radius $sheet-border-radius 0 0;
+  padding: $s4 $s8 $s8;
+  z-index: $editor-z;
 
   &.is-open {
-    height: $editing-menu-height;
+    transform: translateY(0);
   }
 
   .close {
     position: absolute;
-    right: $s2;
-    top: $s1;
+    right: $s4;
+    top: $s4;
     width: $close-icon-size;
     height: $close-icon-size;
     cursor: pointer;
+    fill: $text-muted;
+
+    &:hover {
+      fill: $text-primary;
+    }
   }
 
   .selector-group {
@@ -32,7 +38,10 @@ $editing-menu-height: 20rem;
 
     h3 {
       margin-bottom: $s2;
-      color: $saphire;
+      color: $text-secondary;
+      font-size: $s3;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
     }
 
     .row-actions {
@@ -43,30 +52,21 @@ $editing-menu-height: 20rem;
         font-size: 100%;
         padding: 0;
         margin-bottom: $s2;
+        color: $text-secondary;
+        cursor: pointer;
 
         .icon {
           margin-left: $s2;
           height: $s4;
           width: $s4;
-          fill: $saphire;
+          fill: $text-primary;
         }
       }
     }
   }
 
   @include mobile {
+    padding: $s2 $s4 $s4;
     font-size: small;
-  }
-}
-
-.selector-container {
-  display: flex;
-  flex-direction: column;
-  margin-right: $standard-padding;
-
-  .selector-info {
-    display: flex;
-    align-items: center;
-    width: 100%;
   }
 }

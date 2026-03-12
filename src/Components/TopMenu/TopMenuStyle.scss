@@ -2,8 +2,9 @@
 
 .top-menu {
   display: flex;
+  align-items: center;
+  gap: $controls-gap;
   width: 100%;
-  border-bottom: $border-width solid $darker-grey;
   margin-bottom: $s8;
 
   div {
@@ -13,51 +14,66 @@
   }
 
   .icon {
-    fill: $saphire;
+    fill: $text-primary;
     cursor: pointer;
+    transition:
+      opacity $quick-transition,
+      transform $quick-transition;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
   }
 
   .controls {
-    padding: $s2;
-    border-right: $border-width solid $darker-grey;
+    display: flex;
+    align-items: center;
+    gap: $s2;
+    padding: 0;
+    border-right: none;
+    flex-shrink: 0;
 
     .icon {
-      margin: 0 $s2;
+      width: $play-btn-size;
+      height: $play-btn-size;
+      background: $text-primary;
+      border-radius: 50%;
+      fill: $bg-primary;
+
+      &:hover {
+        opacity: 1;
+        background: darken($text-primary, 8%);
+      }
+
+      &:last-child {
+        background: none;
+        border: $border-width solid $border-dark;
+        fill: $text-muted;
+
+        &:hover {
+          border-color: $text-muted;
+          fill: $text-secondary;
+          background: none;
+        }
+      }
     }
   }
 
   .slider-container {
-    padding: $s2 $s4;
-    width: 100%;
-  }
-
-  .help {
-    border-left: $border-width solid $darker-grey;
-    padding: $s2 $s4;
-
-    .icon {
-      fill: $saphire;
-      height: $s4 + $s1;
-      width: $s4 + $s1;
-    }
+    flex: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
   }
 
   @include mobile {
-    .icon {
-      height: $icon-size - $s2;
-      width: $icon-size - $s2;
-    }
-
-    .slider {
-      input[type="range"]::-webkit-slider-thumb {
-        height: $slider-size - $s2;
-        width: $slider-size - $s2;
-      }
-
-      input[type="range"]::-moz-range-thumb {
-        height: $slider-size - $s2;
-        width: $slider-size - $s2;
-      }
+    .controls .icon {
+      width: $s8;
+      height: $s8;
     }
   }
 }

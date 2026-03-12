@@ -6,12 +6,30 @@ $saphire: #19647e;
 $orange: #f3b61f;
 $ivory: #f4f4f3;
 
+$bg-primary: #111;
+$bg-cell: #222;
+$bg-sheet: #1a1a1a;
+$bg-sheet-border: #222;
+
+$text-primary: #fff;
+$text-secondary: #888;
+$text-muted: #555;
+$text-label: #444;
+$border-dark: #333;
+
+$mute-color: #ff4444;
+$play-btn-playing-color: #e8f55a;
+
+$row-color-1: #e8f55a;
+$row-color-2: #5af5b4;
+$row-color-3: #5ab4f5;
+$row-color-4: #f55a9e;
+$row-color-5: #f5a05a;
+
 $active-color: $orange;
 $split-color: $sky-blue;
 $current-beat-color: $orange;
 $grid-border-color: $saphire;
-
-// sizes
 
 $s1: 0.3rem;
 $s2: $s1 * 2;
@@ -21,28 +39,36 @@ $s8: $s4 * 2;
 
 $square-size: $s4 * 4;
 $square-size-mobile: $s8;
-$square-border-radius: 5px;
-$square-box-shadow: 0 0 2px $grid-border-color inset;
-$light-padding: 5px;
-$standard-padding: 15px;
+$square-size-mobile-width: calc($square-size-mobile / 2);
+$square-border-radius: $s2;
+$square-box-shadow: 0 0 $s1 $grid-border-color inset;
+$light-padding: $s2;
+$standard-padding: $s4;
 
-// font weight
+$cell-gap: $s2;
+$cell-border-radius: $s2;
+$row-label-width: $s4;
+$row-dot-size: $s2;
+$play-btn-size: $s8 + $s2;
+$clear-btn-size: $s8;
+$controls-gap: $s4 + $s2;
+$sheet-border-radius: $s4 + $s2;
+
 $fw-normal: normal;
 $fw-semibold: 600;
 $fw-bold: 800;
 
 $border-width: 0.1rem;
 
-$bottom-beat-tracker-padding: 10px;
-
 $icon-size: $s4 + $s3;
 $slider-size: $icon-size - $s2;
 
 $min-size-desktop: 600px;
 
-// z indexes
 $editor-z: 98;
 $start-overlay-z: 99;
+
+$quick-transition: 0.1s;
 
 @mixin mobile {
   @media only screen and (max-width: ($min-size-desktop)) {

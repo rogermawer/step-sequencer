@@ -1,28 +1,25 @@
 @import "../../Common/StyleVariables.scss";
 
-$square-size-mobile-width: calc($square-size-mobile / 2);
-
 .selector-button {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: $icon-size;
-  height: $square-size;
+  justify-content: center;
+  cursor: pointer;
 
-  .icon {
-    cursor: pointer;
-
-    &.active {
-      fill: $orange;
-    }
+  .row-dot {
+    width: $row-dot-size;
+    height: $row-dot-size;
+    border-radius: 50%;
+    background: $border-dark;
+    transition: background $quick-transition;
+    flex-shrink: 0;
   }
 
-  @include mobile {
-    height: $square-size-mobile;
-    width: $square-size-mobile-width;
+  &:hover .row-dot {
+    background: $text-muted;
+  }
 
-    .icon {
-      height: $square-size-mobile-width;
-    }
+  &.active .row-dot {
+    background: var(--rc);
   }
 }

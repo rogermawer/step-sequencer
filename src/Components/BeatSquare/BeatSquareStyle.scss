@@ -1,14 +1,12 @@
 @import "../../Common/StyleVariables.scss";
 
 .beat-square {
-  width: $square-size;
   height: $s1;
+  border-radius: $s1;
+  background: $border-dark;
+  transition: background 0.1s;
 
   &.active {
-    background-color: $saphire;
-  }
-
-  @include mobile {
-    width: $square-size-mobile;
+    background: var(--rc);
   }
 }

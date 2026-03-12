@@ -2,40 +2,34 @@ import { useRef } from "react";
 import { Selector } from "../../Common/Selector/Selector";
 import { SvgIcon } from "../../Common/SvgIcon";
 import { useClickOutside } from "../../Hooks/useClickOutside";
-import {
-  Instrument,
-  InstrumentSelector,
-} from "../InstrumentSelector/InstrumentSelector";
-import { GridRow } from "../Row/Row";
-import "./EditorStyle.scss";
+import "./RowEditorStyle.scss";
+import { GridRow } from "../StepEditor/StepEditor";
+import { ToneInstrumentName } from "../../audio/AudioEngine";
 
-export interface EditorController {
-  onChangeInstrument: (instrument: string) => void;
+export interface RowEditorDelegate {
+  onChangeInstrument: (instrument: ToneInstrumentName) => void;
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
-  onToggleEditor: (row: GridRow | null) => void;
-  onShiftRow: (r: GridRow) => void;
-  onShiftSequence: () => void;
+  onShiftRow: (row: GridRow) => void;
+  closeEditor: () => void;
 }
 
-interface EditorProps {
-  controller: EditorController;
+interface RowEditorProps {
+  delegate: RowEditorDelegate;
   editingRow: GridRow | null;
-  instruments: Instrument[];
-  rows: GridRow[];
+  instrumentNames: ToneInstrumentName[];
 }
 
 const possibleNotes = ["C", "D", "E", "F", "G", "A", "B"];
 const possibleOctaves = [1, 2, 3, 4, 5];
 
-export const Editor: React.FC<EditorProps> = ({
-  controller,
+export const RowEditor: React.FC<RowEditorProps> = ({
+  delegate,
   editingRow,
-  instruments,
-  rows,
+  instrumentNames,
 }) => {
   const ref = useRef(null);
-  useClickOutside(ref, () => controller.onToggleEditor(null));
+  useClickOutside(ref, () => delegate.closeEditor());
 
   return (
     <div ref={ref}>
@@ -43,7 +37,7 @@ export const Editor: React.FC<EditorProps> = ({
         <SvgIcon
           type="arrowDown"
           className="close"
-          onClick={() => controller.onToggleEditor(null)}
+          onClick={() => delegate.closeEditor()}
         />
         {editingRow ? (
           <div className="selector-group">
@@ -53,50 +47,37 @@ export const Editor: React.FC<EditorProps> = ({
                 label="Row Note"
                 value={editingRow.note}
                 items={possibleNotes.map((note) => ({ name: note }))}
-                onChange={controller.onChangeNote}
+                onChange={delegate.onChangeNote}
               />
 
               <Selector
                 label="Octave"
                 value={editingRow.octave}
                 items={possibleOctaves.map((octave) => ({ name: octave }))}
-                onChange={controller.onChangeOctave}
+                onChange={delegate.onChangeOctave}
               />
 
               <Selector
                 label="Current Instrument"
-                value={editingRow.instrument.name}
-                items={instruments.map((inst) => ({ name: inst.name }))}
-                onChange={controller.onChangeInstrument}
+                value={editingRow.instrumentName}
+                items={instrumentNames.map((name) => ({ name }))}
+                onChange={(v) =>
+                  delegate.onChangeInstrument(v as ToneInstrumentName)
+                }
               />
             </div>
             <div className="row-actions">
               <h3>Row Actions</h3>
               <button
                 className="shift"
-                onClick={() => controller.onShiftRow(editingRow)}
+                onClick={() => delegate.onShiftRow(editingRow)}
               >
                 Shift Row
-                <SvgIcon type="shift" />
-              </button>
-              <button className="shift" onClick={controller.onShiftSequence}>
-                Shift Sequence
                 <SvgIcon type="shift" />
               </button>
             </div>
           </div>
         ) : null}
-      </div>
-
-      <div className="selector-container">
-        {rows.map((row, i) => (
-          <InstrumentSelector
-            key={i}
-            controller={controller}
-            row={row}
-            isEditing={row.index === editingRow?.index}
-          />
-        ))}
       </div>
     </div>
   );
