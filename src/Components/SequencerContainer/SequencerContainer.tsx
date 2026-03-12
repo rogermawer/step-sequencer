@@ -15,6 +15,11 @@ export interface Envelope {
   release: number;
 }
 
+export enum Direction {
+  LEFT,
+  RIGHT,
+}
+
 const STEPS = 8;
 const createRowSteps = (): Step[] =>
   Array.from({ length: STEPS }, () => ({ isActive: false, isSplit: false }));
@@ -104,6 +109,24 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
     updateRows(rowIndex, { ...currRow, steps });
   };
 
+  const onShiftSequence = (dir: Direction) => {
+    const newRows: GridRows = {};
+    Object.entries(rows).forEach(([i, r]) => {
+      const steps = [...r.steps];
+      if (dir === Direction.RIGHT) {
+        const lastStep = steps.pop();
+        if (lastStep) steps.unshift(lastStep);
+      }
+      if (dir === Direction.LEFT) {
+        const firstStep = steps.shift();
+        if (firstStep) steps.push(firstStep);
+      }
+      newRows[Number(i)] = { ...r, steps };
+    });
+    engine.setRows(newRows);
+    setRows(newRows);
+  };
+
   const onToggleEditor = (rowIndex: number) => {
     setEditingIndex(rowIndex);
   };
@@ -117,6 +140,7 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
         handleChangeTempo,
         updateRows,
         updateSteps,
+        onShiftSequence,
         onToggleEditor,
       }}
       steps={STEPS}

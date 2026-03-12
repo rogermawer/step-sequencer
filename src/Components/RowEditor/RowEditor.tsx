@@ -11,7 +11,6 @@ export interface RowEditorDelegate {
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
   onShiftRow: (row: GridRow) => void;
-  onShiftSequence: () => void;
   closeEditor: () => void;
 }
 
@@ -74,10 +73,6 @@ export const RowEditor: React.FC<RowEditorProps> = ({
                 onClick={() => delegate.onShiftRow(editingRow)}
               >
                 Shift Row
-                <SvgIcon type="shift" />
-              </button>
-              <button className="shift" onClick={delegate.onShiftSequence}>
-                Shift Sequence
                 <SvgIcon type="shift" />
               </button>
             </div>

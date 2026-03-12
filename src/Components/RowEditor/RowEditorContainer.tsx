@@ -41,16 +41,6 @@ export const RowEditorContainer: React.FC<RowEditorContainerProps> = ({
     _updateRow(editingIndex, { steps });
   };
 
-  // todo: move this out of an individual row's editor
-  const onShiftSequence = () => {
-    Object.entries(rows).forEach(([i, r]) => {
-      const steps = [...r.steps];
-      const lastStep = steps.pop();
-      if (lastStep) steps.unshift(lastStep);
-      _updateRow(Number(i), { ...r, steps });
-    });
-  };
-
   const closeEditor = () => delegate.onToggleEditor(-1);
 
   const _updateRow = (index: number, partial: Partial<GridRow>) => {
@@ -66,7 +56,6 @@ export const RowEditorContainer: React.FC<RowEditorContainerProps> = ({
         onChangeOctave,
         onChangeInstrument,
         onShiftRow,
-        onShiftSequence,
         closeEditor,
       }}
       instrumentNames={instrumentNames}

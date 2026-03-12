@@ -7,6 +7,6 @@
   transition: background 0.1s;
 
   &.active {
-    background: $active-color;
+    background: var(--rc);
   }
 }

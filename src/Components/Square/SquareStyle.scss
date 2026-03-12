@@ -15,8 +15,8 @@
   }
 
   &.active {
-    background: $active-color;
-    box-shadow: 0 0 $s4 rgba($active-color, 0.6);
+    background: var(--rc);
+    box-shadow: 0 0 $s4 color-mix(in srgb, var(--rc) 60%, transparent);
   }
 
   &.playing:not(.active) {
@@ -25,7 +25,7 @@
 
   &.active.playing {
     background: $text-primary;
-    box-shadow: 0 0 $s4 rgba($active-color, 0.9);
+    box-shadow: 0 0 $s4 color-mix(in srgb, var(--rc) 90%, transparent);
   }
 
   &.split:not(.active) {
@@ -41,10 +41,10 @@
   &.split.active {
     background: linear-gradient(
       to bottom right,
-      $active-color calc(50% - 1px),
+      var(--rc) calc(50% - 1px),
       rgba(255, 255, 255, 0.5) calc(50% - 1px),
       rgba(255, 255, 255, 0.5) calc(50% + 1px),
-      lighten($active-color, 12%) calc(50% + 1px)
+      color-mix(in srgb, var(--rc) 80%, white) calc(50% + 1px)
     );
   }
 

@@ -20,6 +20,6 @@
   }
 
   &.active .row-dot {
-    background: $active-color;
+    background: var(--rc);
   }
 }

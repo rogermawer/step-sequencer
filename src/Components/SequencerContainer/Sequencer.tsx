@@ -6,6 +6,7 @@ import { InstrumentSelector } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
 import { RowEditorContainer } from "../RowEditor/RowEditorContainer";
 import { ToneInstrumentName } from "../../audio/AudioEngine";
+import { Direction } from "./SequencerContainer";
 
 export interface SequencerDelegate {
   startSequencer: () => void;
@@ -14,6 +15,7 @@ export interface SequencerDelegate {
   handleChangeTempo: (bpn: string) => void;
   updateRows: (rowIndex: number, row: GridRow) => void;
   updateSteps: (rowIndex: number, steps: Step[]) => void;
+  onShiftSequence: (dir: Direction) => void;
   onToggleEditor: (rowIndex: number) => void;
 }
 
@@ -36,7 +38,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   isPlaying,
   instrumentNames,
   editingIndex,
-  steps,
 }) => (
   <div className="sequencer-container">
     <TopMenu delegate={delegate} bpm={bpm} isPlaying={isPlaying} />
@@ -59,6 +60,20 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
           </div>
         );
       })}
+    </div>
+    <div className="shift-controls">
+      <button
+        className="shift-btn"
+        onClick={() => delegate.onShiftSequence(Direction.LEFT)}
+      >
+        &#8592;
+      </button>
+      <button
+        className="shift-btn"
+        onClick={() => delegate.onShiftSequence(Direction.RIGHT)}
+      >
+        &#8594;
+      </button>
     </div>
     {editingIndex >= 0 ? (
       <RowEditorContainer
