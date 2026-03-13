@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent } from "react";
+import { FC } from "react";
 import { SequencerDelegate } from "../SequencerContainer/Sequencer";
 import { Step, StepEditor, StepPosition } from "./StepEditor";
 
@@ -29,8 +29,7 @@ export const StepEditorContainer: FC<StepEditorContainerProps> = ({
     );
   };
 
-  const onSplitSquare = (position: StepPosition, e: SyntheticEvent): void => {
-    e.preventDefault();
+  const onSplitSquare = (position: StepPosition): void => {
     delegate.updateSteps(
       rowIndex,
       steps.map((s, i) =>

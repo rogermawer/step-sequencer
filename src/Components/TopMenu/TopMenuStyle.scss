@@ -40,7 +40,7 @@
     .icon {
       width: $play-btn-size;
       height: $play-btn-size;
-      background: $text-primary;
+      background: $text-secondary;
       border-radius: 50%;
       fill: $bg-primary;
 
@@ -56,7 +56,7 @@
 
         &:hover {
           border-color: $text-muted;
-          fill: $text-secondary;
+          fill: $text-primary;
           background: none;
         }
       }

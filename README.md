@@ -6,17 +6,17 @@ This is a simple app to sequence tones using the Web Audio framework Tone.js htt
 
 To start the app, run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm build`
+### `npm run build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `dist` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
@@ -29,5 +29,5 @@ Deployment is based off of `main`, so be advised that direct pushes to `main` wi
 
 # Roadmap
 
-Export/Import MIDI
+Export/Import MIDI \
 Sequence Generation
