@@ -6,6 +6,9 @@
   border-radius: $cell-border-radius;
   background: $bg-cell;
   cursor: pointer;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  user-select: none;
   transition:
     background $quick-transition,
     transform $quick-transition;
@@ -32,8 +35,8 @@
     background: linear-gradient(
       to bottom right,
       $bg-cell calc(50% - 1px),
-      rgba(255, 255, 255, 0.12) calc(50% - 1px),
-      rgba(255, 255, 255, 0.12) calc(50% + 1px),
+      $text-secondary calc(50% - 1px),
+      $text-secondary calc(50% + 1px),
       lighten($bg-cell, 8%) calc(50% + 1px)
     );
   }
@@ -42,8 +45,8 @@
     background: linear-gradient(
       to bottom right,
       var(--rc) calc(50% - 1px),
-      rgba(255, 255, 255, 0.5) calc(50% - 1px),
-      rgba(255, 255, 255, 0.5) calc(50% + 1px),
+      $text-secondary calc(50% - 1px),
+      $text-secondary calc(50% + 1px),
       color-mix(in srgb, var(--rc) 80%, white) calc(50% + 1px)
     );
   }

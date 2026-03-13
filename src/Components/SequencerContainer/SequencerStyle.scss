@@ -35,6 +35,25 @@
     }
   }
 
+  .hints {
+    display: flex;
+    justify-content: center;
+    gap: $s4;
+    margin-bottom: $s8;
+
+    .hint {
+      color: $text-muted;
+
+      .hint-key {
+        padding: $s1 $s2;
+        border: $border-width solid $border-dark;
+        border-radius: $s1;
+        color: $text-secondary;
+        font-size: $s3;
+      }
+    }
+  }
+
   .shift-controls {
     display: flex;
     justify-content: flex-end;

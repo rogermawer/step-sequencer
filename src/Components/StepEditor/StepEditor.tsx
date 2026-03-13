@@ -1,11 +1,11 @@
 import "./StepEditorStyle.scss";
-import { FunctionComponent, SyntheticEvent } from "react";
+import { FunctionComponent } from "react";
 import { Square } from "../Square/Square";
 import { ToneInstrumentName } from "../../audio/AudioEngine";
 
 export interface StepEditorDelegate {
   toggleIsActiveNote: (p: StepPosition) => void;
-  onSplitSquare: (p: StepPosition, e: SyntheticEvent) => void;
+  onSplitSquare: (p: StepPosition) => void;
 }
 
 interface StepEditorProps {

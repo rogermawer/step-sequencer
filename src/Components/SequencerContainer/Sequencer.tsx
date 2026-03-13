@@ -41,6 +41,17 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
 }) => (
   <div className="sequencer-container">
     <TopMenu delegate={delegate} bpm={bpm} isPlaying={isPlaying} />
+    <div className="hints">
+      <div className="hint">
+        <span className="hint-key">Tap</span> activate
+      </div>
+      <div className="hint">
+        <span className="hint-key">Hold</span> split
+      </div>
+      <div className="hint">
+        <span className="hint-key">&#9679;</span> edit
+      </div>
+    </div>
     <div className="sequencer">
       {Object.keys(rows).map((k) => {
         const rowIndex = Number(k);
@@ -61,6 +72,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
         );
       })}
     </div>
+
     <div className="shift-controls">
       <button
         className="shift-btn"
@@ -75,6 +87,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
         &#8594;
       </button>
     </div>
+
     {editingIndex >= 0 ? (
       <RowEditorContainer
         delegate={delegate}
