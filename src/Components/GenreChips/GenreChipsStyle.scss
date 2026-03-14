@@ -12,6 +12,7 @@
     overflow-x: auto;
     scrollbar-width: none;
     flex: 1;
+    min-width: 0;
 
     &::-webkit-scrollbar {
       display: none;
