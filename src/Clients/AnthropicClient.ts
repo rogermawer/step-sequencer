@@ -1,19 +1,5 @@
 import { ToneInstrumentName } from "../audio/AudioEngine";
-import { GridRows, Step } from "../Components/StepEditor/StepEditor";
-
-const GENRE_SYSTEM_PROMPT = `You are a music sequencer pattern generator. Given a genre, return ONLY valid JSON, no explanation, no markdown.
-The JSON must have this exact shape:
-{
-  "bpm": <number between 60 and 190>,
-  "rows": [
-    { "instrumentName": "<Hat|Clap|Kick|Hat|Bell>", "note": "<C|D|E|F|G|A|B>", "octave": <2-5>, "steps": [<8 booleans>] },
-    { "instrumentName": "<Hat|Clap|Kick|Hat|Bell>", "note": "<C|D|E|F|G|A|B>", "octave": <2-5>, "steps": [<8 booleans>] },
-    { "instrumentName": "<Hat|Clap|Kick|Hat|Bell>", "note": "<C|D|E|F|G|A|B>", "octave": <2-5>, "steps": [<8 booleans>] },
-    { "instrumentName": "<Hat|Clap|Kick|Hat|Bell>", "note": "<C|D|E|F|G|A|B>", "octave": <2-5>, "steps": [<8 booleans>] },
-    { "instrumentName": "<Hat|Clap|Kick|Hat|Bell>", "note": "<C|D|E|F|G|A|B>", "octave": <2-5>, "steps": [<8 booleans>] }
-  ]
-}
-Exactly 5 rows, exactly 8 steps each. Return minified JSON with no whitespace.`;
+import { GridRows } from "../Components/StepEditor/StepEditor";
 
 export interface PatternResponse {
   bpm?: number;
@@ -24,26 +10,19 @@ interface ApiRow {
   instrumentName: string;
   note: string;
   octave: number;
-  steps: boolean[];
+  steps: number[];
 }
 
 const _post = async (
-  systemPrompt: string,
-  userContent: string,
+  content: string,
 ): Promise<{ bpm?: number; rows: ApiRow[] }> => {
   const response: Response = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 400,
-        system: systemPrompt,
-        messages: [{ role: "user", content: userContent }],
-      }),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({ role: "user", content }),
+  });
 
   if (!response.ok) {
     throw new Error(`API error: ${response.status}`);
@@ -57,13 +36,12 @@ const _post = async (
 
 const _toGridRows = (apiRows: ApiRow[]): GridRows => {
   const result: GridRows = {};
-  console.log(apiRows);
   apiRows.forEach((row, i) => {
     result[i] = {
       instrumentName: row.instrumentName as ToneInstrumentName,
       note: row.note,
       octave: row.octave,
-      steps: row.steps.map((isActive): Step => ({ isActive, isSplit: false })),
+      steps: row.steps.map((s) => ({ isActive: s > 0, isSplit: s === 2 })),
     };
   });
   return result;
@@ -73,9 +51,6 @@ export const generateGenrePattern = async (
   genre: string,
 ): Promise<PatternResponse> => {
   const seed = Math.floor(Math.random() * 10000);
-  const result = await _post(
-    GENRE_SYSTEM_PROMPT,
-    `${genre} (variation: ${seed})`,
-  );
+  const result = await _post(`${genre} (variation: ${seed})`);
   return { bpm: result.bpm, rows: _toGridRows(result.rows) };
 };
