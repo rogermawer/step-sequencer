@@ -1,6 +1,5 @@
 import { ToneInstrumentName } from "../audio/AudioEngine";
 import { GridRows, Step } from "../Components/StepEditor/StepEditor";
-import { ANTHROPIC_API_KEY } from "../keys";
 
 const GENRE_SYSTEM_PROMPT = `You are a music sequencer pattern generator. Given a genre, return ONLY valid JSON, no explanation, no markdown.
 The JSON must have this exact shape:
@@ -32,15 +31,10 @@ const _post = async (
   systemPrompt: string,
   userContent: string,
 ): Promise<{ bpm?: number; rows: ApiRow[] }> => {
-  const response: Response = await fetch(
-    "https://api.anthropic.com/v1/messages",
-    {
+  const response: Response = await fetch("/api/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_API_KEY ?? "",
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true",
       },
       body: JSON.stringify({
         model: "claude-haiku-4-5-20251001",
