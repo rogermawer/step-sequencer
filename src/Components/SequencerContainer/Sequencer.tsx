@@ -7,6 +7,7 @@ import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
 import { RowEditorContainer } from "../RowEditor/RowEditorContainer";
 import { ToneInstrumentName } from "../../audio/AudioEngine";
 import { Direction } from "./SequencerContainer";
+import { GenreChips } from "../GenreChips/GenreChips";
 
 export interface SequencerDelegate {
   startSequencer: () => void;
@@ -17,6 +18,7 @@ export interface SequencerDelegate {
   updateSteps: (rowIndex: number, steps: Step[]) => void;
   onShiftSequence: (dir: Direction) => void;
   onToggleEditor: (rowIndex: number) => void;
+  onSelectGenre: (genre: string) => void;
 }
 
 interface SequencerProps {
@@ -28,6 +30,8 @@ interface SequencerProps {
   instrumentNames: ToneInstrumentName[];
   delegate: SequencerDelegate;
   editingIndex: number;
+  loadingGenre: string | null;
+  isLoading: boolean;
 }
 
 export const Sequencer: FunctionComponent<SequencerProps> = ({
@@ -38,8 +42,15 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   isPlaying,
   instrumentNames,
   editingIndex,
+  loadingGenre,
+  isLoading,
 }) => (
   <div className="sequencer-container">
+    <GenreChips
+      onSelectGenre={delegate.onSelectGenre}
+      loadingGenre={loadingGenre}
+      isLoading={isLoading}
+    />
     <TopMenu delegate={delegate} bpm={bpm} isPlaying={isPlaying} />
     <div className="hints">
       <div className="hint">

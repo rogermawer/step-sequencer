@@ -89,6 +89,9 @@
   }
 
   @include mobile {
+    width: 100%;
+    padding: 0 $standard-padding;
+
     .sequencer {
       .row {
         grid-template-columns: $row-label-width 1fr;
