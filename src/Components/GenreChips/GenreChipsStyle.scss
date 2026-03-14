@@ -1,0 +1,97 @@
+@import "../../Common/StyleVariables.scss";
+
+.genre-chips {
+  display: flex;
+  align-items: center;
+  gap: $s2;
+  margin-bottom: $s4;
+
+  .genre-chips-scroll {
+    display: flex;
+    gap: $s2;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .genre-chip {
+    flex-shrink: 0;
+    padding: $s1 $s3;
+    border-radius: $s8 * 10;
+    background: $bg-cell;
+    border: $border-width solid $border-dark;
+    color: $text-secondary;
+    font-size: $s3;
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: $s8 + $s4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color $quick-transition,
+      color $quick-transition;
+
+    &:hover:not(:disabled) {
+      border-color: $text-muted;
+      color: $text-primary;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    &.loading {
+      border-color: $text-secondary;
+    }
+  }
+
+  .mutate-btn {
+    flex-shrink: 0;
+    width: $clear-btn-size;
+    height: $clear-btn-size;
+    border-radius: 50%;
+    background: none;
+    border: $border-width solid $border-dark;
+    color: $text-muted;
+    font-size: $s4;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color $quick-transition,
+      color $quick-transition;
+
+    &:hover:not(:disabled) {
+      border-color: $text-muted;
+      color: $text-secondary;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+
+  .chip-spinner {
+    display: inline-block;
+    width: $s3;
+    height: $s3;
+    border: $border-width solid $border-dark;
+    border-top-color: $text-secondary;
+    border-radius: 50%;
+    animation: chip-spin 0.6s linear infinite;
+  }
+
+  @keyframes chip-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

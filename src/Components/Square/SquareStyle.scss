@@ -33,31 +33,31 @@
 
   &.split:not(.active) {
     background: linear-gradient(
-      to bottom right,
+      to right,
       $bg-cell calc(50% - 1px),
-      $text-secondary calc(50% - 1px),
-      $text-secondary calc(50% + 1px),
-      lighten($bg-cell, 8%) calc(50% + 1px)
+      white calc(50% - 1px),
+      white calc(50% + 1px),
+      $bg-cell calc(50% + 1px)
     );
   }
 
   &.split.active {
     background: linear-gradient(
-      to bottom right,
+      to right,
       var(--rc) calc(50% - 1px),
-      $text-secondary calc(50% - 1px),
-      $text-secondary calc(50% + 1px),
-      color-mix(in srgb, var(--rc) 80%, white) calc(50% + 1px)
+      white calc(50% - 1px),
+      white calc(50% + 1px),
+      var(--rc) calc(50% + 1px)
     );
   }
 
   &.split.active.playing {
     background: linear-gradient(
-      to bottom right,
+      to right,
       $text-primary calc(50% - 1px),
-      rgba(255, 255, 255, 0.5) calc(50% - 1px),
-      rgba(255, 255, 255, 0.5) calc(50% + 1px),
-      darken($text-primary, 10%) calc(50% + 1px)
+      white calc(50% - 1px),
+      white calc(50% + 1px),
+      $text-primary calc(50% + 1px)
     );
   }
 

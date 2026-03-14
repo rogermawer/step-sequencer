@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Sequencer } from "./Sequencer";
 import { AudioEngine, ToneInstrumentName } from "../../audio/AudioEngine";
 import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
+import { generateGenrePattern } from "../../Clients/AnthropicClient";
 
 interface SequencerProps {
   isAudioStarted: boolean;
@@ -66,6 +67,9 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
   const [beat, setBeat] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [editingIndex, setEditingIndex] = useState<number>(-1);
+  const [loadingGenre, setLoadingGenre] = useState<string | null>(null);
+
+  const isLoading = loadingGenre !== null;
 
   useEffect(() => {
     engine.setOnStep(setBeat);
@@ -131,6 +135,33 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
     setEditingIndex(rowIndex);
   };
 
+  const applyPatternWithAnimation = (newRows: GridRows, newBpm?: number) => {
+    if (newBpm !== undefined) {
+      engine.setTempo(newBpm);
+      setBpm(newBpm);
+    }
+    engine.setRows(newRows);
+    Object.keys(newRows).forEach((k, i) => {
+      const rowIndex = Number(k);
+      setTimeout(() => {
+        setRows((prev) => ({ ...prev, [rowIndex]: newRows[rowIndex] }));
+      }, i * 100);
+    });
+  };
+
+  const onSelectGenre = async (genre: string) => {
+    setLoadingGenre(genre);
+    try {
+      console.log("calling api");
+      const { bpm: newBpm, rows: newRows } = await generateGenrePattern(genre);
+      applyPatternWithAnimation(newRows, newBpm);
+    } catch (e) {
+      console.error("Genre generation failed:", e);
+    } finally {
+      setLoadingGenre(null);
+    }
+  };
+
   return (
     <Sequencer
       delegate={{
@@ -142,6 +173,7 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
         updateSteps,
         onShiftSequence,
         onToggleEditor,
+        onSelectGenre,
       }}
       steps={STEPS}
       rows={rows}
@@ -150,6 +182,8 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
       isPlaying={isPlaying}
       instrumentNames={Object.values(ToneInstrumentName)}
       editingIndex={editingIndex}
+      loadingGenre={loadingGenre}
+      isLoading={isLoading}
     />
   );
 };
