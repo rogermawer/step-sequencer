@@ -28,7 +28,7 @@ export default async function handler(req: Request): Promise<Response> {
     ? `https://${process.env.VERCEL_URL}`
     : null;
 
-  if (process.env.NODE_ENV === "production" && origin !== deploymentOrigin) {
+  if (process.env.VERCEL_ENV === "production" && origin !== deploymentOrigin) {
     return new Response(JSON.stringify({ error: "Forbidden" }), {
       status: 403,
     });
