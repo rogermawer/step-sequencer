@@ -50,7 +50,6 @@ const _toGridRows = (apiRows: ApiRow[]): GridRows => {
 export const generateGenrePattern = async (
   genre: string,
 ): Promise<PatternResponse> => {
-  const seed = Math.floor(Math.random() * 10000);
-  const result = await _post(`${genre} (variation: ${seed})`);
+  const result = await _post(`${genre}`);
   return { bpm: result.bpm, rows: _toGridRows(result.rows) };
 };
