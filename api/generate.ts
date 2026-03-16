@@ -11,7 +11,29 @@ interface AnthropicMessage {
   content: string;
 }
 
+const GENRES = [
+  "Hip-Hop",
+  "Lo-Fi",
+  "Indie Rock",
+  "Techno",
+  "Reggaeton",
+  "Ambient",
+  "D&B",
+];
+
 export default async function handler(req: Request): Promise<Response> {
+  const origin = req.headers.get("origin");
+
+  const deploymentOrigin = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : null;
+
+  if (process.env.VERCEL_ENV === "production" && origin !== deploymentOrigin) {
+    return new Response(JSON.stringify({ error: "Forbidden" }), {
+      status: 403,
+    });
+  }
+
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -26,6 +48,17 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   const body: AnthropicMessage = await req.json();
+  if (!body.content || !Object.values(GENRES).includes(body.content)) {
+    return new Response(JSON.stringify({ error: "Bad request" }), {
+      status: 400,
+    });
+  }
+
+  const seed = Math.floor(Math.random() * 10000);
+  const anthropicBody: AnthropicMessage = {
+    role: body.role,
+    content: `${body.content} (variation: ${seed})`,
+  };
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -38,7 +71,7 @@ export default async function handler(req: Request): Promise<Response> {
       model: "claude-haiku-4-5-20251001",
       max_tokens: 300,
       system: GENRE_SYSTEM_PROMPT,
-      messages: [body],
+      messages: [anthropicBody],
     }),
   });
 

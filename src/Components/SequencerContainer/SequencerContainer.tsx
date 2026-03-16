@@ -152,7 +152,6 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
   const onSelectGenre = async (genre: string) => {
     setLoadingGenre(genre);
     try {
-      console.log("calling api");
       const { bpm: newBpm, rows: newRows } = await generateGenrePattern(genre);
       applyPatternWithAnimation(newRows, newBpm);
     } catch (e) {
