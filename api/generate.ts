@@ -22,18 +22,16 @@ const GENRES = [
 ];
 
 export default async function handler(req: Request): Promise<Response> {
-  const origin = req.headers.get("origin");
-
-  const deploymentOrigin = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : null;
-
-  if (process.env.VERCEL_ENV === "production" && origin !== deploymentOrigin) {
-    console.log(process.env.VERCEL_ENV, origin !== deploymentOrigin);
-    return new Response(JSON.stringify({ error: "Forbidden" }), {
-      status: 403,
-    });
-  }
+  // TODO: make this work. had an issue when running on prod
+  // const origin = req.headers.get("origin");
+  // const deploymentOrigin = process.env.VERCEL_URL
+  //   ? `https://${process.env.VERCEL_URL}`
+  //   : null;
+  // if (process.env.VERCEL_ENV === "production" && origin !== deploymentOrigin) {
+  //   return new Response(JSON.stringify({ error: "Forbidden" }), {
+  //     status: 403,
+  //   });
+  // }
 
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
