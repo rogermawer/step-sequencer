@@ -23,14 +23,15 @@ const GENRES = [
 
 export default async function handler(req: Request): Promise<Response> {
   const origin = req.headers.get("origin");
-  const allowedOrigin = "https://step-sequencer-azure.vercel.app";
 
-  if (process.env.NODE_ENV === "production") {
-    if (origin !== allowedOrigin) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403,
-      });
-    }
+  const deploymentOrigin = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : null;
+
+  if (process.env.NODE_ENV === "production" && origin !== deploymentOrigin) {
+    return new Response(JSON.stringify({ error: "Forbidden" }), {
+      status: 403,
+    });
   }
 
   if (req.method !== "POST") {
