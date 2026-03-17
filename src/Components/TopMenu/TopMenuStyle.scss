@@ -70,6 +70,34 @@
     align-items: center;
   }
 
+  .loop-length-toggle {
+    display: flex;
+    gap: $s1;
+    flex-shrink: 0;
+
+    .loop-btn {
+      background: none;
+      border: $border-width solid $border-dark;
+      border-radius: $s2;
+      color: $text-muted;
+      cursor: pointer;
+      font-size: $font-size-sm;
+      font-weight: $fw-semibold;
+      padding: $s1 $s2;
+      transition: color $quick-transition, border-color $quick-transition;
+
+      &:hover {
+        border-color: $text-muted;
+        color: $text-primary;
+      }
+
+      &.active {
+        border-color: $text-secondary;
+        color: $text-primary;
+      }
+    }
+  }
+
   @include mobile {
     .controls .icon {
       width: $s8;

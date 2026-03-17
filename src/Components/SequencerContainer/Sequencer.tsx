@@ -14,6 +14,7 @@ export interface SequencerDelegate {
   pauseSequencer: () => void;
   stopSequencer: () => void;
   handleChangeTempo: (bpn: string) => void;
+  handleChangeLoopLength: (n: number) => void;
   updateRows: (rowIndex: number, row: GridRow) => void;
   updateSteps: (rowIndex: number, steps: Step[]) => void;
   onShiftSequence: (dir: Direction) => void;
@@ -22,7 +23,7 @@ export interface SequencerDelegate {
 }
 
 interface SequencerProps {
-  steps: number;
+  loopLength: number;
   rows: GridRows;
   bpm: number;
   beat: number;
@@ -36,6 +37,7 @@ interface SequencerProps {
 
 export const Sequencer: FunctionComponent<SequencerProps> = ({
   delegate,
+  loopLength,
   rows,
   bpm,
   beat,
@@ -51,7 +53,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
       loadingGenre={loadingGenre}
       isLoading={isLoading}
     />
-    <TopMenu delegate={delegate} bpm={bpm} isPlaying={isPlaying} />
+    <TopMenu delegate={delegate} bpm={bpm} isPlaying={isPlaying} loopLength={loopLength} />
     <div className="hints">
       <div className="hint">
         <span className="hint-key">Tap</span> activate
@@ -78,6 +80,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
               rowIndex={rowIndex}
               steps={rows[rowIndex].steps}
               beat={beat}
+              loopLength={loopLength}
             />
           </div>
         );

@@ -12,6 +12,8 @@ import hat from "../Common/Samples/hat.wav";
 import kick from "../Common/Samples/kick.wav";
 import { GridRows } from "../Components/StepEditor/StepEditor";
 
+export const DEFAULT_LOOP_LENGTH = 8;
+
 export enum ToneInstrumentName {
   HAT = "Hat",
   CLAP = "Clap",
@@ -28,6 +30,7 @@ export class AudioEngine {
   private transport = getTransport();
   private output = getDestination();
   private currentStep = 0;
+  private loopLength = DEFAULT_LOOP_LENGTH;
   private onStep: (step: number) => void = () => {};
 
   constructor() {
@@ -92,6 +95,12 @@ export class AudioEngine {
     this.transport.set({ bpm });
   }
 
+  public setLoopLength(steps: number): void {
+    this.loopLength = steps;
+    this.currentStep = this.currentStep % steps;
+    this.transport.setLoopPoints(0, steps === 16 ? "2m" : "1m");
+  }
+
   private play(time: number): void {
     if (this.transport.state !== "started") return;
     Object.values(this.rows).forEach((row) => {
@@ -115,6 +124,6 @@ export class AudioEngine {
       }
     });
     this.onStep(this.currentStep);
-    this.currentStep = (this.currentStep + 1) % 8;
+    this.currentStep = (this.currentStep + 1) % this.loopLength;
   }
 }

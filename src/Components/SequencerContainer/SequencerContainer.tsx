@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Sequencer } from "./Sequencer";
-import { AudioEngine, ToneInstrumentName } from "../../audio/AudioEngine";
+import { AudioEngine, DEFAULT_LOOP_LENGTH, ToneInstrumentName } from "../../audio/AudioEngine";
 import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
 import { generateGenrePattern } from "../../Clients/AnthropicClient";
 
@@ -21,9 +21,8 @@ export enum Direction {
   RIGHT,
 }
 
-const STEPS = 8;
-const createRowSteps = (): Step[] =>
-  Array.from({ length: STEPS }, () => ({ isActive: false, isSplit: false }));
+const createRowSteps = (length = DEFAULT_LOOP_LENGTH): Step[] =>
+  Array.from({ length }, () => ({ isActive: false, isSplit: false }));
 
 const rowConfig: GridRows = {
   0: {
@@ -63,6 +62,7 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
   engine,
 }) => {
   const [rows, setRows] = useState<GridRows>(rowConfig);
+  const [loopLength, setLoopLength] = useState<number>(DEFAULT_LOOP_LENGTH);
   const [bpm, setBpm] = useState<number>(100);
   const [beat, setBeat] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -100,6 +100,20 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
     const newBpm = parseInt(bpmString);
     engine.setTempo(newBpm);
     setBpm(newBpm);
+  };
+
+  const handleChangeLoopLength = (n: number) => {
+    const newRows: GridRows = {};
+    Object.entries(rows).forEach(([k, row]) => {
+      const steps = n > row.steps.length
+        ? [...row.steps, ...createRowSteps(n - row.steps.length)]
+        : row.steps;
+      newRows[Number(k)] = { ...row, steps };
+    });
+    engine.setLoopLength(n);
+    engine.setRows(newRows);
+    setRows(newRows);
+    setLoopLength(n);
   };
 
   const updateRows = (rowIndex: number, row: GridRow) => {
@@ -152,7 +166,7 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
   const onSelectGenre = async (genre: string) => {
     setLoadingGenre(genre);
     try {
-      const { bpm: newBpm, rows: newRows } = await generateGenrePattern(genre);
+      const { bpm: newBpm, rows: newRows } = await generateGenrePattern(genre, loopLength);
       applyPatternWithAnimation(newRows, newBpm);
     } catch (e) {
       console.error("Genre generation failed:", e);
@@ -168,13 +182,14 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
         pauseSequencer,
         stopSequencer,
         handleChangeTempo,
+        handleChangeLoopLength,
         updateRows,
         updateSteps,
         onShiftSequence,
         onToggleEditor,
         onSelectGenre,
       }}
-      steps={STEPS}
+      loopLength={loopLength}
       rows={rows}
       bpm={bpm}
       beat={beat}
