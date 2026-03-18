@@ -1,4 +1,5 @@
-@import "../../Common/StyleVariables.scss";
+@use "sass:color";
+@use "../../Common/StyleVariables.scss" as *;
 
 .square {
   width: $square-size;
@@ -23,7 +24,7 @@
   }
 
   &.playing:not(.active) {
-    background: lighten($bg-cell, 5%);
+    background: color.adjust($bg-cell, $lightness: 5%);
   }
 
   &.active.playing {
@@ -62,8 +63,8 @@
   }
 
   @include mobile {
-    width: $square-size / 3;
-    height: $square-size / 3;
+    width: calc($square-size / 3);
+    height: calc($square-size / 3);
     aspect-ratio: 1;
   }
 }

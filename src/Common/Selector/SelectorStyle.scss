@@ -1,4 +1,4 @@
-@import "../../Common/StyleVariables.scss";
+@use "../../Common/StyleVariables.scss" as *;
 
 .selector {
   margin-bottom: $light-padding;

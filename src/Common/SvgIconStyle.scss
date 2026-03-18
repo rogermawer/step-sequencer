@@ -1,4 +1,4 @@
-@import "./StyleVariables.scss";
+@use "./StyleVariables.scss" as *;
 
 .icon {
   width: $icon-size;
