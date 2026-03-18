@@ -35,55 +35,96 @@
     }
   }
 
-  .hints {
-    display: flex;
-    justify-content: center;
-    gap: $s4;
-    margin-bottom: $s8;
+  .page-toggle {
+    display: grid;
+    grid-template-columns: $row-label-width auto;
+    gap: $cell-gap;
+    margin-bottom: $s4;
 
-    .hint {
-      color: $text-muted;
+    .page-dots {
+      display: flex;
+      justify-content: center;
+      gap: $s2;
 
-      .hint-key {
-        padding: $s1 $s2;
-        border: $border-width solid $border-dark;
-        border-radius: $s1;
-        color: $text-secondary;
-        font-size: $s3;
+      .page-dot {
+        width: $s2;
+        height: $s2;
+        border-radius: 50%;
+        background: $text-muted;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition:
+          background $quick-transition,
+          transform $quick-transition;
+
+        &.active {
+          background: $text-secondary;
+        }
+
+        &:hover {
+          background: $text-primary;
+        }
+
+        &:active {
+          transform: scale(0.85);
+        }
       }
     }
   }
 
-  .shift-controls {
+  .bottom-controls {
     display: flex;
-    justify-content: flex-end;
-    gap: $s2;
+    justify-content: space-between;
+    align-items: center;
     margin-top: $s4;
 
-    .shift-btn {
-      width: $clear-btn-size;
-      height: $clear-btn-size;
-      border-radius: 50%;
-      background: none;
-      border: $border-width solid $border-dark;
-      color: $text-muted;
-      font-size: $s4;
-      cursor: pointer;
+    .hints {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      transition:
-        border-color $quick-transition,
-        color $quick-transition,
-        transform $quick-transition;
+      gap: $s4;
 
-      &:hover {
-        border-color: $text-muted;
-        color: $text-secondary;
+      .hint {
+        color: $text-muted;
+
+        .hint-key {
+          padding: $s1 $s2;
+          border: $border-width solid $border-dark;
+          border-radius: $s1;
+          color: $text-secondary;
+          font-size: $s3;
+        }
       }
+    }
 
-      &:active {
-        transform: scale(0.9);
+    .shift-controls {
+      display: flex;
+      gap: $s2;
+
+      .shift-btn {
+        width: $clear-btn-size;
+        height: $clear-btn-size;
+        border-radius: 50%;
+        background: none;
+        border: $border-width solid $border-dark;
+        color: $text-muted;
+        font-size: $s4;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          border-color $quick-transition,
+          color $quick-transition,
+          transform $quick-transition;
+
+        &:hover {
+          border-color: $text-muted;
+          color: $text-secondary;
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ interface StepEditorContainerProps {
   steps: Step[];
   beat: number;
   loopLength: number;
+  page: number;
 }
 
 export const StepEditorContainer: FC<StepEditorContainerProps> = ({
@@ -17,11 +18,14 @@ export const StepEditorContainer: FC<StepEditorContainerProps> = ({
   steps,
   beat,
   loopLength,
+  page,
 }) => {
   const pageSize = loopLength / 2;
   const paginated = loopLength > DEFAULT_LOOP_LENGTH;
-  const viewOffset = paginated && beat >= pageSize ? pageSize : 0;
-  const visibleSteps = paginated ? steps.slice(viewOffset, viewOffset + pageSize) : steps.slice(0, loopLength);
+  const viewOffset = paginated ? page * pageSize : 0;
+  const visibleSteps = paginated
+    ? steps.slice(viewOffset, viewOffset + pageSize)
+    : steps.slice(0, loopLength);
   const visibleBeat = beat - viewOffset;
 
   const toggleIsActiveNote = (position: StepPosition): void => {

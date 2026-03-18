@@ -85,7 +85,9 @@
       font-size: $font-size-sm;
       font-weight: $fw-semibold;
       padding: $s1 $s2;
-      transition: color $quick-transition, border-color $quick-transition;
+      transition:
+        color $quick-transition,
+        border-color $quick-transition;
 
       &:hover {
         border-color: $text-muted;

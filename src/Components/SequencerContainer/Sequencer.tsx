@@ -5,7 +5,10 @@ import { TopMenu } from "../TopMenu/TopMenu";
 import { InstrumentSelector } from "../InstrumentSelector/InstrumentSelector";
 import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
 import { RowEditorContainer } from "../RowEditor/RowEditorContainer";
-import { ToneInstrumentName } from "../../audio/AudioEngine";
+import {
+  DEFAULT_LOOP_LENGTH,
+  ToneInstrumentName,
+} from "../../audio/AudioEngine";
 import { Direction } from "./SequencerContainer";
 import { GenreChips } from "../GenreChips/GenreChips";
 
@@ -20,6 +23,7 @@ export interface SequencerDelegate {
   onShiftSequence: (dir: Direction) => void;
   onToggleEditor: (rowIndex: number) => void;
   onSelectGenre: (genre: string) => void;
+  onSetPage: (page: number) => void;
 }
 
 interface SequencerProps {
@@ -33,6 +37,7 @@ interface SequencerProps {
   editingIndex: number;
   loadingGenre: string | null;
   isLoading: boolean;
+  page: number;
 }
 
 export const Sequencer: FunctionComponent<SequencerProps> = ({
@@ -46,6 +51,7 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
   editingIndex,
   loadingGenre,
   isLoading,
+  page,
 }) => (
   <div className="sequencer-container">
     <GenreChips
@@ -53,16 +59,24 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
       loadingGenre={loadingGenre}
       isLoading={isLoading}
     />
-    <TopMenu delegate={delegate} bpm={bpm} isPlaying={isPlaying} loopLength={loopLength} />
-    <div className="hints">
-      <div className="hint">
-        <span className="hint-key">Tap</span> activate
-      </div>
-      <div className="hint">
-        <span className="hint-key">Hold</span> split
-      </div>
-      <div className="hint">
-        <span className="hint-key">&#9679;</span> edit
+    <TopMenu
+      delegate={delegate}
+      bpm={bpm}
+      isPlaying={isPlaying}
+      loopLength={loopLength}
+    />
+    <div className="page-toggle">
+      <div />
+      <div className="page-dots">
+        {Array.from({ length: loopLength / DEFAULT_LOOP_LENGTH }).map(
+          (_, p) => (
+            <button
+              key={p}
+              className={`page-dot${page === p ? " active" : ""}`}
+              onClick={() => delegate.onSetPage(p)}
+            />
+          ),
+        )}
       </div>
     </div>
     <div className="sequencer">
@@ -81,25 +95,39 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
               steps={rows[rowIndex].steps}
               beat={beat}
               loopLength={loopLength}
+              page={page}
             />
           </div>
         );
       })}
     </div>
 
-    <div className="shift-controls">
-      <button
-        className="shift-btn"
-        onClick={() => delegate.onShiftSequence(Direction.LEFT)}
-      >
-        &#8592;
-      </button>
-      <button
-        className="shift-btn"
-        onClick={() => delegate.onShiftSequence(Direction.RIGHT)}
-      >
-        &#8594;
-      </button>
+    <div className="bottom-controls">
+      <div className="hints">
+        <div className="hint">
+          <span className="hint-key">Tap</span> activate
+        </div>
+        <div className="hint">
+          <span className="hint-key">Hold</span> split
+        </div>
+        <div className="hint">
+          <span className="hint-key">&#9679;</span> edit
+        </div>
+      </div>
+      <div className="shift-controls">
+        <button
+          className="shift-btn"
+          onClick={() => delegate.onShiftSequence(Direction.LEFT)}
+        >
+          &#8592;
+        </button>
+        <button
+          className="shift-btn"
+          onClick={() => delegate.onShiftSequence(Direction.RIGHT)}
+        >
+          &#8594;
+        </button>
+      </div>
     </div>
 
     {editingIndex >= 0 ? (
