@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { DEFAULT_LOOP_LENGTH } from "../../audio/AudioEngine";
 import { SequencerDelegate } from "../SequencerContainer/Sequencer";
 import { Step, StepEditor, StepPosition } from "./StepEditor";
 
@@ -7,6 +8,8 @@ interface StepEditorContainerProps {
   rowIndex: number;
   steps: Step[];
   beat: number;
+  loopLength: number;
+  page: number;
 }
 
 export const StepEditorContainer: FC<StepEditorContainerProps> = ({
@@ -14,12 +17,23 @@ export const StepEditorContainer: FC<StepEditorContainerProps> = ({
   rowIndex,
   steps,
   beat,
+  loopLength,
+  page,
 }) => {
+  const pageSize = loopLength / 2;
+  const paginated = loopLength > DEFAULT_LOOP_LENGTH;
+  const viewOffset = paginated ? page * pageSize : 0;
+  const visibleSteps = paginated
+    ? steps.slice(viewOffset, viewOffset + pageSize)
+    : steps.slice(0, loopLength);
+  const visibleBeat = beat - viewOffset;
+
   const toggleIsActiveNote = (position: StepPosition): void => {
+    const actualIndex = viewOffset + position.stepIndex;
     delegate.updateSteps(
       rowIndex,
       steps.map((s, i) =>
-        i === position.stepIndex
+        i === actualIndex
           ? {
               isActive: !s.isActive || s.isSplit,
               isSplit: s.isActive && s.isSplit ? false : s.isSplit,
@@ -30,10 +44,11 @@ export const StepEditorContainer: FC<StepEditorContainerProps> = ({
   };
 
   const onSplitSquare = (position: StepPosition): void => {
+    const actualIndex = viewOffset + position.stepIndex;
     delegate.updateSteps(
       rowIndex,
       steps.map((s, i) =>
-        i === position.stepIndex
+        i === actualIndex
           ? {
               isActive: !s.isActive && !s.isSplit ? true : s.isActive,
               isSplit: !s.isSplit,
@@ -47,8 +62,8 @@ export const StepEditorContainer: FC<StepEditorContainerProps> = ({
     <StepEditor
       delegate={{ toggleIsActiveNote, onSplitSquare }}
       rowIndex={rowIndex}
-      steps={steps}
-      beat={beat}
+      steps={visibleSteps}
+      beat={visibleBeat}
     />
   );
 };

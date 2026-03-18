@@ -1,12 +1,16 @@
 # About
 
-This is a simple app to sequence tones using the Web Audio framework Tone.js https://tonejs.github.io/ \
+This is an app to sequence tones using the Web Audio framework Tone.js https://tonejs.github.io/ \
 
 ## Available Scripts
 
 To start the app, run:
 
 ### `npm run dev`
+
+To start the app with the server, run:
+
+### `npx vercel dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
@@ -23,7 +27,7 @@ The build is minified and the filenames include the hashes.\
 
 # Deploy
 
-Production is deployed on AWS at [https://main.d2ccmx7twxyjn2.amplifyapp.com](https://main.d2ccmx7twxyjn2.amplifyapp.com) \
+Production is deployed on Vercel at [https://step-sequencer-azure.vercel.app](https://step-sequencer-azure.vercel.app) \
 
 Deployment is based off of `main`, so be advised that direct pushes to `main` will result in deployment.\
 

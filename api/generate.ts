@@ -1,10 +1,22 @@
 export const config = { runtime: "edge" };
 
-const GENRE_SYSTEM_PROMPT = `You are a music sequencer pattern generator. Given a genre, return ONLY valid JSON, no explanation, no markdown.
+const getSystemPrompt = (loopLength: number) => {
+  const extraPrompt =
+    loopLength === 16
+      ? "Use the full 16 steps — the second 8 can evolve or contrast the first 8."
+      : "";
+  return `You are a music sequencer pattern generator. Given a genre, return ONLY valid JSON, no explanation, no markdown.
 The JSON must have this exact shape:
 {"bpm":<60-190>,"rows":[<5 rows>]}
-Each row: {"instrumentName":"<Hat|Clap|Kick|Bell>","note":"<C|D|E|F|G|A|B>","octave":<2-5>,"steps":[<8 ints>]}
-Steps: 0=inactive, 1=active, 2=split+active. Return minified JSON with no whitespace.`;
+Each row: {"instrumentName":"<Hat|Clap|Kick|Bell>","note":"<C|D|E|F|G|A|B>","octave":<2-5>,"steps":[<${loopLength} ints>]}
+Steps: 0=inactive, 1=active, 2=split+active. ${extraPrompt} Return minified JSON with no whitespace.`;
+};
+
+interface RequestBody {
+  role: string;
+  content: string;
+  loopLength: number;
+}
 
 interface AnthropicMessage {
   role: string;
@@ -46,13 +58,14 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 
-  const body: AnthropicMessage = await req.json();
+  const body: RequestBody = await req.json();
   if (!body.content || !Object.values(GENRES).includes(body.content)) {
     return new Response(JSON.stringify({ error: "Bad request" }), {
       status: 400,
     });
   }
 
+  const loopLength = body.loopLength === 16 ? 16 : 8;
   const seed = Math.floor(Math.random() * 10000);
   const anthropicBody: AnthropicMessage = {
     role: body.role,
@@ -68,8 +81,8 @@ export default async function handler(req: Request): Promise<Response> {
     },
     body: JSON.stringify({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 300,
-      system: GENRE_SYSTEM_PROMPT,
+      max_tokens: loopLength === 16 ? 550 : 300,
+      system: getSystemPrompt(loopLength),
       messages: [anthropicBody],
     }),
   });

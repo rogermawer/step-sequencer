@@ -15,13 +15,14 @@ interface ApiRow {
 
 const _post = async (
   content: string,
+  loopLength: number,
 ): Promise<{ bpm?: number; rows: ApiRow[] }> => {
   const response: Response = await fetch("/api/generate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ role: "user", content }),
+    body: JSON.stringify({ role: "user", content, loopLength }),
   });
 
   if (!response.ok) {
@@ -49,7 +50,8 @@ const _toGridRows = (apiRows: ApiRow[]): GridRows => {
 
 export const generateGenrePattern = async (
   genre: string,
+  loopLength: number,
 ): Promise<PatternResponse> => {
-  const result = await _post(`${genre}`);
+  const result = await _post(genre, loopLength);
   return { bpm: result.bpm, rows: _toGridRows(result.rows) };
 };
