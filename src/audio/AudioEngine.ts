@@ -10,7 +10,7 @@ import bell from "../Common/Samples/bell.wav";
 import clap from "../Common/Samples/clap.wav";
 import hat from "../Common/Samples/hat.wav";
 import kick from "../Common/Samples/kick.wav";
-import { GridRows } from "../Components/StepEditor/StepEditor";
+import { GridRows, Subdivision } from "../Components/StepEditor/StepEditor";
 
 export const DEFAULT_LOOP_LENGTH = 8;
 
@@ -111,13 +111,13 @@ export class AudioEngine {
       const octaveNote = note + octave;
       const currBeat = steps[this.currentStep];
       if (currBeat?.isActive) {
-        if (currBeat.isSplit) {
+        if (currBeat.subdivision === Subdivision.Split) {
           instrument.triggerAttackRelease(octaveNote, "16n", time);
-          instrument.triggerAttackRelease(
-            octaveNote,
-            "16n",
-            time + Time("16n").toSeconds(),
-          );
+          instrument.triggerAttackRelease(octaveNote, "16n", time + Time("16n").toSeconds());
+        } else if (currBeat.subdivision === Subdivision.Triplet) {
+          instrument.triggerAttackRelease(octaveNote, "32n", time);
+          instrument.triggerAttackRelease(octaveNote, "32n", time + Time("16t").toSeconds());
+          instrument.triggerAttackRelease(octaveNote, "32n", time + Time("16t").toSeconds() * 2);
         } else {
           instrument.triggerAttackRelease(octaveNote, "8n", time);
         }
