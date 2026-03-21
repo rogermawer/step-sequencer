@@ -5,7 +5,12 @@ import { ToneInstrumentName } from "../../audio/AudioEngine";
 
 export interface StepEditorDelegate {
   toggleIsActiveNote: (p: StepPosition) => void;
-  onSplitSquare: (p: StepPosition) => void;
+}
+
+export enum Subdivision {
+  None = "none",
+  Split = "split",
+  Triplet = "triplet",
 }
 
 interface StepEditorProps {
@@ -28,7 +33,7 @@ export interface GridRow {
 
 export interface Step {
   isActive: boolean;
-  isSplit: boolean;
+  subdivision: Subdivision;
 }
 
 export type StepPosition = { rowIndex: number; stepIndex: number };
@@ -46,7 +51,7 @@ export const StepEditor: FunctionComponent<StepEditorProps> = ({
         delegate={delegate}
         isPlaying={beat === stepIndex}
         isActive={step.isActive}
-        isSplit={step.isSplit}
+        subdivision={step.subdivision}
         stepPosition={{ rowIndex, stepIndex }}
       />
     ))}

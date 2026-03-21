@@ -1,5 +1,5 @@
 import { ToneInstrumentName } from "../audio/AudioEngine";
-import { GridRows } from "../Components/StepEditor/StepEditor";
+import { GridRows, Subdivision } from "../Components/StepEditor/StepEditor";
 
 export interface PatternResponse {
   bpm?: number;
@@ -42,7 +42,10 @@ const _toGridRows = (apiRows: ApiRow[]): GridRows => {
       instrumentName: row.instrumentName as ToneInstrumentName,
       note: row.note,
       octave: row.octave,
-      steps: row.steps.map((s) => ({ isActive: s > 0, isSplit: s === 2 })),
+      steps: row.steps.map((s) => ({
+        isActive: s > 0,
+        subdivision: s === 3 ? Subdivision.Triplet : s === 2 ? Subdivision.Split : Subdivision.None,
+      })),
     };
   });
   return result;

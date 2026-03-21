@@ -5,7 +5,7 @@ import {
   DEFAULT_LOOP_LENGTH,
   ToneInstrumentName,
 } from "../../audio/AudioEngine";
-import { GridRow, GridRows, Step } from "../StepEditor/StepEditor";
+import { GridRow, GridRows, Step, Subdivision } from "../StepEditor/StepEditor";
 import { generateGenrePattern } from "../../Clients/AnthropicClient";
 
 interface SequencerProps {
@@ -26,7 +26,7 @@ export enum Direction {
 }
 
 const createRowSteps = (length = DEFAULT_LOOP_LENGTH): Step[] =>
-  Array.from({ length }, () => ({ isActive: false, isSplit: false }));
+  Array.from({ length }, () => ({ isActive: false, subdivision: Subdivision.None }));
 
 const rowConfig: GridRows = {
   0: {

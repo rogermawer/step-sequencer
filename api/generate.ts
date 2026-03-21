@@ -1,16 +1,23 @@
 export const config = { runtime: "edge" };
 
-const getSystemPrompt = (loopLength: number) => {
-  const extraPrompt =
-    loopLength === 16
-      ? "Use the full 16 steps — the second 8 can evolve or contrast the first 8."
-      : "";
-  return `You are a music sequencer pattern generator. Given a genre, return ONLY valid JSON, no explanation, no markdown.
-The JSON must have this exact shape:
+const getSystemPromt = (loopLength: number): string =>
+  `Think like an electronic music producer. Given a genre, output a ${loopLength}-step drum pattern ONLY as valid JSON, minified with no whitespace, no explanation, no markdown. The JSON must have this exact shape:
 {"bpm":<60-190>,"rows":[<5 rows>]}
 Each row: {"instrumentName":"<Hat|Clap|Kick|Bell>","note":"<C|D|E|F|G|A|B>","octave":<2-5>,"steps":[<${loopLength} ints>]}
-Steps: 0=inactive, 1=active, 2=split+active. ${extraPrompt} Return minified JSON with no whitespace.`;
-};
+Steps: 0=inactive, 1=active, 2=split (two 16th notes), 3=triplet (three 16th-note triplets).
+
+  Feel: [refer to user input]
+  Density: [refer to user input]
+
+  Rules:
+  - Kick on step 1
+  - Snare on steps 5 and 13
+  - Hi-hat holds the grid
+  - Max 2 simultaneous hits except on accents
+  - Keep it musical and repetitive enough to loop cleanly
+  - Utilize triplets sparingly
+  - Notes and octaves of instrument rows must vary per generation
+`;
 
 interface RequestBody {
   role: string;
@@ -22,6 +29,19 @@ interface AnthropicMessage {
   role: string;
   content: string;
 }
+
+const DESCRIPTORS = [
+  "sparse",
+  "busy",
+  "syncopated",
+  "driving",
+  "laid-back",
+  "minimal",
+  "dense",
+  "straight",
+  "choppy",
+  "flowing",
+];
 
 const GENRES = [
   "Hip-Hop",
@@ -66,10 +86,11 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   const loopLength = body.loopLength === 16 ? 16 : 8;
-  const seed = Math.floor(Math.random() * 10000);
+  const descriptor =
+    DESCRIPTORS[Math.floor(Math.random() * DESCRIPTORS.length)];
   const anthropicBody: AnthropicMessage = {
     role: body.role,
-    content: `${body.content} (variation: ${seed})`,
+    content: `${descriptor} ${body.content}`,
   };
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -81,8 +102,8 @@ export default async function handler(req: Request): Promise<Response> {
     },
     body: JSON.stringify({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: loopLength === 16 ? 550 : 300,
-      system: getSystemPrompt(loopLength),
+      max_tokens: loopLength === 16 ? 700 : 350,
+      system: getSystemPromt(loopLength),
       messages: [anthropicBody],
     }),
   });
