@@ -103,14 +103,6 @@ export const Sequencer: FunctionComponent<SequencerProps> = ({
     </div>
 
     <div className="bottom-controls">
-      <div className="hints">
-        <div className="hint">
-          <span className="hint-key">Tap</span> off / on / ÷2 / ÷3
-        </div>
-        <div className="hint">
-          <span className="hint-key">&#9679;</span> edit
-        </div>
-      </div>
       <div className="shift-controls">
         <button
           className="shift-btn"

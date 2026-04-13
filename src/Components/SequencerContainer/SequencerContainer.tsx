@@ -5,7 +5,7 @@ import {
   DEFAULT_LOOP_LENGTH,
   ToneInstrumentName,
 } from "../../audio/AudioEngine";
-import { GridRow, GridRows, Step, Subdivision } from "../StepEditor/StepEditor";
+import { DEFAULT_FX, GridRow, GridRows, Step, Subdivision } from "../StepEditor/StepEditor";
 import { generateGenrePattern } from "../../Clients/AnthropicClient";
 
 interface SequencerProps {
@@ -34,30 +34,35 @@ const rowConfig: GridRows = {
     note: "C",
     octave: 3,
     steps: createRowSteps(),
+    fx: DEFAULT_FX,
   },
   1: {
     instrumentName: ToneInstrumentName.HAT,
     note: "F",
     octave: 3,
     steps: createRowSteps(),
+    fx: DEFAULT_FX,
   },
   2: {
     instrumentName: ToneInstrumentName.HAT,
     note: "D",
     octave: 3,
     steps: createRowSteps(),
+    fx: DEFAULT_FX,
   },
   3: {
     instrumentName: ToneInstrumentName.CLAP,
     note: "C",
     octave: 3,
     steps: createRowSteps(),
+    fx: DEFAULT_FX,
   },
   4: {
     instrumentName: ToneInstrumentName.KICK,
     note: "A",
     octave: 3,
     steps: createRowSteps(),
+    fx: DEFAULT_FX,
   },
 };
 
@@ -163,11 +168,16 @@ export const SequencerContainer: React.FC<SequencerProps> = ({
       engine.setTempo(newBpm);
       setBpm(newBpm);
     }
-    engine.setRows(newRows);
-    Object.keys(newRows).forEach((k, i) => {
+    const mergedRows: GridRows = {};
+    Object.entries(newRows).forEach(([k, row]) => {
+      const rowIndex = Number(k);
+      mergedRows[rowIndex] = { ...row, fx: rows[rowIndex]?.fx ?? DEFAULT_FX };
+    });
+    engine.setRows(mergedRows);
+    Object.keys(mergedRows).forEach((k, i) => {
       const rowIndex = Number(k);
       setTimeout(() => {
-        setRows((prev) => ({ ...prev, [rowIndex]: newRows[rowIndex] }));
+        setRows((prev) => ({ ...prev, [rowIndex]: mergedRows[rowIndex] }));
       }, i * 100);
     });
   };

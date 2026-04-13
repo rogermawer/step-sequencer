@@ -3,7 +3,7 @@ import { Selector } from "../../Common/Selector/Selector";
 import { SvgIcon } from "../../Common/SvgIcon";
 import { useClickOutside } from "../../Hooks/useClickOutside";
 import "./RowEditorStyle.scss";
-import { GridRow } from "../StepEditor/StepEditor";
+import { FxSettings, GridRow } from "../StepEditor/StepEditor";
 import { ToneInstrumentName } from "../../audio/AudioEngine";
 
 export interface RowEditorDelegate {
@@ -11,6 +11,7 @@ export interface RowEditorDelegate {
   onChangeNote: (note: string) => void;
   onChangeOctave: (octave: string) => void;
   onShiftRow: (row: GridRow) => void;
+  onChangeFx: (fx: FxSettings) => void;
   closeEditor: () => void;
 }
 
@@ -75,6 +76,30 @@ export const RowEditor: React.FC<RowEditorProps> = ({
                 Shift Row
                 <SvgIcon type="shift" />
               </button>
+            </div>
+            <div className="fx-actions">
+              <h3>FX</h3>
+              <div className="fx-toggles">
+                <div className="fx-slider-row">
+                  <span className={`fx-label${editingRow.fx.reverb.wet > 0 ? " on" : ""}`}>
+                    Reverb
+                  </span>
+                  <input
+                    type="range"
+                    className="fx-slider"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={editingRow.fx.reverb.wet}
+                    onChange={(e) =>
+                      delegate.onChangeFx({
+                        ...editingRow.fx,
+                        reverb: { wet: parseFloat(e.target.value) },
+                      })
+                    }
+                  />
+                </div>
+              </div>
             </div>
           </div>
         ) : null}

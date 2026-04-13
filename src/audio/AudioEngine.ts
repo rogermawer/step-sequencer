@@ -1,4 +1,6 @@
 import {
+  FeedbackDelay,
+  Reverb,
   getDestination,
   getTransport,
   PolySynth,
@@ -10,7 +12,11 @@ import bell from "../Common/Samples/bell.wav";
 import clap from "../Common/Samples/clap.wav";
 import hat from "../Common/Samples/hat.wav";
 import kick from "../Common/Samples/kick.wav";
-import { GridRows, Subdivision } from "../Components/StepEditor/StepEditor";
+import {
+  GridRow,
+  GridRows,
+  Subdivision,
+} from "../Components/StepEditor/StepEditor";
 
 export const DEFAULT_LOOP_LENGTH = 8;
 
@@ -24,9 +30,17 @@ export enum ToneInstrumentName {
 
 type ToneInstrument = PolySynth | Sampler;
 
+interface RowState {
+  instrument: ToneInstrument;
+  effects: {
+    delay: FeedbackDelay;
+    reverb: Reverb;
+  };
+  data: GridRow;
+}
+
 export class AudioEngine {
-  private instruments: Map<ToneInstrumentName, ToneInstrument>;
-  private rows: GridRows = {};
+  private rowState: Map<number, RowState> = new Map();
   private transport = getTransport();
   private output = getDestination();
   private currentStep = 0;
@@ -35,34 +49,69 @@ export class AudioEngine {
 
   constructor() {
     this.output.volume.value = -12;
-
-    const clap_ = new Sampler({ urls: { C3: clap } });
-    const hat_ = new Sampler({ urls: { C3: hat } });
-    const kick_ = new Sampler({ urls: { C3: kick } });
-    const bell_ = new Sampler({ urls: { C3: bell } });
-    const tone_ = new PolySynth();
-
-    clap_.connect(this.output);
-    hat_.connect(this.output);
-    kick_.connect(this.output);
-    bell_.connect(this.output);
-    tone_.connect(this.output);
-
-    this.instruments = new Map<ToneInstrumentName, ToneInstrument>([
-      [ToneInstrumentName.CLAP, clap_],
-      [ToneInstrumentName.HAT, hat_],
-      [ToneInstrumentName.KICK, kick_],
-      [ToneInstrumentName.BELL, bell_],
-      [ToneInstrumentName.TONE, tone_],
-    ]);
-
     this.transport.loop = true;
     this.transport.setLoopPoints(0, "1m");
     this.transport.scheduleRepeat((time) => this.play(time), "8n");
   }
 
+  private createInstrument(name: ToneInstrumentName): ToneInstrument {
+    switch (name) {
+      case ToneInstrumentName.CLAP:
+        return new Sampler({ urls: { C3: clap } });
+      case ToneInstrumentName.HAT:
+        return new Sampler({ urls: { C3: hat } });
+      case ToneInstrumentName.KICK:
+        return new Sampler({ urls: { C3: kick } });
+      case ToneInstrumentName.BELL:
+        return new Sampler({ urls: { C3: bell } });
+      case ToneInstrumentName.TONE:
+        return new PolySynth();
+    }
+  }
+
+  private initRowChain(rowIndex: number, row: GridRow): void {
+    const existing = this.rowState.get(rowIndex);
+    if (existing) {
+      existing.instrument.disconnect();
+      existing.instrument.dispose();
+    }
+
+    const effects =
+      existing?.effects ??
+      (() => {
+        const delay = new FeedbackDelay({
+          wet: 0,
+          delayTime: "8n",
+          feedback: 0.4,
+        });
+        const reverb = new Reverb({ wet: 0, decay: 2.5, preDelay: 0.01 });
+        reverb.generate();
+        delay.connect(reverb);
+        reverb.connect(this.output);
+        return { delay, reverb };
+      })();
+
+    const instrument = this.createInstrument(row.instrumentName);
+    instrument.connect(effects.delay);
+
+    this.rowState.set(rowIndex, {
+      instrument,
+      effects,
+      data: row,
+    });
+  }
+
   public setRows(rows: GridRows): void {
-    this.rows = rows;
+    Object.entries(rows).forEach(([k, row]) => {
+      const rowIndex = Number(k);
+      const state = this.rowState.get(rowIndex);
+      if (!state || state.data.instrumentName !== row.instrumentName) {
+        this.initRowChain(rowIndex, row);
+      } else {
+        state.data = row;
+        if (row.fx) state.effects.reverb.wet.value = row.fx.reverb.wet;
+      }
+    });
   }
 
   public setOnStep(onStep: (step: number) => void): void {
@@ -70,7 +119,7 @@ export class AudioEngine {
   }
 
   public getInstrumentNames(): ToneInstrumentName[] {
-    return Array.from(this.instruments.keys());
+    return Object.values(ToneInstrumentName);
   }
 
   public startAudio(): Promise<void> {
@@ -103,9 +152,7 @@ export class AudioEngine {
 
   private play(time: number): void {
     if (this.transport.state !== "started") return;
-    Object.values(this.rows).forEach((row) => {
-      const { steps, instrumentName, note, octave } = row;
-      const instrument = this.instruments.get(instrumentName);
+    this.rowState.forEach(({ instrument, data: { steps, note, octave } }) => {
       if (!instrument) return;
 
       const octaveNote = note + octave;
@@ -113,11 +160,23 @@ export class AudioEngine {
       if (currBeat?.isActive) {
         if (currBeat.subdivision === Subdivision.Split) {
           instrument.triggerAttackRelease(octaveNote, "16n", time);
-          instrument.triggerAttackRelease(octaveNote, "16n", time + Time("16n").toSeconds());
+          instrument.triggerAttackRelease(
+            octaveNote,
+            "16n",
+            time + Time("16n").toSeconds(),
+          );
         } else if (currBeat.subdivision === Subdivision.Triplet) {
           instrument.triggerAttackRelease(octaveNote, "32n", time);
-          instrument.triggerAttackRelease(octaveNote, "32n", time + Time("16t").toSeconds());
-          instrument.triggerAttackRelease(octaveNote, "32n", time + Time("16t").toSeconds() * 2);
+          instrument.triggerAttackRelease(
+            octaveNote,
+            "32n",
+            time + Time("16t").toSeconds(),
+          );
+          instrument.triggerAttackRelease(
+            octaveNote,
+            "32n",
+            time + Time("16t").toSeconds() * 2,
+          );
         } else {
           instrument.triggerAttackRelease(octaveNote, "8n", time);
         }

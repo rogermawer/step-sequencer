@@ -1,5 +1,5 @@
 import { ToneInstrumentName } from "../audio/AudioEngine";
-import { GridRows, Subdivision } from "../Components/StepEditor/StepEditor";
+import { DEFAULT_FX, GridRows, Subdivision } from "../Components/StepEditor/StepEditor";
 
 export interface PatternResponse {
   bpm?: number;
@@ -46,6 +46,7 @@ const _toGridRows = (apiRows: ApiRow[]): GridRows => {
         isActive: s > 0,
         subdivision: s === 3 ? Subdivision.Triplet : s === 2 ? Subdivision.Split : Subdivision.None,
       })),
+      fx: DEFAULT_FX,
     };
   });
   return result;

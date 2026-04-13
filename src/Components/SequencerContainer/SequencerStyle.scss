@@ -75,26 +75,9 @@
 
   .bottom-controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-top: $s4;
-
-    .hints {
-      display: flex;
-      gap: $s4;
-
-      .hint {
-        color: $text-muted;
-
-        .hint-key {
-          padding: $s1 $s2;
-          border: $border-width solid $border-dark;
-          border-radius: $s1;
-          color: $text-secondary;
-          font-size: $s3;
-        }
-      }
-    }
 
     .shift-controls {
       display: flex;
