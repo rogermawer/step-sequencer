@@ -1,5 +1,5 @@
 import { RowEditor } from "./RowEditor";
-import { GridRow, GridRows } from "../StepEditor/StepEditor";
+import { FxSettings, GridRow, GridRows } from "../StepEditor/StepEditor";
 import { ToneInstrumentName } from "../../audio/AudioEngine";
 
 interface RowEditorContainerDelegate {
@@ -41,6 +41,10 @@ export const RowEditorContainer: React.FC<RowEditorContainerProps> = ({
     _updateRow(editingIndex, { steps });
   };
 
+  const onChangeFx = (fx: FxSettings) => {
+    _updateRow(editingIndex, { fx });
+  };
+
   const closeEditor = () => delegate.onToggleEditor(-1);
 
   const _updateRow = (index: number, partial: Partial<GridRow>) => {
@@ -56,6 +60,7 @@ export const RowEditorContainer: React.FC<RowEditorContainerProps> = ({
         onChangeOctave,
         onChangeInstrument,
         onShiftRow,
+        onChangeFx,
         closeEditor,
       }}
       instrumentNames={instrumentNames}

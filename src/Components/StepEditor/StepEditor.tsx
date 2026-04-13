@@ -24,11 +24,20 @@ export interface GridRows {
   [i: number]: GridRow;
 }
 
+export interface FxSettings {
+  reverb: { wet: number };
+}
+
+export const DEFAULT_FX: FxSettings = {
+  reverb: { wet: 0 },
+};
+
 export interface GridRow {
   note: string;
   octave: number;
   instrumentName: ToneInstrumentName;
   steps: Step[];
+  fx: FxSettings;
 }
 
 export interface Step {

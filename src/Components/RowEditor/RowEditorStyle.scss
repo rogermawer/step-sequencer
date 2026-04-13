@@ -44,6 +44,40 @@ $close-icon-size: $s4;
       text-transform: uppercase;
     }
 
+    .fx-actions {
+      margin: 0 $s4;
+
+      .fx-toggles {
+        display: flex;
+        gap: $s2;
+        flex-wrap: wrap;
+      }
+
+      .fx-slider-row {
+        display: flex;
+        align-items: center;
+        gap: $s2;
+        min-width: 0;
+
+        .fx-label {
+          font-size: $font-size-sm;
+          color: $text-secondary;
+          white-space: nowrap;
+          transition: color $quick-transition;
+
+          &.on {
+            color: $play-btn-playing-color;
+          }
+        }
+
+        .fx-slider {
+          width: $s8 * 2;
+          accent-color: $play-btn-playing-color;
+          cursor: pointer;
+        }
+      }
+    }
+
     .row-actions {
       margin: 0 $s4;
 
@@ -68,5 +102,16 @@ $close-icon-size: $s4;
   @include mobile {
     padding: $s2 $s4 $s4;
     font-size: small;
+
+    .selector-group {
+      flex-direction: column;
+      overflow-y: auto;
+
+      .fx-actions,
+      .row-actions,
+      .note-actions {
+        margin: $s2 0;
+      }
+    }
   }
 }
